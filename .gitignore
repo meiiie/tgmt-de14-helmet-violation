@@ -12,3 +12,7 @@ __pycache__/
 venv/
 runs/
 outputs/
+third_party_sam3/
+weights/
+*.joblib
+*.npz
