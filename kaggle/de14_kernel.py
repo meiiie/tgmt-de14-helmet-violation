@@ -5,13 +5,22 @@ def sh(c, check=False):
     if check and r.returncode: raise SystemExit(f"failed: {c}")
     return r.returncode
 sh("nvidia-smi")
+T0 = time.time(); BUDGET = float(os.environ.get("DE14_BUDGET_SEC", 110 * 60))   # giới hạn ~2h (quy tắc chia GPU)
+def time_left(): return BUDGET - (time.time() - T0)
+# 1) checkpoint fallback: private Kaggle dataset đính kèm (nếu có) -> không cần token
+ck = glob.glob("/kaggle/input/**/sam3.1_multiplex.pt", recursive=True)
+if ck: os.environ["SAM31_CKPT"] = ck[0]; print("SAM 3.1 ckpt from attached private dataset", flush=True)
+dl = [os.path.dirname(d) for d in glob.glob("/kaggle/input/**/dinov3-vit*16-pretrain-lvd1689m", recursive=True)]
+if dl: os.environ["DINO_LOCAL_DIR"] = dl[0]; print("DINOv3 from attached private dataset", flush=True)
+# 2) HF_TOKEN chỉ từ Kaggle Secrets
 try:
     from kaggle_secrets import UserSecretsClient
     os.environ["HF_TOKEN"] = UserSecretsClient().get_secret("HF_TOKEN")
-    print("HF_TOKEN: available", flush=True)
+    print("HF_TOKEN: available from Kaggle Secrets", flush=True)
 except Exception as e:
-    print("HF_TOKEN: MISSING (add Kaggle Secret named HF_TOKEN and attach to this kernel) ->", type(e).__name__, flush=True)
-HAS_TOKEN = bool(os.environ.get("HF_TOKEN"))
+    print("ERROR: Kaggle Secret 'HF_TOKEN' not available to this kernel (Add-ons > Secrets > HF_TOKEN, attach to kernel). "
+          f"Gated SAM 3.1/DINOv3 parts will be skipped unless checkpoints are attached. ({type(e).__name__})", flush=True)
+HAS_TOKEN = bool(os.environ.get("HF_TOKEN")) or bool(ck and dl)
 W = "/kaggle/working"; os.chdir(W)
 sh("git clone -q https://github.com/meiiie/tgmt-de14-helmet-violation.git de14", check=True); os.chdir(f"{W}/de14")
 sh("git clone -q https://github.com/facebookresearch/sam3.git third_party_sam3 && cd third_party_sam3 && git apply ../patches/sam3_cpu.patch && pip -q install --no-deps -e .")
@@ -50,7 +59,9 @@ sh("mkdir -p weights && wget -q -O weights/yolo11s.pt https://github.com/ultraly
 sh("python -c \"from huggingface_hub import hf_hub_download as h;import shutil;shutil.copy(h('nnsohamnn/helmet-detection-yolo11','yolov11s(80 epochs).pt'),'weights/helmet_yolo11s_nnsohamnn.pt')\"")
 T = " ".join(TEST); log = {}
 def timed(name, cmd):
-    t = time.time(); rc = sh(cmd); log[name] = {"rc": rc, "sec": round(time.time() - t, 1)}
+    if time_left() < 300:
+        print("SKIP (time budget)", name, flush=True); log[name] = {"rc": "skipped_budget"}; return
+    t = time.time(); rc = sh(f"timeout {int(time_left())} {cmd}"); log[name] = {"rc": rc, "sec": round(time.time() - t, 1)}
     json.dump(log, open(f"{W}/run_log.json", "w"), indent=1)
 # ---- baselines (không cần token) ----
 timed("b0", f"python -u src/eval_helmet.py --method b0 --clips {T} --stride 2 --tag b0_full")

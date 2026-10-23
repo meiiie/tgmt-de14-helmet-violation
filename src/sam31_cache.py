@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 def load(device):
     from sam3.model_builder import build_sam3_image_model, download_ckpt_from_hf
     from sam3.model.sam3_image_processor import Sam3Processor
-    ck = download_ckpt_from_hf(version="sam3.1")
+    ck = os.environ.get("SAM31_CKPT") or download_ckpt_from_hf(version="sam3.1")  # ưu tiên checkpoint từ private Kaggle dataset
     m = build_sam3_image_model(device=device, checkpoint_path=None, load_from_HF=False)
     sd = torch.load(ck, map_location="cpu", weights_only=True, mmap=True); sd = sd.get("model", sd)
     r = m.load_state_dict({k[9:]: v for k, v in sd.items() if k.startswith("detector.")}, strict=False)

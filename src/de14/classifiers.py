@@ -30,6 +30,8 @@ class DinoEmbedder:
         device = device or ("cuda" if torch.cuda.is_available() else "cpu")
         from transformers import AutoImageProcessor, AutoModel
         mid = model_id or (DINOV3_ID if os.environ.get("HF_TOKEN") else DINOV2_FALLBACK)
+        loc = os.path.join(os.environ.get("DINO_LOCAL_DIR", "/nonexistent"), mid.split("/")[-1])
+        if os.path.isdir(loc): mid = loc   # checkpoint từ private Kaggle dataset (không công khai trọng số gated)
         try:
             self.proc = AutoImageProcessor.from_pretrained(mid); self.model = AutoModel.from_pretrained(mid).to(device).eval()
         except Exception as e:
