@@ -1,0 +1,5 @@
+{"name": "F2_stationary_no_person",
+ "track_filter": {"tau_disp": 0.75, "tau_person_static": 0.7},
+ "selected_by": "highest F1 (P incl. unmatched tracks) on held-out clips, kernel v4; thresholds tuned on fold {Bago_highway_10, Bago_rural_49, Mandalay_1_105}",
+ "default_config": "SAM 3.1 (4 prompts, fp16) + DINOv3 ViT-S/16 linear probe + F2",
+ "source": "docs/results/kaggle_v4/filters_v4.json"}

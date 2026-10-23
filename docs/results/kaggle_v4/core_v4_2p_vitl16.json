@@ -1,0 +1,1300 @@
+{
+  "gt_tracks": 51,
+  "gt_violation_tracks": 19,
+  "matched": 38,
+  "missed": 13,
+  "TP": 13,
+  "FP_on_helmet_tracks": 4,
+  "FP_unmatched": 36,
+  "FN_decided_ok": 1,
+  "TN": 14,
+  "undetermined": 6,
+  "precision": 0.7647058823529411,
+  "precision_incl_unmatched": 0.24528301886792453,
+  "recall_all_gt": 0.6842105263157895,
+  "recall_decided": 0.9285714285714286,
+  "undetermined_rate": 0.15789473684210525,
+  "coverage": 0.7450980392156863,
+  "frames": 350,
+  "fps_pipeline_only": 2.0387277535462647,
+  "fps_end2end": 0.5278138921832949,
+  "sec_sam": 491.4368267059326,
+  "sam_prompts": "motorcycle,person",
+  "sec_det": 0.018199682235717773,
+  "sec_cls": 163.930260181427,
+  "per_clip_frames": {
+    "Bago_highway_10": 50,
+    "Bago_highway_20": 50,
+    "Bago_rural_3": 50,
+    "Bago_rural_49": 50,
+    "Bago_urban_3": 50,
+    "Bago_urban_50": 50,
+    "Mandalay_1_105": 50
+  },
+  "per_clip_sec": {
+    "Bago_highway_10": 99.87674379348755,
+    "Bago_highway_20": 93.90216040611267,
+    "Bago_rural_3": 88.11203002929688,
+    "Bago_rural_49": 93.09824705123901,
+    "Bago_urban_3": 91.19473886489868,
+    "Bago_urban_50": 91.76340174674988,
+    "Mandalay_1_105": 105.16519784927368
+  },
+  "_tracks": [
+    {
+      "clip": "Bago_highway_10",
+      "track_id": 32,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.13310440587907485,
+      "n_frames": 19
+    },
+    {
+      "clip": "Bago_highway_10",
+      "track_id": 1,
+      "decision": "không đội mũ",
+      "gt": "_iajtqobrr",
+      "person_score": 1.0,
+      "disp_norm": 0.22130408960972187,
+      "n_frames": 49
+    },
+    {
+      "clip": "Bago_highway_10",
+      "track_id": 2,
+      "decision": "không đội mũ",
+      "gt": "_y3rk2zkrs",
+      "person_score": 0.8650824502933573,
+      "disp_norm": 0.8595583248243148,
+      "n_frames": 4
+    },
+    {
+      "clip": "Bago_highway_10",
+      "track_id": 3,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.3376121576054759,
+      "n_frames": 45
+    },
+    {
+      "clip": "Bago_highway_10",
+      "track_id": 4,
+      "decision": "không đội mũ",
+      "gt": "_qduigg0eu",
+      "person_score": 1.0,
+      "disp_norm": 0.5034789841087347,
+      "n_frames": 49
+    },
+    {
+      "clip": "Bago_highway_10",
+      "track_id": 5,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.285876387142107,
+      "n_frames": 48
+    },
+    {
+      "clip": "Bago_highway_10",
+      "track_id": 6,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.05555555555555555,
+      "disp_norm": 0.4743780408651349,
+      "n_frames": 36
+    },
+    {
+      "clip": "Bago_highway_10",
+      "track_id": 7,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.2799808136281405,
+      "n_frames": 48
+    },
+    {
+      "clip": "Bago_highway_10",
+      "track_id": 64,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.0306204192374817,
+      "n_frames": 8
+    },
+    {
+      "clip": "Bago_highway_10",
+      "track_id": 10,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.4076727600068254,
+      "n_frames": 41
+    },
+    {
+      "clip": "Bago_highway_10",
+      "track_id": 11,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.1336689384153006,
+      "n_frames": 39
+    },
+    {
+      "clip": "Bago_highway_10",
+      "track_id": 12,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.35241578498372844,
+      "n_frames": 22
+    },
+    {
+      "clip": "Bago_highway_10",
+      "track_id": 45,
+      "decision": "chưa xác định",
+      "gt": "_8zm8dbx8c",
+      "person_score": 1.0,
+      "disp_norm": 0.05565247761574512,
+      "n_frames": 2
+    },
+    {
+      "clip": "Bago_highway_10",
+      "track_id": 48,
+      "decision": "có đội mũ",
+      "gt": "_0t1z1phsk",
+      "person_score": 1.0,
+      "disp_norm": 5.13061611228529,
+      "n_frames": 11
+    },
+    {
+      "clip": "Bago_highway_10",
+      "track_id": 52,
+      "decision": "chưa xác định",
+      "gt": "_iajtqobrr",
+      "person_score": 1.0,
+      "disp_norm": 0.3783341449602951,
+      "n_frames": 2
+    },
+    {
+      "clip": "Bago_highway_10",
+      "track_id": 63,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.0674223019917059,
+      "n_frames": 6
+    },
+    {
+      "clip": "Bago_highway_20",
+      "track_id": 1,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.6319540860482944,
+      "disp_norm": 1.003822838562598,
+      "n_frames": 43
+    },
+    {
+      "clip": "Bago_highway_20",
+      "track_id": 2,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 1.0,
+      "disp_norm": 0.0,
+      "n_frames": 1
+    },
+    {
+      "clip": "Bago_highway_20",
+      "track_id": 3,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.9574468085106383,
+      "disp_norm": 0.6210470012313123,
+      "n_frames": 47
+    },
+    {
+      "clip": "Bago_highway_20",
+      "track_id": 4,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.31406982617278206,
+      "n_frames": 5
+    },
+    {
+      "clip": "Bago_highway_20",
+      "track_id": 5,
+      "decision": "chưa xác định",
+      "gt": "_e3qpx6ega",
+      "person_score": 1.0,
+      "disp_norm": 0.7339588147890858,
+      "n_frames": 2
+    },
+    {
+      "clip": "Bago_highway_20",
+      "track_id": 6,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 0.7111111111111111,
+      "disp_norm": 0.45290572665432693,
+      "n_frames": 45
+    },
+    {
+      "clip": "Bago_highway_20",
+      "track_id": 7,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.20691702306514104,
+      "n_frames": 20
+    },
+    {
+      "clip": "Bago_highway_20",
+      "track_id": 8,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.0,
+      "n_frames": 1
+    },
+    {
+      "clip": "Bago_highway_20",
+      "track_id": 9,
+      "decision": "không đội mũ",
+      "gt": "_40axrjgov",
+      "person_score": 1.0,
+      "disp_norm": 0.7005855641468121,
+      "n_frames": 47
+    },
+    {
+      "clip": "Bago_highway_20",
+      "track_id": 34,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.8187203336558582,
+      "n_frames": 15
+    },
+    {
+      "clip": "Bago_highway_20",
+      "track_id": 11,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.36363636363636365,
+      "disp_norm": 0.6761018710446355,
+      "n_frames": 44
+    },
+    {
+      "clip": "Bago_highway_20",
+      "track_id": 12,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 1.0,
+      "disp_norm": 1.5874817514057349,
+      "n_frames": 3
+    },
+    {
+      "clip": "Bago_highway_20",
+      "track_id": 69,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.30620725738468435,
+      "n_frames": 12
+    },
+    {
+      "clip": "Bago_highway_20",
+      "track_id": 16,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.7554094104367358,
+      "disp_norm": 4.183875610882469,
+      "n_frames": 10
+    },
+    {
+      "clip": "Bago_highway_20",
+      "track_id": 48,
+      "decision": "chưa xác định",
+      "gt": "_nblyv1bz8",
+      "person_score": 1.0,
+      "disp_norm": 0.0,
+      "n_frames": 1
+    },
+    {
+      "clip": "Bago_highway_20",
+      "track_id": 82,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 1.0,
+      "disp_norm": 0.0,
+      "n_frames": 1
+    },
+    {
+      "clip": "Bago_highway_20",
+      "track_id": 51,
+      "decision": "chưa xác định",
+      "gt": "_nblyv1bz8",
+      "person_score": 1.0,
+      "disp_norm": 0.0,
+      "n_frames": 1
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 1,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.37716331090726446,
+      "n_frames": 10
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 2,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.0,
+      "n_frames": 1
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 3,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.023062236924032233,
+      "disp_norm": 0.262778902790333,
+      "n_frames": 47
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 4,
+      "decision": "không đội mũ",
+      "gt": "_l0h1mvkjt",
+      "person_score": 1.0,
+      "disp_norm": 2.4396818524517405,
+      "n_frames": 17
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 5,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.18262069431145248,
+      "n_frames": 47
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 6,
+      "decision": "có đội mũ",
+      "gt": "_8xilyzydh",
+      "person_score": 0.854101848830031,
+      "disp_norm": 0.8916953713679028,
+      "n_frames": 4
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 7,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.25570544065620393,
+      "n_frames": 26
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 8,
+      "decision": "có đội mũ",
+      "gt": "_477sjdwtw",
+      "person_score": 0.9384660786724566,
+      "disp_norm": 0.7219209311574558,
+      "n_frames": 11
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 12,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.873822503325399,
+      "n_frames": 9
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 14,
+      "decision": "không đội mũ",
+      "gt": "_k5ik9ufhu",
+      "person_score": 1.0,
+      "disp_norm": 5.795215868860125,
+      "n_frames": 26
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 15,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.01961272378940074,
+      "n_frames": 2
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 21,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.03385781996194684,
+      "n_frames": 4
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 22,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 0.8239349416135475,
+      "disp_norm": 0.0,
+      "n_frames": 1
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 23,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.3897381261697321,
+      "n_frames": 9
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 28,
+      "decision": "có đội mũ",
+      "gt": "_qd9nji8ky",
+      "person_score": 0.9365453204672417,
+      "disp_norm": 5.165202944995851,
+      "n_frames": 17
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 29,
+      "decision": "không đội mũ",
+      "gt": "_5qsf4c054",
+      "person_score": 0.9952341348019441,
+      "disp_norm": 1.3511129972027507,
+      "n_frames": 16
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 31,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.39275155447051,
+      "n_frames": 9
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 39,
+      "decision": "không đội mũ",
+      "gt": "_k5ik9ufhu",
+      "person_score": 0.9879102713085004,
+      "disp_norm": 0.49728522293489713,
+      "n_frames": 6
+    },
+    {
+      "clip": "Bago_rural_3",
+      "track_id": 42,
+      "decision": "chưa xác định",
+      "gt": "_5qsf4c054",
+      "person_score": 1.0,
+      "disp_norm": 0.0,
+      "n_frames": 1
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 1,
+      "decision": "có đội mũ",
+      "gt": "_7ed16dnb4",
+      "person_score": 0.9909354341188945,
+      "disp_norm": 4.534091834293628,
+      "n_frames": 25
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 2,
+      "decision": "chưa xác định",
+      "gt": "_ps93tilrn",
+      "person_score": 0.0,
+      "disp_norm": 0.0,
+      "n_frames": 1
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 3,
+      "decision": "không đội mũ",
+      "gt": "_38ozl7wb6",
+      "person_score": 0.9837626683918212,
+      "disp_norm": 4.661632257471522,
+      "n_frames": 23
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 4,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 0.18181818181818182,
+      "disp_norm": 0.37605315119732086,
+      "n_frames": 11
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 5,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.8990059102508887,
+      "disp_norm": 8.361220828947319,
+      "n_frames": 30
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 6,
+      "decision": "không đội mũ",
+      "gt": "_ps93tilrn",
+      "person_score": 0.9554491041486979,
+      "disp_norm": 4.7977120801920705,
+      "n_frames": 35
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 7,
+      "decision": "chưa xác định",
+      "gt": "_6ckx85i3b",
+      "person_score": 0.5,
+      "disp_norm": 0.1464347764189055,
+      "n_frames": 2
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 8,
+      "decision": "không đội mũ",
+      "gt": "_634espyef",
+      "person_score": 0.9776601827951997,
+      "disp_norm": 5.339363883518324,
+      "n_frames": 34
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 9,
+      "decision": "có đội mũ",
+      "gt": "_m1rzn8juw",
+      "person_score": 0.9798617286971132,
+      "disp_norm": 3.9840890301245997,
+      "n_frames": 19
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 10,
+      "decision": "có đội mũ",
+      "gt": "_6ckx85i3b",
+      "person_score": 0.9634713388977681,
+      "disp_norm": 2.4281981137249957,
+      "n_frames": 18
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 21,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.9788867430021476,
+      "disp_norm": 0.40527679474673173,
+      "n_frames": 3
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 28,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.25021390183740266,
+      "n_frames": 10
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 32,
+      "decision": "chưa xác định",
+      "gt": "_6ckx85i3b",
+      "person_score": 0.0,
+      "disp_norm": 0.1638947049288794,
+      "n_frames": 2
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 42,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 0.6477264325954936,
+      "disp_norm": 4.773090948112666,
+      "n_frames": 12
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 47,
+      "decision": "có đội mũ",
+      "gt": "_m1rzn8juw",
+      "person_score": 0.9993387119515618,
+      "disp_norm": 1.4527895431331337,
+      "n_frames": 5
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 51,
+      "decision": "chưa xác định",
+      "gt": "_38ozl7wb6",
+      "person_score": 0.0,
+      "disp_norm": 0.0,
+      "n_frames": 1
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 53,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.0,
+      "n_frames": 1
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 55,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.2594214570835579,
+      "n_frames": 12
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 56,
+      "decision": "không đội mũ",
+      "gt": "_38ozl7wb6",
+      "person_score": 0.9811415751122342,
+      "disp_norm": 3.6062995571025853,
+      "n_frames": 21
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 64,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.5029062247178171,
+      "n_frames": 8
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 81,
+      "decision": "có đội mũ",
+      "gt": "_tnfkbx1kw",
+      "person_score": 0.9778121663977039,
+      "disp_norm": 3.406302133019192,
+      "n_frames": 13
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 83,
+      "decision": "có đội mũ",
+      "gt": "_bz78mgabt",
+      "person_score": 0.9901296610208948,
+      "disp_norm": 2.504258152322471,
+      "n_frames": 12
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 84,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 0.5478964208700223,
+      "disp_norm": 0.0,
+      "n_frames": 1
+    },
+    {
+      "clip": "Bago_rural_49",
+      "track_id": 93,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.4356173172793736,
+      "n_frames": 4
+    },
+    {
+      "clip": "Bago_urban_3",
+      "track_id": 1,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.08017561746027231,
+      "n_frames": 35
+    },
+    {
+      "clip": "Bago_urban_3",
+      "track_id": 2,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.16666666666666666,
+      "disp_norm": 0.6513173294923201,
+      "n_frames": 24
+    },
+    {
+      "clip": "Bago_urban_3",
+      "track_id": 3,
+      "decision": "có đội mũ",
+      "gt": "_k3ro21m0k",
+      "person_score": 0.4,
+      "disp_norm": 0.12446885373004729,
+      "n_frames": 5
+    },
+    {
+      "clip": "Bago_urban_3",
+      "track_id": 4,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 0.11725617195806097,
+      "disp_norm": 0.061440964852933426,
+      "n_frames": 50
+    },
+    {
+      "clip": "Bago_urban_3",
+      "track_id": 5,
+      "decision": "có đội mũ",
+      "gt": "_k3ro21m0k",
+      "person_score": 0.7820058696688422,
+      "disp_norm": 2.341952184296383,
+      "n_frames": 16
+    },
+    {
+      "clip": "Bago_urban_3",
+      "track_id": 6,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 1.0,
+      "disp_norm": 0.09091170874310957,
+      "n_frames": 50
+    },
+    {
+      "clip": "Bago_urban_3",
+      "track_id": 7,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.19466622466227795,
+      "disp_norm": 0.5192485304942498,
+      "n_frames": 30
+    },
+    {
+      "clip": "Bago_urban_3",
+      "track_id": 8,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 1.0,
+      "disp_norm": 0.16145677025709776,
+      "n_frames": 28
+    },
+    {
+      "clip": "Bago_urban_3",
+      "track_id": 33,
+      "decision": "có đội mũ",
+      "gt": "_3hw1nydhn",
+      "person_score": 0.9953280117832728,
+      "disp_norm": 5.8812333318027745,
+      "n_frames": 14
+    },
+    {
+      "clip": "Bago_urban_3",
+      "track_id": 40,
+      "decision": "chưa xác định",
+      "gt": "_ztkdgn1an",
+      "person_score": 0.9124737263276066,
+      "disp_norm": 0.2407654997330731,
+      "n_frames": 2
+    },
+    {
+      "clip": "Bago_urban_3",
+      "track_id": 72,
+      "decision": "có đội mũ",
+      "gt": "_9a8mynvye",
+      "person_score": 0.9832795658684872,
+      "disp_norm": 0.2828878020655123,
+      "n_frames": 3
+    },
+    {
+      "clip": "Bago_urban_3",
+      "track_id": 12,
+      "decision": "có đội mũ",
+      "gt": "_k3ro21m0k",
+      "person_score": 0.9876426610957099,
+      "disp_norm": 1.9482936595651763,
+      "n_frames": 16
+    },
+    {
+      "clip": "Bago_urban_3",
+      "track_id": 81,
+      "decision": "không đội mũ",
+      "gt": "_k3ro21m0k",
+      "person_score": 1.0,
+      "disp_norm": 0.6273839440333322,
+      "n_frames": 4
+    },
+    {
+      "clip": "Bago_urban_3",
+      "track_id": 85,
+      "decision": "có đội mũ",
+      "gt": "_d4pwwnxx2",
+      "person_score": 1.0,
+      "disp_norm": 0.6434346698552603,
+      "n_frames": 4
+    },
+    {
+      "clip": "Bago_urban_3",
+      "track_id": 57,
+      "decision": "có đội mũ",
+      "gt": "_9a8mynvye",
+      "person_score": 1.0,
+      "disp_norm": 0.7767116611461354,
+      "n_frames": 5
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 1,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 0.8634476274902464,
+      "disp_norm": 0.0,
+      "n_frames": 1
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 2,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.04421026807908028,
+      "disp_norm": 0.23112568924296212,
+      "n_frames": 45
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 3,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.0,
+      "n_frames": 1
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 4,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.012596569239478345,
+      "disp_norm": 0.08876825352768285,
+      "n_frames": 50
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 5,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.970585516310207,
+      "disp_norm": 0.11365329395389737,
+      "n_frames": 50
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 6,
+      "decision": "chưa xác định",
+      "gt": "_9pmy3voed",
+      "person_score": 1.0,
+      "disp_norm": 3.1448504316174275,
+      "n_frames": 17
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 7,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.6,
+      "disp_norm": 0.17685002534624977,
+      "n_frames": 5
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 8,
+      "decision": "không đội mũ",
+      "gt": "_dhl2ctsxi",
+      "person_score": 1.0,
+      "disp_norm": 1.3512977498407037,
+      "n_frames": 6
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 9,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.8456211387236571,
+      "disp_norm": 0.15975451756610679,
+      "n_frames": 28
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 15,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.7987415362599213,
+      "disp_norm": 0.16920366852889648,
+      "n_frames": 10
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 18,
+      "decision": "không đội mũ",
+      "gt": "_2ipx479ut",
+      "person_score": 1.0,
+      "disp_norm": 0.42082527701325473,
+      "n_frames": 3
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 21,
+      "decision": "không đội mũ",
+      "gt": "_bhmru1rii",
+      "person_score": 0.9565217391304348,
+      "disp_norm": 5.46309433841748,
+      "n_frames": 23
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 22,
+      "decision": "không đội mũ",
+      "gt": "_j7h4wfhxq",
+      "person_score": 0.9887686207079688,
+      "disp_norm": 2.3705824942146334,
+      "n_frames": 8
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 24,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.25,
+      "disp_norm": 0.2111188771140309,
+      "n_frames": 4
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 29,
+      "decision": "có đội mũ",
+      "gt": "_j7h4wfhxq",
+      "person_score": 0.957946652114756,
+      "disp_norm": 0.6887170643563785,
+      "n_frames": 7
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 33,
+      "decision": "chưa xác định",
+      "gt": "_dhl2ctsxi",
+      "person_score": 1.0,
+      "disp_norm": 0.4267689208279185,
+      "n_frames": 2
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 34,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.2977904855387534,
+      "n_frames": 18
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 35,
+      "decision": "không đội mũ",
+      "gt": "_dhl2ctsxi",
+      "person_score": 0.9615832621879555,
+      "disp_norm": 0.6765427699035739,
+      "n_frames": 5
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 38,
+      "decision": "không đội mũ",
+      "gt": "_hnx6bg40q",
+      "person_score": 0.9994759617757772,
+      "disp_norm": 3.032151085950026,
+      "n_frames": 10
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 41,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.642153635739648,
+      "disp_norm": 0.12876883238363446,
+      "n_frames": 15
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 42,
+      "decision": "có đội mũ",
+      "gt": "_8hfvx5rje",
+      "person_score": 1.0,
+      "disp_norm": 2.784431568938888,
+      "n_frames": 11
+    },
+    {
+      "clip": "Bago_urban_50",
+      "track_id": 51,
+      "decision": "chưa xác định",
+      "gt": "_8hfvx5rje",
+      "person_score": 1.0,
+      "disp_norm": 0.3847894640789193,
+      "n_frames": 2
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 1,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 0.98,
+      "disp_norm": 0.6672625625196196,
+      "n_frames": 50
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 2,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.6595744680851063,
+      "disp_norm": 0.11188466931577128,
+      "n_frames": 47
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 3,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.19362921203166858,
+      "n_frames": 27
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 4,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.37838463658119387,
+      "disp_norm": 0.3013641722305018,
+      "n_frames": 34
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 5,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.18636770799854738,
+      "n_frames": 50
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 6,
+      "decision": "có đội mũ",
+      "gt": "_09t2yic93",
+      "person_score": 0.9733991470372211,
+      "disp_norm": 9.93027660850065,
+      "n_frames": 36
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 7,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.013541740509296163,
+      "disp_norm": 0.37886396541370904,
+      "n_frames": 43
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 8,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.07173322472751448,
+      "n_frames": 36
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 9,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.6666666666666666,
+      "disp_norm": 0.06983006156881434,
+      "n_frames": 3
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 10,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.04,
+      "disp_norm": 0.14531813375845207,
+      "n_frames": 50
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 11,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.48982826241878624,
+      "disp_norm": 2.945818324401363,
+      "n_frames": 41
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 12,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.9333333333333333,
+      "disp_norm": 0.2697027515736448,
+      "n_frames": 45
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 13,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.2022586783552428,
+      "n_frames": 9
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 14,
+      "decision": "không đội mũ",
+      "gt": "_tr1qq6cek",
+      "person_score": 0.969972878615706,
+      "disp_norm": 7.370918439411512,
+      "n_frames": 34
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 18,
+      "decision": "có đội mũ",
+      "gt": "_b10fronre",
+      "person_score": 0.9904022747631879,
+      "disp_norm": 9.343389949859015,
+      "n_frames": 28
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 26,
+      "decision": "không đội mũ",
+      "gt": null,
+      "person_score": 1.0,
+      "disp_norm": 0.300522893899574,
+      "n_frames": 3
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 40,
+      "decision": "có đội mũ",
+      "gt": null,
+      "person_score": 0.0,
+      "disp_norm": 0.13364300805776516,
+      "n_frames": 15
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 49,
+      "decision": "chưa xác định",
+      "gt": null,
+      "person_score": 0.9036144605162391,
+      "disp_norm": 0.1270119715583834,
+      "n_frames": 2
+    },
+    {
+      "clip": "Mandalay_1_105",
+      "track_id": 50,
+      "decision": "chưa xác định",
+      "gt": "_4eftl9hhw",
+      "person_score": 1.0,
+      "disp_norm": 0.0,
+      "n_frames": 1
+    }
+  ],
+  "_gt": {
+    "Bago_highway_10": {
+      "_qduigg0eu": "DNoHelmet",
+      "_iajtqobrr": "DNoHelmet",
+      "_y3rk2zkrs": "DHelmetP1Helmet",
+      "_0t1z1phsk": "DHelmet",
+      "_7oay512sr": "DHelmet",
+      "_8zm8dbx8c": "DHelmet",
+      "_y3mh4l6zh": "DHelmet",
+      "_yv8l5grx0": "DNoHelmetP0NoHelmetP1NoHelmet"
+    },
+    "Bago_highway_20": {
+      "_13a54oaro": "DHelmet",
+      "_e3qpx6ega": "DHelmet",
+      "_c8molfyl4": "DNoHelmetP1NoHelmetP2NoHelmet",
+      "_nblyv1bz8": "DNoHelmetP1NoHelmet",
+      "_k90s3cw5g": "DHelmet",
+      "_40axrjgov": "DHelmet"
+    },
+    "Bago_rural_3": {
+      "_8xilyzydh": "DHelmet",
+      "_l0h1mvkjt": "DNoHelmetP1NoHelmet",
+      "_477sjdwtw": "DHelmet",
+      "_qd9nji8ky": "DHelmet",
+      "_k5ik9ufhu": "DHelmetP1NoHelmet",
+      "_5qsf4c054": "DNoHelmetP1NoHelmet"
+    },
+    "Bago_rural_49": {
+      "_634espyef": "DNoHelmetP1NoHelmet",
+      "_38ozl7wb6": "DNoHelmetP1NoHelmet",
+      "_6ckx85i3b": "DHelmet",
+      "_7ed16dnb4": "DHelmet",
+      "_m1rzn8juw": "DHelmetP1Helmet",
+      "_tnfkbx1kw": "DHelmet",
+      "_yuomnb1mv": "DHelmet",
+      "_bz78mgabt": "DHelmet",
+      "_ps93tilrn": "DNoHelmet"
+    },
+    "Bago_urban_3": {
+      "_ztkdgn1an": "DHelmet",
+      "_k3ro21m0k": "DHelmet",
+      "_3hw1nydhn": "DHelmetP1Helmet",
+      "_4thm52h5i": "DHelmet",
+      "_9a8mynvye": "DHelmetP1Helmet",
+      "_d4pwwnxx2": "DHelmet",
+      "_fuh9cq0qg": "DHelmet"
+    },
+    "Bago_urban_50": {
+      "_9pmy3voed": "DHelmet",
+      "_dhl2ctsxi": "DNoHelmet",
+      "_z46r82vun": "DHelmetP1Helmet",
+      "_2ipx479ut": "DNoHelmet",
+      "_j7h4wfhxq": "DHelmetP1Helmet",
+      "_8hfvx5rje": "DNoHelmet",
+      "_hnx6bg40q": "DNoHelmetP1NoHelmet",
+      "_bhmru1rii": "DNoHelmet"
+    },
+    "Mandalay_1_105": {
+      "_09t2yic93": "DHelmetP1Helmet",
+      "_tr1qq6cek": "DNoHelmet",
+      "_b10fronre": "DHelmet",
+      "_ej0pt1ofx": "DNoHelmetP1NoHelmet",
+      "_1d26agu21": "DHelmet",
+      "_4eftl9hhw": "DHelmetP1NoHelmet",
+      "_96z0jryda": "DHelmet"
+    }
+  }
+}

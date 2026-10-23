@@ -11,6 +11,10 @@ from de14.core import VIOL, OK, UNDET
 
 LBL = {VIOL: "không mũ", OK: "có mũ", UNDET: "chưa xác định"}
 BACKENDS = ["YOLO11s + YOLO helmet (CPU)", "YOLO11s + DINOv3-S probe (CPU)", "SAM 3.1 + DINOv3-S probe (GPU)"]
+import json as _json, torch as _torch
+# Cấu hình mặc định chọn ở kernel v4 (F1 cao nhất với P tính cả track không khớp): SAM 3.1 4 prompt + DINOv3-S + bộ lọc F2
+TRACK_FILTER = _json.load(open("configs/track_filter.json"))["track_filter"]
+DEFAULT_BACKEND = BACKENDS[2] if (_torch.cuda.is_available() and (os.environ.get("HF_TOKEN") or os.environ.get("SAM31_CKPT"))) else BACKENDS[1]
 _cache = {}
 
 def get_models(backend, imgsz):
@@ -27,7 +31,7 @@ def _to_h264(src):
     r = subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", src, "-c:v", "libx264", "-pix_fmt", "yuv420p", "-movflags", "+faststart", dst])
     return dst if r.returncode == 0 else src
 
-def analyze(image, video, backend, stride, max_sec, n_min, imgsz):
+def analyze(image, video, backend, stride, max_sec, n_min, imgsz, use_filter=True):
     if image is None and video is None:
         raise gr.Error("Hãy tải lên ảnh hoặc video")
     det, cls = get_models(backend, int(imgsz))
@@ -43,7 +47,7 @@ def analyze(image, video, backend, stride, max_sec, n_min, imgsz):
                 if not ok: break
                 if i % stride == 0: yield i // stride, f
                 i += 1
-        pl = Pipeline(det, cls, fps=fps / stride, n_min=int(n_min)); name = "video"
+        pl = Pipeline(det, cls, fps=fps / stride, n_min=int(n_min), track_filter=TRACK_FILTER if use_filter else None); name = "video"
         r = pl.run(gen(), out_dir=out, video_name=name)
     else:
         img = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
@@ -74,13 +78,14 @@ with gr.Blocks(title="Đề 14 – Phát hiện không đội mũ bảo hiểm")
         with gr.Column():
             img_in = gr.Image(label="Ảnh", type="pil")
             vid_in = gr.Video(label="Video")
-            backend = gr.Dropdown(BACKENDS, value=BACKENDS[0], label="Backend")
+            backend = gr.Dropdown(BACKENDS, value=DEFAULT_BACKEND, label="Backend")
             with gr.Row():
                 stride = gr.Slider(1, 10, value=3, step=1, label="Lấy mẫu mỗi N frame (video)")
                 max_sec = gr.Slider(1, 60, value=8, step=1, label="Tối đa (giây video)")
             with gr.Row():
                 n_min = gr.Slider(1, 10, value=3, step=1, label="Số quan sát tối thiểu / track")
                 imgsz = gr.Dropdown([640, 960, 1280], value=1280, label="imgsz YOLO")
+                use_filter = gr.Checkbox(value=True, label="Lọc F2: bỏ track gần đứng yên không có người (giữ rider dừng đèn đỏ)")
             btn = gr.Button("Phân tích", variant="primary")
         with gr.Column():
             out_img = gr.Image(label="Kết quả (ảnh)")
@@ -89,7 +94,7 @@ with gr.Blocks(title="Đề 14 – Phát hiện không đội mũ bảo hiểm")
     table = gr.Dataframe(headers=["track_id", "thời gian", "nhãn", "tỉ lệ không mũ", "số quan sát"], label="Bảng vi phạm / theo track")
     gallery = gr.Gallery(label="Ảnh bằng chứng (crop đầu)", columns=6, height=220)
     csv_out = gr.File(label="Tải CSV")
-    btn.click(analyze, [img_in, vid_in, backend, stride, max_sec, n_min, imgsz], [out_img, out_vid, summary, table, gallery, csv_out], api_name="analyze")
+    btn.click(analyze, [img_in, vid_in, backend, stride, max_sec, n_min, imgsz, use_filter], [out_img, out_vid, summary, table, gallery, csv_out], api_name="analyze")
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("--share", action="store_true"); ap.add_argument("--port", type=int, default=7860)

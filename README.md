@@ -130,3 +130,46 @@ Kết quả chạy thật trên CPU của box ngày 24/10/2026:
 
 ![image](docs/screenshots/01_image_helmet_dinov3.jpg)
 ![video](docs/screenshots/02_video_hanoi_yolohelmet.jpg)
+
+### E. Kernel v4 (24/10/2026, T4): bộ lọc track, dùng lại cache SAM 3.1 fp16 của v3
+SAM 3.1 không chạy lại: cache v3 nằm trong dataset riêng `holilihu/de14-sam31-cache-v3`.
+
+**Đặc trưng theo track** (`src/de14/core.py`):
+- `person_score` = trung bình theo frame của max IoA(box person đã ghép, vùng rider của xe). Vùng rider là box xe mở rộng ngang 25% và kéo lên trên 1 chiều cao xe.
+- `disp_norm` = đường chéo hộp bao quỹ đạo tâm xe chia cho trung vị đường chéo box xe.
+
+**Bộ lọc:**
+- F1: giữ track nếu `person_score ≥ τp`.
+- F2: bỏ track nếu `disp_norm < τd` **và** `person_score < τs`. Nhờ vậy rider dừng đèn đỏ vẫn được giữ.
+- F1+F2: áp cả hai.
+
+**Chọn ngưỡng** (`scripts/select_filters.py`, không gán cứng):
+- Sắp xếp 7 clip test theo tên. Fold tinh chỉnh = clip ở chỉ số 0, 3, 6 (Bago_highway_10, Bago_rural_49, Mandalay_1_105).
+- Grid search tối đa F1 tính với P gồm cả track không khớp, rồi đánh giá trên 4 clip còn lại (Bago_highway_20, Bago_rural_3, Bago_urban_3, Bago_urban_50; 10 GT track vi phạm).
+- Mỗi cấu hình chọn ngưỡng riêng.
+
+Kết quả trên 4 clip đánh giá. Pu = P gồm track không khớp; F1u dùng Pu; FPS end-to-end tính cả thời gian SAM.
+
+| Cấu hình | Bộ lọc | Ngưỡng | P | Pu | R | Chưa xác định | F1u | FPS |
+|---|---|---|---|---|---|---|---|---|
+| 4p + ViT-S | không | – | 0.700 | 0.179 | 0.700 | 0.190 | 0.286 | 0.58 |
+| 4p + ViT-S | F1 | τp=0.2 | 0.700 | 0.318 | 0.700 | 0.190 | 0.438 | 0.58 |
+| **4p + ViT-S** | **F2** | **τd=0.75, τs=0.7** | 0.700 | **0.333** | 0.700 | 0.190 | **0.452** | 0.58 |
+| 4p + ViT-S | F1+F2 | τp=0.2, τd=0.1, τs=0.7 | 0.700 | 0.318 | 0.700 | 0.190 | 0.438 | 0.58 |
+| 2p + ViT-S | không | – | 0.636 | 0.179 | 0.700 | 0.190 | 0.286 | 0.67 |
+| 2p + ViT-S | F1 | τp=0.2 | 0.636 | 0.304 | 0.700 | 0.190 | 0.424 | 0.67 |
+| 2p + ViT-S | F2 | τd=0.75, τs=0.7 | 0.636 | 0.318 | 0.700 | 0.190 | 0.438 | 0.67 |
+| 2p + ViT-S | F1+F2 | τp=0.2, τd=0.1, τs=0.7 | 0.636 | 0.304 | 0.700 | 0.190 | 0.424 | 0.67 |
+| 4p + ViT-L | không | – | 0.857 | 0.200 | 0.600 | 0.143 | 0.300 | 0.49 |
+| 4p + ViT-L | F1 / F2 / F1+F2 | τp=0.1 / τd=0.5, τs=0.1 / τp=0.1, τd=0.05, τs=0.1 | 0.857 | 0.300 | 0.600 | 0.143 | 0.400 | 0.49 |
+| 2p + ViT-L | không | – | 0.700 | 0.206 | 0.700 | 0.190 | 0.318 | 0.55 |
+| 2p + ViT-L | F1 / F2 / F1+F2 | τp=0.1 / τd=0.5, τs=0.1 / τp=0.1, τd=0.05, τs=0.1 | 0.700 | 0.304 | 0.700 | 0.190 | 0.424 | 0.55 |
+
+Bộ lọc không làm mất TP nào (R giữ nguyên). Chúng chỉ loại 10–18 track không khớp GT, đa số là xe đỗ, đúng như kết quả kiểm tra tay ở `docs/results/unmatched_review.md`.
+
+**Cấu hình mặc định của app: SAM 3.1 (4 prompt, fp16) + DINOv3 ViT-S + F2 (τd=0.75, τs=0.7).**
+- Lý do: F1u cao nhất trên clip đánh giá (0.452), nhanh hơn ViT-L, và trùng với chỉ đạo giữ ViT-S làm mặc định.
+- `app.py` đọc `configs/track_filter.json` và có checkbox bật/tắt F2.
+- Không có GPU hoặc checkpoint SAM thì app dùng YOLO11s + DINOv3-S + F2. Ngưỡng F2 được chọn trên SAM nên với YOLO là **chưa kiểm chứng**.
+
+**Lưu ý:** mẫu đánh giá nhỏ (10 GT vi phạm), nên chênh lệch 0.01–0.03 F1 giữa các bộ lọc chưa có ý nghĩa thống kê.

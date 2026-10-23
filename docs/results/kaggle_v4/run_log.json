@@ -1,0 +1,34 @@
+{
+ "crops": {
+  "rc": 0,
+  "sec": 498.6
+ },
+ "probe_dinov3-vits16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 91.1
+ },
+ "probe_dinov3-vitl16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 157.1
+ },
+ "core_v4_4p_dinov3-vits16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 140.2
+ },
+ "core_v4_2p_dinov3-vits16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 53.7
+ },
+ "core_v4_4p_dinov3-vitl16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 185.4
+ },
+ "core_v4_2p_dinov3-vitl16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 187.0
+ },
+ "select_filters": {
+  "rc": 0,
+  "sec": 0.3
+ }
+}

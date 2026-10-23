@@ -1,0 +1,494 @@
+{
+ "2p_vitl16": {
+  "tune_clips": [
+   "Bago_highway_10",
+   "Bago_rural_49",
+   "Mandalay_1_105"
+  ],
+  "eval_clips": [
+   "Bago_highway_20",
+   "Bago_rural_3",
+   "Bago_urban_3",
+   "Bago_urban_50"
+  ],
+  "fps_end2end_eval": 0.5479867458068014,
+  "none": {
+   "thresholds": {},
+   "tune": {
+    "precision": 0.8571428571428571,
+    "precision_incl_unmatched": 0.3157894736842105,
+    "recall": 0.6666666666666666,
+    "undetermined_rate": 0.11764705882352941,
+    "f1_incl_unmatched": 0.42857142857142855,
+    "TP": 6,
+    "FP": 1,
+    "FP_unmatched": 12,
+    "missed_gt": 7
+   },
+   "eval": {
+    "precision": 0.7,
+    "precision_incl_unmatched": 0.20588235294117646,
+    "recall": 0.7,
+    "undetermined_rate": 0.19047619047619047,
+    "f1_incl_unmatched": 0.3181818181818182,
+    "TP": 7,
+    "FP": 3,
+    "FP_unmatched": 24,
+    "missed_gt": 6
+   }
+  },
+  "f1_person": {
+   "thresholds": {
+    "tau_person": 0.1
+   },
+   "tune": {
+    "precision": 0.8571428571428571,
+    "precision_incl_unmatched": 0.6666666666666666,
+    "recall": 0.6666666666666666,
+    "undetermined_rate": 0.11764705882352941,
+    "f1_incl_unmatched": 0.6666666666666666,
+    "TP": 6,
+    "FP": 1,
+    "FP_unmatched": 2,
+    "missed_gt": 7
+   },
+   "eval": {
+    "precision": 0.7,
+    "precision_incl_unmatched": 0.30434782608695654,
+    "recall": 0.7,
+    "undetermined_rate": 0.19047619047619047,
+    "f1_incl_unmatched": 0.42424242424242425,
+    "TP": 7,
+    "FP": 3,
+    "FP_unmatched": 13,
+    "missed_gt": 6
+   }
+  },
+  "f2_stationary": {
+   "thresholds": {
+    "tau_disp": 0.5,
+    "tau_person_static": 0.1
+   },
+   "tune": {
+    "precision": 0.8571428571428571,
+    "precision_incl_unmatched": 0.6666666666666666,
+    "recall": 0.6666666666666666,
+    "undetermined_rate": 0.11764705882352941,
+    "f1_incl_unmatched": 0.6666666666666666,
+    "TP": 6,
+    "FP": 1,
+    "FP_unmatched": 2,
+    "missed_gt": 7
+   },
+   "eval": {
+    "precision": 0.7,
+    "precision_incl_unmatched": 0.30434782608695654,
+    "recall": 0.7,
+    "undetermined_rate": 0.19047619047619047,
+    "f1_incl_unmatched": 0.42424242424242425,
+    "TP": 7,
+    "FP": 3,
+    "FP_unmatched": 13,
+    "missed_gt": 6
+   }
+  },
+  "f1+f2": {
+   "thresholds": {
+    "tau_person": 0.1,
+    "tau_disp": 0.05,
+    "tau_person_static": 0.1
+   },
+   "tune": {
+    "precision": 0.8571428571428571,
+    "precision_incl_unmatched": 0.6666666666666666,
+    "recall": 0.6666666666666666,
+    "undetermined_rate": 0.11764705882352941,
+    "f1_incl_unmatched": 0.6666666666666666,
+    "TP": 6,
+    "FP": 1,
+    "FP_unmatched": 2,
+    "missed_gt": 7
+   },
+   "eval": {
+    "precision": 0.7,
+    "precision_incl_unmatched": 0.30434782608695654,
+    "recall": 0.7,
+    "undetermined_rate": 0.19047619047619047,
+    "f1_incl_unmatched": 0.42424242424242425,
+    "TP": 7,
+    "FP": 3,
+    "FP_unmatched": 13,
+    "missed_gt": 6
+   }
+  }
+ },
+ "2p_vits16": {
+  "tune_clips": [
+   "Bago_highway_10",
+   "Bago_rural_49",
+   "Mandalay_1_105"
+  ],
+  "eval_clips": [
+   "Bago_highway_20",
+   "Bago_rural_3",
+   "Bago_urban_3",
+   "Bago_urban_50"
+  ],
+  "fps_end2end_eval": 0.6697099263906495,
+  "none": {
+   "thresholds": {},
+   "tune": {
+    "precision": 0.8571428571428571,
+    "precision_incl_unmatched": 0.2,
+    "recall": 0.6666666666666666,
+    "undetermined_rate": 0.11764705882352941,
+    "f1_incl_unmatched": 0.30769230769230765,
+    "TP": 6,
+    "FP": 1,
+    "FP_unmatched": 23,
+    "missed_gt": 7
+   },
+   "eval": {
+    "precision": 0.6363636363636364,
+    "precision_incl_unmatched": 0.1794871794871795,
+    "recall": 0.7,
+    "undetermined_rate": 0.19047619047619047,
+    "f1_incl_unmatched": 0.2857142857142857,
+    "TP": 7,
+    "FP": 4,
+    "FP_unmatched": 28,
+    "missed_gt": 6
+   }
+  },
+  "f1_person": {
+   "thresholds": {
+    "tau_person": 0.2
+   },
+   "tune": {
+    "precision": 0.8571428571428571,
+    "precision_incl_unmatched": 0.5454545454545454,
+    "recall": 0.6666666666666666,
+    "undetermined_rate": 0.11764705882352941,
+    "f1_incl_unmatched": 0.6,
+    "TP": 6,
+    "FP": 1,
+    "FP_unmatched": 4,
+    "missed_gt": 7
+   },
+   "eval": {
+    "precision": 0.6363636363636364,
+    "precision_incl_unmatched": 0.30434782608695654,
+    "recall": 0.7,
+    "undetermined_rate": 0.19047619047619047,
+    "f1_incl_unmatched": 0.42424242424242425,
+    "TP": 7,
+    "FP": 4,
+    "FP_unmatched": 12,
+    "missed_gt": 6
+   }
+  },
+  "f2_stationary": {
+   "thresholds": {
+    "tau_disp": 0.75,
+    "tau_person_static": 0.7
+   },
+   "tune": {
+    "precision": 0.8571428571428571,
+    "precision_incl_unmatched": 0.6,
+    "recall": 0.6666666666666666,
+    "undetermined_rate": 0.11764705882352941,
+    "f1_incl_unmatched": 0.631578947368421,
+    "TP": 6,
+    "FP": 1,
+    "FP_unmatched": 3,
+    "missed_gt": 7
+   },
+   "eval": {
+    "precision": 0.6363636363636364,
+    "precision_incl_unmatched": 0.3181818181818182,
+    "recall": 0.7,
+    "undetermined_rate": 0.19047619047619047,
+    "f1_incl_unmatched": 0.4375,
+    "TP": 7,
+    "FP": 4,
+    "FP_unmatched": 11,
+    "missed_gt": 6
+   }
+  },
+  "f1+f2": {
+   "thresholds": {
+    "tau_person": 0.2,
+    "tau_disp": 0.1,
+    "tau_person_static": 0.7
+   },
+   "tune": {
+    "precision": 0.8571428571428571,
+    "precision_incl_unmatched": 0.6,
+    "recall": 0.6666666666666666,
+    "undetermined_rate": 0.11764705882352941,
+    "f1_incl_unmatched": 0.631578947368421,
+    "TP": 6,
+    "FP": 1,
+    "FP_unmatched": 3,
+    "missed_gt": 7
+   },
+   "eval": {
+    "precision": 0.6363636363636364,
+    "precision_incl_unmatched": 0.30434782608695654,
+    "recall": 0.7,
+    "undetermined_rate": 0.19047619047619047,
+    "f1_incl_unmatched": 0.42424242424242425,
+    "TP": 7,
+    "FP": 4,
+    "FP_unmatched": 12,
+    "missed_gt": 6
+   }
+  }
+ },
+ "4p_vitl16": {
+  "tune_clips": [
+   "Bago_highway_10",
+   "Bago_rural_49",
+   "Mandalay_1_105"
+  ],
+  "eval_clips": [
+   "Bago_highway_20",
+   "Bago_rural_3",
+   "Bago_urban_3",
+   "Bago_urban_50"
+  ],
+  "fps_end2end_eval": 0.4883665935364307,
+  "none": {
+   "thresholds": {},
+   "tune": {
+    "precision": 1.0,
+    "precision_incl_unmatched": 0.29411764705882354,
+    "recall": 0.5555555555555556,
+    "undetermined_rate": 0.17647058823529413,
+    "f1_incl_unmatched": 0.3846153846153846,
+    "TP": 5,
+    "FP": 0,
+    "FP_unmatched": 12,
+    "missed_gt": 7
+   },
+   "eval": {
+    "precision": 0.8571428571428571,
+    "precision_incl_unmatched": 0.2,
+    "recall": 0.6,
+    "undetermined_rate": 0.14285714285714285,
+    "f1_incl_unmatched": 0.3,
+    "TP": 6,
+    "FP": 1,
+    "FP_unmatched": 23,
+    "missed_gt": 6
+   }
+  },
+  "f1_person": {
+   "thresholds": {
+    "tau_person": 0.1
+   },
+   "tune": {
+    "precision": 1.0,
+    "precision_incl_unmatched": 0.7142857142857143,
+    "recall": 0.5555555555555556,
+    "undetermined_rate": 0.17647058823529413,
+    "f1_incl_unmatched": 0.6250000000000001,
+    "TP": 5,
+    "FP": 0,
+    "FP_unmatched": 2,
+    "missed_gt": 7
+   },
+   "eval": {
+    "precision": 0.8571428571428571,
+    "precision_incl_unmatched": 0.3,
+    "recall": 0.6,
+    "undetermined_rate": 0.14285714285714285,
+    "f1_incl_unmatched": 0.4,
+    "TP": 6,
+    "FP": 1,
+    "FP_unmatched": 13,
+    "missed_gt": 6
+   }
+  },
+  "f2_stationary": {
+   "thresholds": {
+    "tau_disp": 0.5,
+    "tau_person_static": 0.1
+   },
+   "tune": {
+    "precision": 1.0,
+    "precision_incl_unmatched": 0.7142857142857143,
+    "recall": 0.5555555555555556,
+    "undetermined_rate": 0.17647058823529413,
+    "f1_incl_unmatched": 0.6250000000000001,
+    "TP": 5,
+    "FP": 0,
+    "FP_unmatched": 2,
+    "missed_gt": 7
+   },
+   "eval": {
+    "precision": 0.8571428571428571,
+    "precision_incl_unmatched": 0.3,
+    "recall": 0.6,
+    "undetermined_rate": 0.14285714285714285,
+    "f1_incl_unmatched": 0.4,
+    "TP": 6,
+    "FP": 1,
+    "FP_unmatched": 13,
+    "missed_gt": 6
+   }
+  },
+  "f1+f2": {
+   "thresholds": {
+    "tau_person": 0.1,
+    "tau_disp": 0.05,
+    "tau_person_static": 0.1
+   },
+   "tune": {
+    "precision": 1.0,
+    "precision_incl_unmatched": 0.7142857142857143,
+    "recall": 0.5555555555555556,
+    "undetermined_rate": 0.17647058823529413,
+    "f1_incl_unmatched": 0.6250000000000001,
+    "TP": 5,
+    "FP": 0,
+    "FP_unmatched": 2,
+    "missed_gt": 7
+   },
+   "eval": {
+    "precision": 0.8571428571428571,
+    "precision_incl_unmatched": 0.3,
+    "recall": 0.6,
+    "undetermined_rate": 0.14285714285714285,
+    "f1_incl_unmatched": 0.4,
+    "TP": 6,
+    "FP": 1,
+    "FP_unmatched": 13,
+    "missed_gt": 6
+   }
+  }
+ },
+ "4p_vits16": {
+  "tune_clips": [
+   "Bago_highway_10",
+   "Bago_rural_49",
+   "Mandalay_1_105"
+  ],
+  "eval_clips": [
+   "Bago_highway_20",
+   "Bago_rural_3",
+   "Bago_urban_3",
+   "Bago_urban_50"
+  ],
+  "fps_end2end_eval": 0.5827191648966431,
+  "none": {
+   "thresholds": {},
+   "tune": {
+    "precision": 1.0,
+    "precision_incl_unmatched": 0.19230769230769232,
+    "recall": 0.5555555555555556,
+    "undetermined_rate": 0.17647058823529413,
+    "f1_incl_unmatched": 0.28571428571428575,
+    "TP": 5,
+    "FP": 0,
+    "FP_unmatched": 21,
+    "missed_gt": 7
+   },
+   "eval": {
+    "precision": 0.7,
+    "precision_incl_unmatched": 0.1794871794871795,
+    "recall": 0.7,
+    "undetermined_rate": 0.19047619047619047,
+    "f1_incl_unmatched": 0.2857142857142857,
+    "TP": 7,
+    "FP": 3,
+    "FP_unmatched": 29,
+    "missed_gt": 6
+   }
+  },
+  "f1_person": {
+   "thresholds": {
+    "tau_person": 0.2
+   },
+   "tune": {
+    "precision": 1.0,
+    "precision_incl_unmatched": 0.7142857142857143,
+    "recall": 0.5555555555555556,
+    "undetermined_rate": 0.17647058823529413,
+    "f1_incl_unmatched": 0.6250000000000001,
+    "TP": 5,
+    "FP": 0,
+    "FP_unmatched": 2,
+    "missed_gt": 7
+   },
+   "eval": {
+    "precision": 0.7,
+    "precision_incl_unmatched": 0.3181818181818182,
+    "recall": 0.7,
+    "undetermined_rate": 0.19047619047619047,
+    "f1_incl_unmatched": 0.4375,
+    "TP": 7,
+    "FP": 3,
+    "FP_unmatched": 12,
+    "missed_gt": 6
+   }
+  },
+  "f2_stationary": {
+   "thresholds": {
+    "tau_disp": 0.75,
+    "tau_person_static": 0.7
+   },
+   "tune": {
+    "precision": 1.0,
+    "precision_incl_unmatched": 0.8333333333333334,
+    "recall": 0.5555555555555556,
+    "undetermined_rate": 0.17647058823529413,
+    "f1_incl_unmatched": 0.6666666666666667,
+    "TP": 5,
+    "FP": 0,
+    "FP_unmatched": 1,
+    "missed_gt": 7
+   },
+   "eval": {
+    "precision": 0.7,
+    "precision_incl_unmatched": 0.3333333333333333,
+    "recall": 0.7,
+    "undetermined_rate": 0.19047619047619047,
+    "f1_incl_unmatched": 0.45161290322580644,
+    "TP": 7,
+    "FP": 3,
+    "FP_unmatched": 11,
+    "missed_gt": 6
+   }
+  },
+  "f1+f2": {
+   "thresholds": {
+    "tau_person": 0.2,
+    "tau_disp": 0.1,
+    "tau_person_static": 0.7
+   },
+   "tune": {
+    "precision": 1.0,
+    "precision_incl_unmatched": 0.8333333333333334,
+    "recall": 0.5555555555555556,
+    "undetermined_rate": 0.17647058823529413,
+    "f1_incl_unmatched": 0.6666666666666667,
+    "TP": 5,
+    "FP": 0,
+    "FP_unmatched": 1,
+    "missed_gt": 7
+   },
+   "eval": {
+    "precision": 0.7,
+    "precision_incl_unmatched": 0.3181818181818182,
+    "recall": 0.7,
+    "undetermined_rate": 0.19047619047619047,
+    "f1_incl_unmatched": 0.4375,
+    "TP": 7,
+    "FP": 3,
+    "FP_unmatched": 12,
+    "missed_gt": 6
+   }
+  }
+ }
+}
