@@ -56,3 +56,27 @@ def decide(probs, n_min=3, hi=0.6, lo=0.4):
     r = float(np.mean([p >= 0.5 for p in probs]))
     lab = VIOL if r >= hi else (OK if r <= lo else UNDET)
     return lab, r, len(probs)
+
+def rider_zone(m):
+    """Vùng rider của xe: mở rộng ngang 25%, kéo lên trên 1 chiều cao xe."""
+    w, h = m[2]-m[0], m[3]-m[1]
+    return [m[0]-0.25*w, m[1]-h, m[2]+0.25*w, m[3]]
+
+def track_stats(geo):
+    """geo: list (moto_box, [person boxes đã ghép]) theo frame.
+    person_score = trung bình theo frame của max ioa(person, vùng rider) (0 nếu không có người)
+    disp_norm   = đường chéo hộp bao quỹ đạo tâm xe / trung vị đường chéo box xe (bất biến tỉ lệ)."""
+    if not geo: return {"person_score": 0.0, "disp_norm": 0.0, "n_frames": 0}
+    cov = [max((ioa(p, rider_zone(m)) for p in ps), default=0.0) for m, ps in geo]
+    c = np.array([[(m[0]+m[2])/2, (m[1]+m[3])/2] for m, _ in geo]); d = np.median([np.hypot(m[2]-m[0], m[3]-m[1]) for m, _ in geo])
+    span = float(np.hypot(*(c.max(0) - c.min(0))))
+    return {"person_score": float(np.mean(cov)), "disp_norm": span / max(1e-6, float(d)), "n_frames": len(geo)}
+
+def keep_track(st, tau_person=None, tau_disp=None, tau_person_static=None):
+    """Bộ lọc track (ngưỡng chọn trên fold tinh chỉnh, xem scripts/select_filters.py):
+    F1: giữ nếu person_score >= tau_person.
+    F2: bỏ nếu gần đứng yên (disp_norm < tau_disp) VÀ không có người (person_score < tau_person_static) -> giữ rider dừng đèn đỏ.
+    F1+F2: truyền cả ba."""
+    if tau_person is not None and st["person_score"] < tau_person: return False
+    if tau_disp is not None and st["disp_norm"] < tau_disp and st["person_score"] < (tau_person_static or 0.0): return False
+    return True

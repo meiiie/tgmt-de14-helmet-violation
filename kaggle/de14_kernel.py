@@ -88,30 +88,19 @@ def timed(name, cmd):
         print("SKIP (time budget)", name, flush=True); log[name] = {"rc": "skipped_budget"}; return
     t = time.time(); rc = sh(f"timeout {int(time_left())} {cmd}"); log[name] = {"rc": rc, "sec": round(time.time() - t, 1)}
     json.dump(log, open(f"{W}/run_log.json", "w"), indent=1)
-# ---- baselines (không cần token) ----
-timed("b0", f"python -u src/eval_helmet.py --method b0 --clips {T} --stride 2 --tag b0_full")
-# B1 (YOLO+YOLO-helmet, YOLO+DINOv3-B) đã có số ở v2 -> không chạy lại để dành GPU cho SAM fp16 + ablation
-# ---- crop đầu full-res + DINOv3 S/B/L probes ----
+# ---- v4: bộ lọc track trên cache SAM 3.1 fp16 của v3 (dataset riêng holilihu/de14-sam31-cache-v3), không chạy lại SAM ----
+SC = os.path.dirname((glob.glob("/kaggle/input/**/Bago_urban_3.json", recursive=True) or [""])[0]); print("SAM cache dir", SC, flush=True)
 os.environ["CROP_STRIDE"] = "5"; timed("crops", "python -u src/build_head_crops.py")
-if HAS_TOKEN:
-    for m in ["facebook/dinov3-vits16-pretrain-lvd1689m", "facebook/dinov3-vitb16-pretrain-lvd1689m", "facebook/dinov3-vitl16-pretrain-lvd1689m"]:
+if HAS_TOKEN and SC:
+    for m in ["facebook/dinov3-vits16-pretrain-lvd1689m", "facebook/dinov3-vitl16-pretrain-lvd1689m"]:
         timed("probe_" + m.split("/")[-1], f"python -u src/train_probe.py {m}")
-        if log.get("probe_" + m.split("/")[-1], {}).get("rc") != 0:
-            os.makedirs("outputs/metrics", exist_ok=True)
-            json.dump({"model": m, "status": "chưa xác định", "reason": f"load/train failed rc={log['probe_' + m.split('/')[-1]]}"},
-                      open(f"outputs/metrics/probe_cv_{m.split('/')[-1]}.json", "w"), ensure_ascii=False, indent=1)
-    # ---- core: SAM 3.1 fp16 autocast (T4 không có bf16), 4 prompt; model nạp 1 lần cho mọi clip; đo thời gian set_image + từng prompt ----
-    os.makedirs("outputs/sam31", exist_ok=True)
-    timed("sam31_fp16_4p", f"python -u src/sam31_cache.py {' '.join(FR + '/' + c for c in TEST)} --out outputs/sam31 --stride 2 --max 50 --prompts motorcycle,person,head,helmet --dtype auto --device cuda")
-    # kiểm chứng FPS 2 prompt bằng một lần chạy thật riêng (1 clip, 20 frame)
-    os.makedirs("outputs/sam31_2p", exist_ok=True)
-    timed("sam31_fp16_2p_timing", f"python -u src/sam31_cache.py {FR}/{TEST[0]} --out outputs/sam31_2p --stride 2 --max 20 --prompts motorcycle,person --dtype auto --device cuda")
-    for bm in ["dinov3-vitb16-pretrain-lvd1689m", "dinov3-vits16-pretrain-lvd1689m", "dinov3-vitl16-pretrain-lvd1689m"]:
-        if not os.path.exists(f"weights/dino_probe_{bm}.joblib"): continue
+    for bm in ["dinov3-vits16-pretrain-lvd1689m", "dinov3-vitl16-pretrain-lvd1689m"]:
+        if not os.path.exists(f"weights/dino_probe_{bm}.joblib"): print("chưa xác định: no probe", bm, flush=True); continue
         for tagp, pr_ in [("4p", "motorcycle,person,head,helmet"), ("2p", "motorcycle,person")]:
-            timed(f"core_{tagp}_{bm}", f"python -u src/eval_helmet.py --method b1 --detector sam31 --sam_prompts {pr_} --classifier dino --probe weights/dino_probe_{bm}.joblib --clips {T} --stride 2 --tag core_fp16_{tagp}_{bm} --out {W}/eval_core_{tagp}_{bm.split('-')[1]}")
+            timed(f"core_v4_{tagp}_{bm}", f"python -u src/eval_helmet.py --method b1 --detector sam31 --sam_cache_dir {SC} --sam_prompts {pr_} --classifier dino --probe weights/dino_probe_{bm}.joblib --clips {T} --stride 2 --tag core_v4_{tagp}_{bm.split('-')[1]} --out {W}/eval_v4_{tagp}_{bm.split('-')[1]}")
+    timed("select_filters", "python -u scripts/select_filters.py outputs/metrics outputs/metrics/filters_v4.json")
 else:
     print("SKIP gated parts (SAM 3.1, DINOv3): HF_TOKEN secret missing", flush=True)
-sh(f"mkdir -p {W}/results && cp -r outputs/metrics {W}/results/ && cp -r outputs/sam31 outputs/sam31_2p {W}/results/ 2>/dev/null; cp {W}/run_log.json {W}/results/")
+sh(f"mkdir -p {W}/results && cp -r outputs/metrics {W}/results/ &&  cp {W}/run_log.json {W}/results/")
 sh(f"rm -rf {FR} {W}/de14/third_party_sam3/.git /kaggle/working/sam3.1_multiplex.pt /kaggle/working/dinov3_local")  # không để trọng số gated trong output
 print(json.dumps(log, indent=1))

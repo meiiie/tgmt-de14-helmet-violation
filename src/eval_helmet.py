@@ -55,13 +55,13 @@ def run_b1(args, clips):
     from de14.detectors import YoloDetector, CachedSam3Detector
     from de14.classifiers import YoloHelmetCls, DinoProbe
     cls = YoloHelmetCls(args.helmet_weights) if args.classifier == "yolo" else DinoProbe.load(args.probe)
-    gt_tracks, pred, tot_f, tot_s, tdet, tcls, tsam = {}, {}, 0, 0, 0, 0, 0.0
+    gt_tracks, pred, tot_f, tot_s, tdet, tcls, tsam = {}, {}, 0, 0, 0, 0, 0.0; track_rows, gt_all, per_clip_f, per_clip_s = [], {}, {}, {}
     for clip in clips:
         gtf, gtt = load_clip(clip, W=1920, H=1080)
         only = None
         if args.detector == "yolo": det = YoloDetector(imgsz=1280, conf=0.15)
         else:
-            det = CachedSam3Detector(f"outputs/sam31/{clip}.json", conf=args.sam_conf, prompts=args.sam_prompts.split(",")); only = set(det.c)
+            det = CachedSam3Detector(f"{args.sam_cache_dir}/{clip}.json", conf=args.sam_conf, prompts=args.sam_prompts.split(",")); only = set(det.c)
         fps_eff = 10 / args.stride
         pl = Pipeline(det, cls, fps=fps_eff, n_min=args.n_min, min_head=args.min_head)
         gen = list(frames_of(clip, args.stride, only))
@@ -76,6 +76,10 @@ def run_b1(args, clips):
         # GT track chỉ tính nếu xuất hiện trong frame đã xử lý
         gtt = {g: l for g, l in gtt.items() if any(any(x[0] == g for x in gtf.get(fi, [])) for fi in frames_used)}
         m = match_tracks(r["per_frame"], gtf)
+        for tid, tr in r["tracks"].items():   # bảng track cho phân tích bộ lọc (scripts/select_filters.py)
+            g = m.get(tid); track_rows.append({"clip": clip, "track_id": tid, "decision": tr["decision"], "gt": g,
+                "person_score": tr["person_score"], "disp_norm": tr["disp_norm"], "n_frames": tr["n_frames"]})
+        gt_all.setdefault(clip, {g: l for g, l in gtt.items()})
         per_gt = defaultdict(list); fpu = 0
         for tid, tr in r["tracks"].items():
             g = m.get(tid)
@@ -83,14 +87,17 @@ def run_b1(args, clips):
             else: per_gt[g].append(tr["decision"])
         dec = {g: (VIOL if VIOL in ds else OK if OK in ds else UNDET) for g, ds in per_gt.items()}
         gt_tracks[clip] = gtt; pred[clip] = {"gt": dec, "fp_unmatched": fpu}
+        tsam0 = tsam
         if args.detector == "sam31":   # FPS end-to-end gồm cả thời gian SAM 3.1 đo trong cache (set_image + từng prompt dùng)
             ks = {k for _, k, _ in gen}; sp = args.sam_prompts.split(",")
             tsam += sum(det.c[k].get("_t_image", 0) + sum(det.c[k].get("_t_prompt", {}).get(p, 0) for p in sp) for k in ks)
+        per_clip_f[clip] = r["frames"]; per_clip_s[clip] = r["sec"] + (tsam - tsam0)
         tot_f += r["frames"]; tot_s += r["sec"]; tdet += r["t_det"]; tcls += r["t_cls"]
         print(clip, "frames", r["frames"], f"fps {r['fps']:.2f}", "pred tracks", len(r["tracks"]), "gt tracks", len(gtt), flush=True)
     res = score(gt_tracks, pred); res.update({"frames": tot_f, "fps_pipeline_only": tot_f / max(1e-6, tot_s),
                 "fps_end2end": tot_f / max(1e-6, tot_s + tsam), "sec_sam": tsam, "sam_prompts": args.sam_prompts if args.detector == "sam31" else None,
-                "sec_det": tdet, "sec_cls": tcls})
+                "sec_det": tdet, "sec_cls": tcls, "per_clip_frames": per_clip_f, "per_clip_sec": per_clip_s})
+    res["_tracks"] = track_rows; res["_gt"] = gt_all
     return res
 
 def run_b0(args, clips):
@@ -133,6 +140,7 @@ if __name__ == "__main__":
     ap.add_argument("--stride", type=int, default=1); ap.add_argument("--n_min", type=int, default=3)
     ap.add_argument("--min_head", type=int, default=8); ap.add_argument("--sam_conf", type=float, default=0.4)
     ap.add_argument("--sam_prompts", default="motorcycle,person,head")
+    ap.add_argument("--sam_cache_dir", default="outputs/sam31")
     ap.add_argument("--out", default="outputs/eval"); ap.add_argument("--tag", default=None)
     a = ap.parse_args()
     res = run_b0(a, a.clips) if a.method == "b0" else run_b1(a, a.clips)

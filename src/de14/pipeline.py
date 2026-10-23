@@ -6,7 +6,7 @@ from __future__ import annotations
 import os, csv, json, time
 from collections import defaultdict
 import numpy as np, cv2
-from .core import associate, head_box, crop, decide, ioa, UNDET, VIOL, OK
+from .core import track_stats, keep_track, associate, head_box, crop, decide, ioa, UNDET, VIOL, OK
 from .tracking import ByteTrackWrapper
 
 COLORS = {VIOL: (0, 0, 255), OK: (0, 200, 0), UNDET: (0, 200, 255)}
@@ -21,14 +21,15 @@ def heads_for_riders(riders, sam_heads):
     return out
 
 class Pipeline:
-    def __init__(self, detector, classifier, fps=10, n_min=3, hi=0.6, lo=0.4, min_head=8, conf_moto=0.3):
+    def __init__(self, detector, classifier, fps=10, n_min=3, hi=0.6, lo=0.4, min_head=8, conf_moto=0.3, track_filter=None):
+        self.track_filter = track_filter   # None hoặc dict(tau_person, tau_disp, tau_person_static) – xem core.keep_track
         self.det, self.cls, self.fps = detector, classifier, fps
         self.n_min, self.hi, self.lo, self.min_head, self.conf_moto = n_min, hi, lo, min_head, conf_moto
 
     def run(self, frames, out_dir=None, video_name="video", write_video=True, evidence=True):
         """frames: iterable (frame_idx, img_bgr). Trả về dict kết quả."""
         tracker = ByteTrackWrapper(fps=self.fps)
-        obs = defaultdict(list); per_frame = []; best_ev = {}
+        obs = defaultdict(list); per_frame = []; best_ev = {}; geo = defaultdict(list)
         vw = None; t0 = time.time(); n = 0; t_det = t_cls = 0.0
         if out_dir:
             os.makedirs(os.path.join(out_dir, "evidence"), exist_ok=True)
@@ -47,6 +48,7 @@ class Pipeline:
             for tid, tb, idx in tracks:
                 if idx < 0 or idx >= len(motos): continue
                 riders = [persons[i] for i in assoc[idx]]
+                geo[tid].append((motos[idx], riders))   # cho bộ lọc track (người trên xe, độ dịch chuyển)
                 if not riders:
                     # rider không được phát hiện riêng -> vùng rider suy từ bbox xe (kéo lên trên 1 chiều cao xe)
                     m = motos[idx]; h = m[3] - m[1]
@@ -87,11 +89,13 @@ class Pipeline:
             ps = [o["p_no_helmet"] for o in obs[tid]]
             lab, r, k = decide(ps, self.n_min, self.hi, self.lo)
             fr = [fi for fi, rec in per_frame if any(t == tid for t, *_ in rec)]
+            st = track_stats(geo[tid])
+            if self.track_filter and not keep_track(st, **self.track_filter): continue
             results[tid] = {"track_id": tid, "decision": lab, "no_helmet_ratio": r, "n_obs": k,
-                            "t_start": min(fr) / self.fps, "t_end": max(fr) / self.fps}
+                            "t_start": min(fr) / self.fps, "t_end": max(fr) / self.fps, **st}
         if out_dir:
             with open(os.path.join(out_dir, f"{video_name}_tracks.csv"), "w", newline="", encoding="utf-8") as f:
-                w = csv.DictWriter(f, ["track_id", "decision", "no_helmet_ratio", "n_obs", "t_start", "t_end", "evidence"]); w.writeheader()
+                w = csv.DictWriter(f, ["track_id", "decision", "no_helmet_ratio", "n_obs", "t_start", "t_end", "person_score", "disp_norm", "n_frames", "evidence"]); w.writeheader()
                 for tid, r in sorted(results.items()):
                     ev = ""
                     key = (tid, r["decision"] != OK)
