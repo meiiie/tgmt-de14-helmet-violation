@@ -39,8 +39,39 @@ Linear probe theo crop (2809 crop, 725 không mũ, 39 clip, CV theo clip):
 |---|---|---|---|---|---|
 | DINOv3 ViT-S/16 | 0.648 | 0.806 | 0.718 | 0.903 | 205.7 crop/s |
 | DINOv3 ViT-B/16 | 0.652 | 0.801 | 0.719 | 0.911 | 78.5 crop/s |
-| DINOv3 ViT-L/16 | chưa xác định: không tải được trọng số (OSError, không có trong dataset riêng và không có HF_TOKEN), kernel tự fallback sang DINOv2-small nên số đó không tính | | | | |
+| DINOv3 ViT-L/16 (kernel v3, trọng số trong dataset riêng, sha256 OK) | 0.709 | 0.850 | 0.773 | 0.937 | |
 | YOLO helmet trên crop | 0.301 | 0.508 | 0.378 | 0.658 | coverage 50% |
+
+### D. Kernel v3 (24/10/2026, 1× Tesla T4): B0, SAM 3.1 fp16, ablation prompt, probe ViT-L
+Cùng 7 clip, 350 frame, 51 GT track (19 vi phạm). SAM 3.1 chạy autocast **fp16** (T4 không hỗ trợ bf16 thật). Model nạp một lần cho mọi clip. Thời gian `set_image` và từng prompt được đo riêng.
+- FPS end-to-end = frame / (thời gian SAM của các prompt dùng + pipeline).
+- 4p = motorcycle, person, head, helmet; 2p = motorcycle, person, khi đó vùng đầu suy ra từ box người/xe.
+- Số liệu gốc ở `docs/results/kaggle_v3/`.
+
+| Phương pháp | Precision (track khớp) | Precision (gồm track không khớp) | Recall | Chưa xác định | FPS end-to-end |
+|---|---|---|---|---|---|
+| B0: YOLO helmet toàn khung, từng frame | 0.667 | 0.667* | 0.526 | 0.235 | 17.1 |
+| Core 4p + DINOv3-S (mặc định app) | 0.800 | 0.185 | 0.632 | 0.184 | 0.57 |
+| Core 2p + DINOv3-S | 0.722 | 0.188 | 0.684 | 0.158 | 0.66 |
+| Core 4p + DINOv3-B | 1.000 | 0.160 | 0.421 | 0.237 | 0.56 |
+| Core 2p + DINOv3-B | 0.750 | 0.194 | 0.632 | 0.158 | 0.64 |
+| Core 4p + DINOv3-L | 0.917 | 0.234 | 0.579 | 0.158 | 0.47 |
+| Core 2p + DINOv3-L | 0.765 | 0.245 | 0.684 | 0.158 | 0.52 |
+
+\*B0 gán box helmet vào GT bằng oracle nên không có track không khớp. Ở mức frame, B0 có P 0.607, R 0.145 và 73.6% frame chưa xác định.
+
+**Thời gian SAM 3.1 fp16 trên T4** (bỏ frame khởi động):
+- `set_image` mất 1.16 s, mỗi prompt khoảng 0.11–0.12 s.
+- 4 prompt: 1.62 s/frame (0.62 FPS). 2 prompt: 1.40 s/frame (0.72 FPS).
+- Một lần chạy 2 prompt riêng (19 frame) đo được 1.45 s/frame (0.69 FPS), khớp với số trên.
+- So với v2 (~0.19 FPS) nhanh hơn khoảng 3×, chủ yếu nhờ nạp model một lần và fp16.
+
+**Kiểm tra tay 20 track không khớp** (`docs/results/unmatched_review.md`):
+- 15 là FP thật: 13 xe đỗ, 2 vùng nền.
+- 2 là box trùng của xe đã có nhãn.
+- 0 xe đang chạy mà thiếu nhãn.
+- 3 chưa xác định.
+- Vì vậy cột "gồm track không khớp" sát với precision thật hơn.
 
 ## Chạy
 ```bash

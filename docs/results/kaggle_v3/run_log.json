@@ -1,0 +1,54 @@
+{
+ "b0": {
+  "rc": 0,
+  "sec": 78.3
+ },
+ "crops": {
+  "rc": 0,
+  "sec": 382.6
+ },
+ "probe_dinov3-vits16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 74.2
+ },
+ "probe_dinov3-vitb16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 97.7
+ },
+ "probe_dinov3-vitl16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 168.9
+ },
+ "sam31_fp16_4p": {
+  "rc": 0,
+  "sec": 594.3
+ },
+ "sam31_fp16_2p_timing": {
+  "rc": 0,
+  "sec": 47.6
+ },
+ "core_4p_dinov3-vitb16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 73.6
+ },
+ "core_2p_dinov3-vitb16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 74.0
+ },
+ "core_4p_dinov3-vits16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 54.8
+ },
+ "core_2p_dinov3-vits16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 55.5
+ },
+ "core_4p_dinov3-vitl16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 198.0
+ },
+ "core_2p_dinov3-vitl16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 198.2
+ }
+}

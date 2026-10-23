@@ -1,0 +1,26 @@
+{
+  "gt_tracks": 51,
+  "gt_violation_tracks": 19,
+  "matched": 51,
+  "missed": 0,
+  "TP": 10,
+  "FP_on_helmet_tracks": 5,
+  "FP_unmatched": 0,
+  "FN_decided_ok": 5,
+  "TN": 19,
+  "undetermined": 12,
+  "precision": 0.6666666666666666,
+  "precision_incl_unmatched": 0.6666666666666666,
+  "recall_all_gt": 0.5263157894736842,
+  "recall_decided": 0.6666666666666666,
+  "undetermined_rate": 0.23529411764705882,
+  "coverage": 1.0,
+  "frame_level": {
+    "precision": 0.6074766355140186,
+    "recall_all": 0.14541387024608501,
+    "undetermined_rate": 0.7361963190184049,
+    "n_moto_frames": 978
+  },
+  "frames": 350,
+  "fps_end2end": 17.05619313772622
+}
