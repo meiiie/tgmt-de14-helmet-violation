@@ -1,0 +1,14 @@
+{
+  "id": "holilihu/de14-helmet-sam31-dinov3",
+  "title": "de14-helmet-sam31-dinov3",
+  "code_file": "de14_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["hozngvan/helmet-detection"],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}

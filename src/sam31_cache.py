@@ -25,9 +25,9 @@ if __name__ == "__main__":
     a = ap.parse_args()
     torch.set_num_threads(os.cpu_count())
     proc = load(a.device)
-    files = sorted(glob.glob(os.path.join(a.frames_dir, "*.jpg")))[::a.stride][:a.max]
+    files = sorted(glob.glob(os.path.join(a.frames_dir, "*.jpg")) + glob.glob(os.path.join(a.frames_dir, "*.png")))[::a.stride][:a.max]
     cache = json.load(open(a.out)) if os.path.exists(a.out) else {}
-    dt = torch.bfloat16
+    dt = torch.bfloat16 if (a.device == "cpu" or torch.cuda.is_bf16_supported()) else torch.float16
     for f in files:
         k = os.path.basename(f)
         if k in cache: continue
@@ -38,6 +38,6 @@ if __name__ == "__main__":
                 o = proc.set_text_prompt(state=st, prompt=p)
                 rec[p] = {"boxes": o["boxes"].float().cpu().tolist(), "scores": o["scores"].float().cpu().tolist()}
         del st; gc.collect()
-        rec["_sec"] = time.time() - t; cache[k] = rec
+        rec["_sec"] = time.time() - t; rec["_size"] = list(im.size); cache[k] = rec
         json.dump(cache, open(a.out, "w"))
         print(k, {p: len(rec[p]["scores"]) for p in a.prompts.split(",")}, f"{rec['_sec']:.1f}s", flush=True)

@@ -7,13 +7,18 @@ sys.path.insert(0, os.path.dirname(__file__))
 from de14.core import iou, VIOL, OK, UNDET
 from de14.helmet_gt import load_clip, is_violation
 
+FRAMES = os.environ.get("HELMET_FRAMES", "data/helmet/frames")
+
 def frames_of(clip, stride, only=None):
-    fs = sorted(glob.glob(f"data/helmet/frames/{clip}/*.jpg"))
+    fs = sorted(glob.glob(f"{FRAMES}/{clip}/*.jpg"))
     for f in fs[::stride]:
         k = os.path.basename(f)
         if only is not None and k not in only: continue
         img = cv2.imread(f)
-        if img is not None: yield int(k[:-4]), k, img
+        if img is None: continue
+        if img.shape[:2] != (1080, 1920):  # bản HF 640x640 bị kéo giãn -> khôi phục 16:9 gốc
+            img = cv2.resize(img, (1920, 1080), interpolation=cv2.INTER_CUBIC)
+        yield int(k[:-4]), k, img
 
 def match_tracks(per_frame, gt_frames, thr=0.3):
     votes = defaultdict(Counter)
@@ -52,9 +57,9 @@ def run_b1(args, clips):
     cls = YoloHelmetCls(args.helmet_weights) if args.classifier == "yolo" else DinoProbe.load(args.probe)
     gt_tracks, pred, tot_f, tot_s, tdet, tcls = {}, {}, 0, 0, 0, 0
     for clip in clips:
-        gtf, gtt = load_clip(clip)
+        gtf, gtt = load_clip(clip, W=1920, H=1080)
         only = None
-        if args.detector == "yolo": det = YoloDetector(imgsz=640, conf=0.2)
+        if args.detector == "yolo": det = YoloDetector(imgsz=1280, conf=0.15)
         else:
             det = CachedSam3Detector(f"outputs/sam31/{clip}.json", conf=args.sam_conf); only = set(det.c)
         fps_eff = 10 / args.stride
@@ -91,10 +96,10 @@ def run_b0(args, clips):
     m = YOLO(args.helmet_weights); no_ids = {k for k, v in m.names.items() if "without" in v.lower()}
     gt_tracks, pred = {}, {}; tf = ts = 0; fr_stats = Counter()
     for clip in clips:
-        gtf, gtt = load_clip(clip); per = defaultdict(list); used = set()
+        gtf, gtt = load_clip(clip, W=1920, H=1080); per = defaultdict(list); used = set()
         for fi, k, img in frames_of(clip, args.stride):
             used.add(fi); t = time.time()
-            r = m.predict(img, imgsz=640, conf=0.25, verbose=False)[0]; ts += time.time() - t; tf += 1
+            r = m.predict(img, imgsz=1280, conf=0.25, verbose=False)[0]; ts += time.time() - t; tf += 1
             bx = r.boxes.xyxy.numpy(); cl = r.boxes.cls.numpy().astype(int)
             for g, gb, lab in gtf.get(fi, []):
                 inside = [c for b, c in zip(bx, cl) if gb[0] <= (b[0]+b[2])/2 <= gb[2] and gb[1] <= (b[1]+b[3])/2 <= gb[3]]

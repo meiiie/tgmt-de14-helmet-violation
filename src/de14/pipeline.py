@@ -47,8 +47,10 @@ class Pipeline:
             for tid, tb, idx in tracks:
                 if idx < 0 or idx >= len(motos): continue
                 riders = [persons[i] for i in assoc[idx]]
-                if not riders: 
-                    frame_rec.append((tid, tb, None, [])); continue
+                if not riders:
+                    # rider không được phát hiện riêng -> vùng rider suy từ bbox xe (kéo lên trên 1 chiều cao xe)
+                    m = motos[idx]; h = m[3] - m[1]
+                    riders = [[m[0], m[1] - 1.0 * h, m[2], m[3]]]
                 hbs = heads_for_riders(riders, d.get("head", []))
                 crops = [crop(img, h, self.min_head) for h in hbs]
                 valid = [(c, h) for c, h in zip(crops, hbs) if c is not None]

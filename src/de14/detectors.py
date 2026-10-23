@@ -63,10 +63,11 @@ class CachedSam3Detector:
         self.c = json.load(open(cache_json)); self.conf = conf; self.key = None
     def __call__(self, img):
         rec = self.c[self.key]; out = {}
+        w0, h0 = rec.get("_size", [640, 640]); sx, sy = img.shape[1] / w0, img.shape[0] / h0
         for p in ("motorcycle", "person", "head"):
             r = rec.get(p, {"boxes": [], "scores": []})
             keep = [i for i, s in enumerate(r["scores"]) if s >= self.conf]
-            out[p] = [r["boxes"][i] for i in keep]; out[p + "_score"] = [r["scores"][i] for i in keep]
+            out[p] = [[b[0]*sx, b[1]*sy, b[2]*sx, b[3]*sy] for b in (r["boxes"][i] for i in keep)]; out[p + "_score"] = [r["scores"][i] for i in keep]
         return out
 
 def build_detector(kind="auto", **kw):

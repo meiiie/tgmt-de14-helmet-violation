@@ -3,7 +3,7 @@ và ảnh 640x640 (bản resize trên HF eiglesiasr/nohelmetnet). Toạ độ g�
 import csv, re, os
 from collections import defaultdict, Counter
 
-ANN = "data/helmet/ann/annotation/annotation"
+ANN = os.environ.get("HELMET_ANN", "data/helmet/ann/annotation/annotation")
 
 def rider_counts(label):
     nh = label.count("NoHelmet"); tot = len(re.findall(r"(D|P\d)", label)); return tot - nh, nh

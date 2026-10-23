@@ -25,8 +25,9 @@ class YoloHelmetCls:
         return ps
 
 class DinoEmbedder:
-    def __init__(self, model_id=None, device="cpu"):
+    def __init__(self, model_id=None, device=None):
         import torch
+        device = device or ("cuda" if torch.cuda.is_available() else "cpu")
         from transformers import AutoImageProcessor, AutoModel
         mid = model_id or (DINOV3_ID if os.environ.get("HF_TOKEN") else DINOV2_FALLBACK)
         try:
@@ -65,5 +66,5 @@ class DinoProbe:
     def save(self, path):
         import joblib; joblib.dump({"clf": self.clf, "model_id": self.e.model_id, "kind": self.kind}, path)
     @classmethod
-    def load(cls, path, device="cpu"):
+    def load(cls, path, device=None):
         import joblib; d = joblib.load(path); p = cls(DinoEmbedder(d["model_id"], device), d["kind"]); p.clf = d["clf"]; return p

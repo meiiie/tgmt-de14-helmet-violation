@@ -27,4 +27,5 @@ os.makedirs("outputs/metrics", exist_ok=True)
 json.dump({"model": emb.model_id, "n": int(len(Y)), "pos": int(Y.sum()), "clips": int(len(set(G))), **res},
           open(f"outputs/metrics/probe_cv_{emb.model_id.split('/')[-1]}.json", "w"), indent=2)
 p = DinoProbe(emb, "linear"); p.clf = LogisticRegression(max_iter=3000, class_weight="balanced").fit(F, Y)
-p.save("weights/dino_probe.joblib"); print("saved weights/dino_probe.joblib")
+tagm = emb.model_id.split("/")[-1]; os.makedirs("weights", exist_ok=True)
+p.save(f"weights/dino_probe_{tagm}.joblib"); p.save("weights/dino_probe.joblib") if "vits16" in tagm or not os.path.exists("weights/dino_probe.joblib") else None; print("saved", tagm)
