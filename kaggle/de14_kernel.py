@@ -7,11 +7,31 @@ def sh(c, check=False):
 sh("nvidia-smi")
 T0 = time.time(); BUDGET = float(os.environ.get("DE14_BUDGET_SEC", 110 * 60))   # giới hạn ~2h (quy tắc chia GPU)
 def time_left(): return BUDGET - (time.time() - T0)
-# 1) checkpoint fallback: private Kaggle dataset đính kèm (nếu có) -> không cần token
-ck = glob.glob("/kaggle/input/**/sam3.1_multiplex.pt", recursive=True)
-if ck: os.environ["SAM31_CKPT"] = ck[0]; print("SAM 3.1 ckpt from attached private dataset", flush=True)
-dl = [os.path.dirname(d) for d in glob.glob("/kaggle/input/**/dinov3-vit*16-pretrain-lvd1689m", recursive=True)]
-if dl: os.environ["DINO_LOCAL_DIR"] = dl[0]; print("DINOv3 from attached private dataset", flush=True)
+# 1) checkpoint từ private dataset holilihu/de7-weights (SAM 3.1 chia part + sha256; DINOv3 S/B tên phẳng "<repo>__<file>")
+import hashlib
+ck, dl = [], []
+p0 = glob.glob("/kaggle/input/**/sam31_part_00", recursive=True)
+if p0:
+    wd = os.path.dirname(p0[0]); out = "/kaggle/working/sam3.1_multiplex.pt"
+    parts = sorted(glob.glob(f"{wd}/sam31_part_*")); h = hashlib.sha256()
+    with open(out, "wb") as fo:
+        for pp in parts:
+            with open(pp, "rb") as fi:
+                while True:
+                    b_ = fi.read(1 << 24)
+                    if not b_: break
+                    fo.write(b_); h.update(b_)
+    want = open(f"{wd}/sam31_sha256.txt").read().split()[0].strip()
+    if h.hexdigest() == want:
+        ck = [out]; os.environ["SAM31_CKPT"] = out; print(f"SAM 3.1 reassembled from {len(parts)} parts, sha256 OK", flush=True)
+    else:
+        print("ERROR: SAM 3.1 sha256 mismatch", h.hexdigest(), "!=", want, flush=True); os.remove(out)
+    DL = "/kaggle/working/dinov3_local"
+    for f in glob.glob(f"{wd}/dinov3-*__*"):
+        rep, fn = os.path.basename(f).split("__", 1); os.makedirs(f"{DL}/{rep}", exist_ok=True)
+        dst = f"{DL}/{rep}/{fn}"
+        if not os.path.exists(dst): os.symlink(f, dst)
+    if os.path.isdir(DL): dl = [DL]; os.environ["DINO_LOCAL_DIR"] = DL; print("DINOv3 local:", sorted(os.listdir(DL)), flush=True)
 # 2) HF_TOKEN chỉ từ Kaggle Secrets
 try:
     from kaggle_secrets import UserSecretsClient
@@ -83,5 +103,5 @@ if HAS_TOKEN:
 else:
     print("SKIP gated parts (SAM 3.1, DINOv3): HF_TOKEN secret missing", flush=True)
 sh(f"mkdir -p {W}/results && cp -r outputs/metrics {W}/results/ && cp -r outputs/sam31 {W}/results/ 2>/dev/null; cp {W}/run_log.json {W}/results/")
-sh(f"rm -rf {FR} {W}/de14/third_party_sam3/.git")
+sh(f"rm -rf {FR} {W}/de14/third_party_sam3/.git /kaggle/working/sam3.1_multiplex.pt /kaggle/working/dinov3_local")  # không để trọng số gated trong output
 print(json.dumps(log, indent=1))
