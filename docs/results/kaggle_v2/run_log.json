@@ -1,0 +1,66 @@
+{
+ "b0": {
+  "rc": 1,
+  "sec": 16.9
+ },
+ "b1_yolo_yolohelmet": {
+  "rc": 0,
+  "sec": 348.5
+ },
+ "crops": {
+  "rc": 0,
+  "sec": 719.6
+ },
+ "probe_dinov3-vits16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 107.1
+ },
+ "probe_dinov3-vitb16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 178.3
+ },
+ "probe_dinov3-vitl16-pretrain-lvd1689m": {
+  "rc": 0,
+  "sec": 54.7
+ },
+ "b1_yolo_dinov3": {
+  "rc": 0,
+  "sec": 192.0
+ },
+ "sam31_Bago_highway_10": {
+  "rc": 0,
+  "sec": 263.0
+ },
+ "sam31_Bago_highway_20": {
+  "rc": 0,
+  "sec": 258.9
+ },
+ "sam31_Bago_rural_3": {
+  "rc": 0,
+  "sec": 258.6
+ },
+ "sam31_Bago_rural_49": {
+  "rc": 0,
+  "sec": 258.9
+ },
+ "sam31_Bago_urban_3": {
+  "rc": 0,
+  "sec": 259.1
+ },
+ "sam31_Bago_urban_50": {
+  "rc": 0,
+  "sec": 258.9
+ },
+ "sam31_Mandalay_1_105": {
+  "rc": 0,
+  "sec": 259.0
+ },
+ "core": {
+  "rc": 0,
+  "sec": 71.8
+ },
+ "core_yolohelmet": {
+  "rc": 0,
+  "sec": 44.1
+ }
+}

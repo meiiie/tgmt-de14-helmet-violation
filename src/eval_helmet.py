@@ -100,7 +100,7 @@ def run_b0(args, clips):
         for fi, k, img in frames_of(clip, args.stride):
             used.add(fi); t = time.time()
             r = m.predict(img, imgsz=1280, conf=0.25, verbose=False)[0]; ts += time.time() - t; tf += 1
-            bx = r.boxes.xyxy.numpy(); cl = r.boxes.cls.numpy().astype(int)
+            bx = r.boxes.xyxy.cpu().numpy(); cl = r.boxes.cls.cpu().numpy().astype(int)
             for g, gb, lab in gtf.get(fi, []):
                 inside = [c for b, c in zip(bx, cl) if gb[0] <= (b[0]+b[2])/2 <= gb[2] and gb[1] <= (b[1]+b[3])/2 <= gb[3]]
                 d = UNDET if not inside else (VIOL if any(c in no_ids for c in inside) else OK)

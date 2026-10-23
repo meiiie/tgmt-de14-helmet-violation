@@ -1,0 +1,22 @@
+{
+  "gt_tracks": 51,
+  "gt_violation_tracks": 19,
+  "matched": 38,
+  "missed": 13,
+  "TP": 11,
+  "FP_on_helmet_tracks": 0,
+  "FP_unmatched": 41,
+  "FN_decided_ok": 2,
+  "TN": 18,
+  "undetermined": 7,
+  "precision": 1.0,
+  "precision_incl_unmatched": 0.21153846153846154,
+  "recall_all_gt": 0.5789473684210527,
+  "recall_decided": 0.8461538461538461,
+  "undetermined_rate": 0.18421052631578946,
+  "coverage": 0.7450980392156863,
+  "frames": 350,
+  "fps_end2end": 6.087822014988725,
+  "sec_det": 0.01714468002319336,
+  "sec_cls": 50.13174080848694
+}

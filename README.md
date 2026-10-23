@@ -18,14 +18,29 @@ Tốc độ embedding DINOv3-S trên CPU (box quá tải): 1.9 crop/s.
 - Mỗi frame chạy 3 prompt mất **91–173 s** (mã hoá ảnh ≈ 12.6 s, mỗi prompt ≈ 30 s), tức **≈ 0.007–0.011 FPS**. Trên CPU có rò bộ nhớ (lên tới ≈ 7 GB RSS rồi bị OOM-kill), nên phải chạy 1 tiến trình cho mỗi frame (`src/run_sam31_cpu_sample.sh`).
 - Đã cache 20 frame (Bago_urban_3, 2 fps). Ví dụ frame 001: 14 motorcycle, 11 person, 8 head.
 
-### C. Đánh giá theo track (HELMET test)
-| Phương pháp | Precision | Recall | Undetermined rate | FPS (CPU) |
-|---|---|---|---|---|
-| B0 – YOLO helmet theo từng frame (6 clip test, 600 frame) | *đang chạy* | | | |
-| B1 – YOLO11s + ByteTrack + YOLO helmet (Bago_urban_3, 20 frame) | *đang chạy* | | | |
-| B1' – YOLO11s + ByteTrack + DINOv3 probe | *đang chạy* | | | |
-| **Core – SAM 3.1 + ByteTrack + DINOv3 probe** (20 frame đã cache) | *đang chạy* | | | SAM ≈ 0.01 |
-Kết quả sẽ được ghi vào `outputs/metrics/*.json` (không commit), rồi cập nhật lại bảng này.
+### C. Đánh giá theo track trên GPU (Kaggle kernel v2, 2× Tesla T4, chạy xong 24/10/2026)
+Kernel [`holilihu/de14-helmet-sam31-dinov3`](https://www.kaggle.com/code/holilihu/de14-helmet-sam31-dinov3). 7 clip test HELMET, stride 2, 50 frame/clip (350 frame), 51 GT track, trong đó 19 track vi phạm. Số liệu gốc ở `docs/results/kaggle_v2/*.json`.
+
+| Phương pháp | Precision (track khớp GT) | Precision (tính cả track không khớp GT) | Recall (trên 19 GT vi phạm) | Recall (track đã quyết định) | Tỷ lệ chưa xác định | Coverage | FPS |
+|---|---|---|---|---|---|---|---|
+| B0: YOLO helmet theo từng frame | lỗi (`TypeError` tensor CUDA sang numpy, đã sửa bằng `.cpu()`, chưa chạy lại) | | | | | | |
+| B1: YOLO11s + ByteTrack + YOLO helmet | 0.455 | 0.313 | 0.263 | 0.556 | 0.429 | 0.686 | 2.27 |
+| B1': YOLO11s + ByteTrack + DINOv3-B probe | 0.786 | 0.268 | 0.579 | 0.917 | 0.200 | 0.686 | 1.98 |
+| Core: SAM 3.1 + ByteTrack + YOLO helmet | 0.250 | 0.083 | 0.053 | 0.125 | 0.500 | 0.745 | 9.50* |
+| **Core: SAM 3.1 + ByteTrack + DINOv3-B probe** | **1.000** (11 TP, 0 FP) | 0.212 (41 track không khớp GT) | **0.579** | 0.846 | **0.184** | **0.745** | 6.09* |
+
+\* FPS của Core chỉ tính bước tracking + phân loại, vì SAM 3.1 đã cache trước. Bản thân SAM 3.1 (4 prompt `motorcycle,person,head,helmet`, fp32, T4, không Flash Attention) mất khoảng 259 s cho mỗi 50 frame, tức **≈ 0.19 FPS**, nên FPS đầu-cuối thật của Core ≈ 0.19.
+
+Điểm yếu chính: precision giảm mạnh khi tính các track dự đoán không khớp GT (xe đỗ, xe ở xa, hoặc xe mà HELMET không gán nhãn). Cần kiểm tra thủ công một mẫu track này trước khi coi là FP thật.
+
+Linear probe theo crop (2809 crop, 725 không mũ, 39 clip, CV theo clip):
+
+| Backbone | Precision | Recall | F1 | AUC | Tốc độ embed (T4) |
+|---|---|---|---|---|---|
+| DINOv3 ViT-S/16 | 0.648 | 0.806 | 0.718 | 0.903 | 205.7 crop/s |
+| DINOv3 ViT-B/16 | 0.652 | 0.801 | 0.719 | 0.911 | 78.5 crop/s |
+| DINOv3 ViT-L/16 | chưa xác định: không tải được trọng số (OSError, không có trong dataset riêng và không có HF_TOKEN), kernel tự fallback sang DINOv2-small nên số đó không tính | | | | |
+| YOLO helmet trên crop | 0.301 | 0.508 | 0.378 | 0.658 | coverage 50% |
 
 ## Chạy
 ```bash
