@@ -1,0 +1,14 @@
+.env
+*.env
+data/
+datasets/
+*.pt
+*.pth
+*.safetensors
+*.mp4
+*.avi
+__pycache__/
+.venv/
+venv/
+runs/
+outputs/
