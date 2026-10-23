@@ -6,8 +6,8 @@ class ByteTrackWrapper:
     def __init__(self, fps=10, high=0.4, low=0.1, new=0.45, buffer=30, match=0.8):
         from ultralytics.trackers.byte_tracker import BYTETracker
         args = SimpleNamespace(track_high_thresh=high, track_low_thresh=low, new_track_thresh=new,
-                               track_buffer=buffer, match_thresh=match, fuse_score=True)
-        self.t = BYTETracker(args, frame_rate=fps)
+                               track_buffer=buffer, match_thresh=match, fuse_score=True, frame_rate=fps)
+        self.t = BYTETracker(args)
     def update(self, boxes, scores, shape):
         from ultralytics.engine.results import Boxes
         if len(boxes) == 0:
