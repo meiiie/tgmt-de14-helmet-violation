@@ -57,3 +57,8 @@ GPU: `notebooks/de14_colab_kaggle.ipynb` (Colab/Kaggle T4, secrets qua Colab/Kag
 | Dữ liệu | HELMET (Myanmar) | Kaggle API 2.2.5 | CC-BY 4.0 (OSF) / Kaggle ghi "Unknown" | Video + track, Đông Nam Á | https://osf.io/4pwj8/ · https://www.kaggle.com/datasets/hozngvan/helmet-detection · https://huggingface.co/datasets/eiglesiasr/nohelmetnet |
 | Video demo | "Stratkruciĝo en Hanojo" | — | CC BY-SA 4.0 | Giao thông Hà Nội | https://commons.wikimedia.org/wiki/File:Stratkruci%C4%9Do_en_Hanojo.webm |
 | Runtime | Python 3.13.5 (đề yêu cầu 3.12), torch 2.14.1+cpu | | | Box chỉ có CPU | |
+
+### Giấy phép & trích dẫn dữ liệu HELMET
+- Nguồn gốc: **HELMET dataset**, OSF https://osf.io/4pwj8/, giấy phép **CC-BY 4.0**.
+- Bài báo gốc: H. Lin, J. D. Deng, D. Albers, F. W. Siebert, "Helmet Use Detection of Tracked Motorcycles Using CNN-Based Multi-Task Learning", *IEEE Access* 8, 2020. doi:10.1109/ACCESS.2020.3021357
+- Kaggle `hozngvan/helmet-detection` và HF `eiglesiasr/nohelmetnet` (ảnh co về 640×640) **chỉ là bản sao (mirror)** do bên thứ ba tải lên. Trang Kaggle ghi license "Unknown", nên báo cáo dẫn license gốc CC-BY 4.0 từ OSF.

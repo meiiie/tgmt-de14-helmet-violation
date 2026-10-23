@@ -82,3 +82,8 @@ YOLO COCO (person+motorcycle) → ByteTrack → crop 1/3 trên bbox người →
 - **Kaggle API** (kaggle.json): cần để tải mirror HELMET / HelmetViolations; hoặc tải thủ công.
 - **Roboflow API key (free)**: cần để tải dataset Roboflow Universe.
 - GPU: Colab/Kaggle T4 miễn phí cho fine-tune và VLM; box chỉ CPU 8 nhân.
+
+### Giấy phép & trích dẫn dữ liệu HELMET
+- Nguồn gốc: **HELMET dataset**, OSF https://osf.io/4pwj8/, giấy phép **CC-BY 4.0**.
+- Bài báo gốc: H. Lin, J. D. Deng, D. Albers, F. W. Siebert, "Helmet Use Detection of Tracked Motorcycles Using CNN-Based Multi-Task Learning", *IEEE Access* 8, 2020. doi:10.1109/ACCESS.2020.3021357
+- Kaggle `hozngvan/helmet-detection` và HF `eiglesiasr/nohelmetnet` (ảnh co về 640×640) **chỉ là bản sao (mirror)** do bên thứ ba tải lên. Trang Kaggle ghi license "Unknown", nên báo cáo dẫn license gốc CC-BY 4.0 từ OSF.
