@@ -62,3 +62,25 @@ GPU: `notebooks/de14_colab_kaggle.ipynb` (Colab/Kaggle T4, secrets qua Colab/Kag
 - Nguồn gốc: **HELMET dataset**, OSF https://osf.io/4pwj8/, giấy phép **CC-BY 4.0**.
 - Bài báo gốc: H. Lin, J. D. Deng, D. Albers, F. W. Siebert, "Helmet Use Detection of Tracked Motorcycles Using CNN-Based Multi-Task Learning", *IEEE Access* 8, 2020. doi:10.1109/ACCESS.2020.3021357
 - Kaggle `hozngvan/helmet-detection` và HF `eiglesiasr/nohelmetnet` (ảnh co về 640×640) **chỉ là bản sao (mirror)** do bên thứ ba tải lên. Trang Kaggle ghi license "Unknown", nên báo cáo dẫn license gốc CC-BY 4.0 từ OSF.
+
+## Demo Gradio (`app.py`)
+Có thể tải lên **ảnh hoặc video**. App phát hiện xe máy và rider (cả người lái lẫn người ngồi sau) rồi vẽ box: box đầu màu đỏ là không mũ, xanh là có mũ, vàng là chưa xác định. Với video, mỗi track được bỏ phiếu bằng ByteTrack. Kết quả gồm **bảng theo track** (track id, khoảng thời gian, nhãn, tỉ lệ không mũ, số quan sát), **gallery ảnh bằng chứng**, và **CSV** để tải về.
+
+Backend:
+- `YOLO11s + YOLO helmet (CPU)`: mặc định.
+- `YOLO11s + DINOv3-S probe (CPU)`: cần `weights/dino_probe.joblib`, tạo bằng `src/train_probe.py`, và quyền truy cập DINOv3.
+- `SAM 3.1 + DINOv3-S probe (GPU)`: cần checkpoint gated, lấy qua `HF_TOKEN` hoặc `SAM31_CKPT`.
+
+```bash
+# local (CPU)
+. .venv/bin/activate && python app.py --port 7860          # mở http://localhost:7860
+# Colab / Kaggle (GPU): sau khi cài theo notebook
+python app.py --share                                       # in ra link public *.gradio.live
+python scripts/screenshots.py http://127.0.0.1:7860         # chụp màn hình bằng Playwright (Chrome headless)
+```
+Kết quả chạy thật trên CPU của box ngày 24/10/2026:
+- Ảnh HELMET Bago_urban_3 frame 001, phóng lại về 1920×1080, backend DINOv3-S: phát hiện 6 xe, gán 3 "không mũ" và 3 "có mũ", mất 3.4 s. GT của frame này chỉ có 1 xe với người lái có mũ, nên đây là **false positive**: phần lớn là xe đỗ, và đầu chỉ khoảng 10 px.
+- Clip Hà Nội 6 s (640×480, CC BY-SA 4.0), backend YOLO helmet, lấy mỗi 3 frame (30 frame): phát hiện 9–10 track, 1 "không mũ", 7–9 "chưa xác định", tốc độ 2.3–6.1 FPS.
+
+![image](docs/screenshots/01_image_helmet_dinov3.jpg)
+![video](docs/screenshots/02_video_hanoi_yolohelmet.jpg)

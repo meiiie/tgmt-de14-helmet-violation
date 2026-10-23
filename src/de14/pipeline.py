@@ -62,7 +62,7 @@ class Pipeline:
                     key = (tid, pmax >= 0.5)
                     if evidence and (key not in best_ev or abs(pmax - 0.5) > abs(best_ev[key][0] - 0.5)):
                         best_ev[key] = (pmax, fi, cmax.copy())
-                frame_rec.append((tid, tb, ps_ok[0][0] if ps_ok else None, hbs))
+                frame_rec.append((tid, tb, ps_ok[0][0] if ps_ok else None, [(h, p) for p, (c, h) in zip(ps, valid)] + [(h, None) for c_, h in zip(crops, hbs) if c_ is None]))
             per_frame.append((fi, frame_rec))
             if out_dir and write_video:
                 if vw is None:
@@ -73,10 +73,14 @@ class Pipeline:
                     c = COLORS[lab]; x1, y1, x2, y2 = map(int, tb)
                     cv2.rectangle(vis, (x1, y1), (x2, y2), c, 2)
                     cv2.putText(vis, f"#{tid} {'VIOL' if lab==VIOL else 'OK' if lab==OK else '?'}", (x1, max(10, y1-4)), cv2.FONT_HERSHEY_SIMPLEX, 0.45, c, 1)
-                    for h in hbs: cv2.rectangle(vis, tuple(map(int, h[:2])), tuple(map(int, h[2:])), (255, 255, 0), 1)
+                    for h, p in hbs:
+                        hc = (0, 200, 255) if p is None else ((0, 0, 255) if p >= 0.5 else (0, 200, 0))
+                        cv2.rectangle(vis, tuple(map(int, h[:2])), tuple(map(int, h[2:])), hc, 2)
+                        cv2.putText(vis, "?" if p is None else f"{p:.2f}", (int(h[0]), int(h[3]) + 12), cv2.FONT_HERSHEY_SIMPLEX, 0.4, hc, 1)
                 cv2.putText(vis, f"t={fi/self.fps:.1f}s", (5, 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
                 vw.write(vis)
         if vw is not None: vw.release()
+        self.last_vis = vis if (out_dir and write_video and n) else None
         el = time.time() - t0
         results = {}
         for tid in {t for _, fr in per_frame for t, *_ in fr}:
