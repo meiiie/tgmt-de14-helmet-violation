@@ -41,6 +41,7 @@ except Exception as e:
     print("ERROR: Kaggle Secret 'HF_TOKEN' not available to this kernel (Add-ons > Secrets > HF_TOKEN, attach to kernel). "
           f"Gated SAM 3.1/DINOv3 parts will be skipped unless checkpoints are attached. ({type(e).__name__})", flush=True)
 HAS_TOKEN = bool(os.environ.get("HF_TOKEN")) or bool(ck and dl)
+if not os.environ.get("HF_TOKEN"): os.environ.pop("HF_TOKEN", None)
 W = "/kaggle/working"; os.chdir(W)
 sh("git clone -q https://github.com/meiiie/tgmt-de14-helmet-violation.git de14", check=True); os.chdir(f"{W}/de14")
 sh("git clone -q https://github.com/facebookresearch/sam3.git third_party_sam3 && cd third_party_sam3 && git apply ../patches/sam3_cpu.patch && pip -q install --no-deps -e .")
@@ -61,18 +62,23 @@ TEST = ["Bago_highway_10", "Bago_highway_20", "Bago_rural_3", "Bago_rural_49", "
         "Mandalay_1_105", "Mandalay_2_10", "Naypyitaw_1_10", "Yangon_II_10"]
 import csv as _csv
 sp = {r["video_id"]: r["Set"] for r in _csv.DictReader(open(split))}
-TEST = [c for c in TEST if sp.get(c) == "test" and os.path.isdir(f"{fdir}/{c}")]
-if len(TEST) < 6: TEST += [c for c, s in sp.items() if s == "test" and c not in TEST and os.path.isdir(f"{fdir}/{c}")][:6 - len(TEST)]
-TRAIN = [c for c, s in sp.items() if s == "training" and os.path.isdir(f"{fdir}/{c}")][::4][:40]
+# layout mirror (v1 log): /kaggle/input/helmet-detection/<split_dir>/<clip>/images/*.jpg
+CLIPDIR = {}
+for d in glob.glob("/kaggle/input/helmet-detection/*/*/images"):
+    c = d.split("/")[-2]; CLIPDIR.setdefault(c, d)
+print("clips with images:", len(CLIPDIR), "split dirs:", sorted({d.split('/')[-3] for d in glob.glob('/kaggle/input/helmet-detection/*/*/images')}), flush=True)
+TEST = [c for c in TEST if sp.get(c) == "test" and c in CLIPDIR]
+if len(TEST) < 6: TEST += [c for c, s in sp.items() if s == "test" and c not in TEST and c in CLIPDIR][:6 - len(TEST)]
+TRAIN = [c for c, s in sp.items() if s == "training" and c in CLIPDIR][::4][:40]
 open("data/helmet/train_clips.txt", "w").write("\n".join(TRAIN))
 import re
 for c in TEST + TRAIN:
     os.makedirs(f"{FR}/{c}", exist_ok=True)
-    fs = sorted(f for f in os.listdir(f"{fdir}/{c}") if f.lower().endswith((".jpg", ".png")))
+    fs = sorted(f for f in os.listdir(CLIPDIR[c]) if f.lower().endswith((".jpg", ".png")))
     for i, f in enumerate(fs):
         m = re.findall(r"\d+", f); n = int(m[-1]) if m else i + 1
         dst = f"{FR}/{c}/{n:03d}.jpg"
-        if not os.path.exists(dst): os.symlink(f"{fdir}/{c}/{f}", dst)
+        if not os.path.exists(dst): os.symlink(f"{CLIPDIR[c]}/{f}", dst)
 os.environ.update(HELMET_FRAMES=FR, HELMET_ANN=ann)
 print("TEST", TEST, "TRAIN", len(TRAIN), flush=True)
 sh("mkdir -p weights && wget -q -O weights/yolo11s.pt https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11s.pt")
@@ -87,11 +93,13 @@ def timed(name, cmd):
 timed("b0", f"python -u src/eval_helmet.py --method b0 --clips {T} --stride 2 --tag b0_full")
 timed("b1_yolo_yolohelmet", f"python -u src/eval_helmet.py --method b1 --detector yolo --classifier yolo --clips {T} --stride 2 --tag b1_yolo_yolohelmet_full --out {W}/eval_b1")
 # ---- crop đầu full-res + DINOv3 S/B/L probes ----
-timed("crops", "CROP_STRIDE=5 python -u src/build_head_crops.py")
+os.environ["CROP_STRIDE"] = "5"; timed("crops", "python -u src/build_head_crops.py")
 if HAS_TOKEN:
     for m in ["facebook/dinov3-vits16-pretrain-lvd1689m", "facebook/dinov3-vitb16-pretrain-lvd1689m", "facebook/dinov3-vitl16-pretrain-lvd1689m"]:
         timed("probe_" + m.split("/")[-1], f"python -u src/train_probe.py {m}")
-    best = max(glob.glob("outputs/metrics/probe_cv_*.json"), key=lambda f: json.load(open(f))["dino_linear"]["f1"])
+    pr = glob.glob("outputs/metrics/probe_cv_*.json")
+    if not pr: raise SystemExit("no probe trained (see crops step)")
+    best = max(pr, key=lambda f: json.load(open(f))["dino_linear"]["f1"])
     bm = json.load(open(best))["model"].split("/")[-1]; print("best probe", bm, flush=True)
     timed("b1_yolo_dinov3", f"python -u src/eval_helmet.py --method b1 --detector yolo --classifier dino --probe weights/dino_probe_{bm}.joblib --clips {T} --stride 2 --tag b1_yolo_{bm} --out {W}/eval_b1d")
     # ---- core: SAM 3.1 (motorcycle, person, head, helmet) ----
