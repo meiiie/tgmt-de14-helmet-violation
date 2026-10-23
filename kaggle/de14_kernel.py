@@ -31,17 +31,16 @@ if p0:
         rep, fn = os.path.basename(f).split("__", 1); os.makedirs(f"{DL}/{rep}", exist_ok=True)
         dst = f"{DL}/{rep}/{fn}"
         if not os.path.exists(dst): os.symlink(f, dst)
+    # kiểm sha256 cho DINOv3 (file <repo>__sha256.txt); sai -> bỏ model đó (sẽ báo 'chưa xác định', KHÔNG fallback DINOv2)
+    for shf in glob.glob(f"{wd}/dinov3-*__sha256.txt"):
+        rep = os.path.basename(shf).split("__")[0]; want_ = open(shf).read().split()[0]; h2 = hashlib.sha256()
+        with open(f"{wd}/{rep}__model.safetensors", "rb") as fi:
+            for b_ in iter(lambda: fi.read(1 << 24), b""): h2.update(b_)
+        ok = h2.hexdigest() == want_; print(f"DINOv3 {rep} sha256", "OK" if ok else "MISMATCH", flush=True)
+        if not ok: shutil.rmtree(f"{DL}/{rep}", ignore_errors=True)
     if os.path.isdir(DL): dl = [DL]; os.environ["DINO_LOCAL_DIR"] = DL; print("DINOv3 local:", sorted(os.listdir(DL)), flush=True)
-# 2) HF_TOKEN chỉ từ Kaggle Secrets
-try:
-    from kaggle_secrets import UserSecretsClient
-    os.environ["HF_TOKEN"] = UserSecretsClient().get_secret("HF_TOKEN")
-    print("HF_TOKEN: available from Kaggle Secrets", flush=True)
-except Exception as e:
-    print("ERROR: Kaggle Secret 'HF_TOKEN' not available to this kernel (Add-ons > Secrets > HF_TOKEN, attach to kernel). "
-          f"Gated SAM 3.1/DINOv3 parts will be skipped unless checkpoints are attached. ({type(e).__name__})", flush=True)
-HAS_TOKEN = bool(os.environ.get("HF_TOKEN")) or bool(ck and dl)
-if not os.environ.get("HF_TOKEN"): os.environ.pop("HF_TOKEN", None)
+# 2) không dùng Kaggle Secret: mọi trọng số gated lấy từ private dataset holilihu/de7-weights
+HAS_TOKEN = bool(ck and dl); os.environ.pop("HF_TOKEN", None)
 W = "/kaggle/working"; os.chdir(W)
 sh("git clone -q https://github.com/meiiie/tgmt-de14-helmet-violation.git de14", check=True); os.chdir(f"{W}/de14")
 sh("git clone -q https://github.com/facebookresearch/sam3.git third_party_sam3 && cd third_party_sam3 && git apply ../patches/sam3_cpu.patch && pip -q install --no-deps -e .")
@@ -91,25 +90,28 @@ def timed(name, cmd):
     json.dump(log, open(f"{W}/run_log.json", "w"), indent=1)
 # ---- baselines (không cần token) ----
 timed("b0", f"python -u src/eval_helmet.py --method b0 --clips {T} --stride 2 --tag b0_full")
-timed("b1_yolo_yolohelmet", f"python -u src/eval_helmet.py --method b1 --detector yolo --classifier yolo --clips {T} --stride 2 --tag b1_yolo_yolohelmet_full --out {W}/eval_b1")
+# B1 (YOLO+YOLO-helmet, YOLO+DINOv3-B) đã có số ở v2 -> không chạy lại để dành GPU cho SAM fp16 + ablation
 # ---- crop đầu full-res + DINOv3 S/B/L probes ----
 os.environ["CROP_STRIDE"] = "5"; timed("crops", "python -u src/build_head_crops.py")
 if HAS_TOKEN:
     for m in ["facebook/dinov3-vits16-pretrain-lvd1689m", "facebook/dinov3-vitb16-pretrain-lvd1689m", "facebook/dinov3-vitl16-pretrain-lvd1689m"]:
         timed("probe_" + m.split("/")[-1], f"python -u src/train_probe.py {m}")
-    pr = glob.glob("outputs/metrics/probe_cv_*.json")
-    if not pr: raise SystemExit("no probe trained (see crops step)")
-    best = max(pr, key=lambda f: json.load(open(f))["dino_linear"]["f1"])
-    bm = json.load(open(best))["model"].split("/")[-1]; print("best probe", bm, flush=True)
-    timed("b1_yolo_dinov3", f"python -u src/eval_helmet.py --method b1 --detector yolo --classifier dino --probe weights/dino_probe_{bm}.joblib --clips {T} --stride 2 --tag b1_yolo_{bm} --out {W}/eval_b1d")
-    # ---- core: SAM 3.1 (motorcycle, person, head, helmet) ----
+        if log.get("probe_" + m.split("/")[-1], {}).get("rc") != 0:
+            os.makedirs("outputs/metrics", exist_ok=True)
+            json.dump({"model": m, "status": "chưa xác định", "reason": f"load/train failed rc={log['probe_' + m.split('/')[-1]]}"},
+                      open(f"outputs/metrics/probe_cv_{m.split('/')[-1]}.json", "w"), ensure_ascii=False, indent=1)
+    # ---- core: SAM 3.1 fp16 autocast (T4 không có bf16), 4 prompt; model nạp 1 lần cho mọi clip; đo thời gian set_image + từng prompt ----
     os.makedirs("outputs/sam31", exist_ok=True)
-    for c in TEST:
-        timed("sam31_" + c, f"python -u src/sam31_cache.py {FR}/{c} --out outputs/sam31/{c}.json --stride 2 --max 50 --prompts motorcycle,person,head,helmet --device cuda")
-    timed("core", f"python -u src/eval_helmet.py --method b1 --detector sam31 --classifier dino --probe weights/dino_probe_{bm}.joblib --clips {T} --stride 2 --tag core_sam31_{bm} --out {W}/eval_core")
-    timed("core_yolohelmet", f"python -u src/eval_helmet.py --method b1 --detector sam31 --classifier yolo --clips {T} --stride 2 --tag core_sam31_yolohelmet --out {W}/eval_core2")
+    timed("sam31_fp16_4p", f"python -u src/sam31_cache.py {' '.join(FR + '/' + c for c in TEST)} --out outputs/sam31 --stride 2 --max 50 --prompts motorcycle,person,head,helmet --dtype auto --device cuda")
+    # kiểm chứng FPS 2 prompt bằng một lần chạy thật riêng (1 clip, 20 frame)
+    os.makedirs("outputs/sam31_2p", exist_ok=True)
+    timed("sam31_fp16_2p_timing", f"python -u src/sam31_cache.py {FR}/{TEST[0]} --out outputs/sam31_2p --stride 2 --max 20 --prompts motorcycle,person --dtype auto --device cuda")
+    for bm in ["dinov3-vitb16-pretrain-lvd1689m", "dinov3-vits16-pretrain-lvd1689m", "dinov3-vitl16-pretrain-lvd1689m"]:
+        if not os.path.exists(f"weights/dino_probe_{bm}.joblib"): continue
+        for tagp, pr_ in [("4p", "motorcycle,person,head,helmet"), ("2p", "motorcycle,person")]:
+            timed(f"core_{tagp}_{bm}", f"python -u src/eval_helmet.py --method b1 --detector sam31 --sam_prompts {pr_} --classifier dino --probe weights/dino_probe_{bm}.joblib --clips {T} --stride 2 --tag core_fp16_{tagp}_{bm} --out {W}/eval_core_{tagp}_{bm.split('-')[1]}")
 else:
     print("SKIP gated parts (SAM 3.1, DINOv3): HF_TOKEN secret missing", flush=True)
-sh(f"mkdir -p {W}/results && cp -r outputs/metrics {W}/results/ && cp -r outputs/sam31 {W}/results/ 2>/dev/null; cp {W}/run_log.json {W}/results/")
+sh(f"mkdir -p {W}/results && cp -r outputs/metrics {W}/results/ && cp -r outputs/sam31 outputs/sam31_2p {W}/results/ 2>/dev/null; cp {W}/run_log.json {W}/results/")
 sh(f"rm -rf {FR} {W}/de14/third_party_sam3/.git /kaggle/working/sam3.1_multiplex.pt /kaggle/working/dinov3_local")  # không để trọng số gated trong output
 print(json.dumps(log, indent=1))

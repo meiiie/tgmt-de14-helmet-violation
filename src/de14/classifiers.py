@@ -1,13 +1,12 @@
 """Bộ phân loại mũ trên crop đầu.
 - YoloHelmetCls: YOLO helmet pretrained (nnsohamnn / iam-tsr) chạy trên crop → p(không mũ).
-- DinoProbe: embedding DINOv3 (gated, lõi) hoặc DINOv2 (fallback không gated, CHỈ để smoke test CPU) + logistic regression / kNN.
+- DinoProbe: embedding DINOv3 (gated, lõi) + logistic regression / kNN. KHÔNG có fallback DINOv2: tải lỗi -> raise (báo 'chưa xác định').
 """
 from __future__ import annotations
 import os
 import numpy as np, cv2
 
 DINOV3_ID = "facebook/dinov3-vits16-pretrain-lvd1689m"   # gated
-DINOV2_FALLBACK = "facebook/dinov2-small"                  # Apache-2.0, không gated
 
 class YoloHelmetCls:
     def __init__(self, weights="weights/helmet_yolo11s_nnsohamnn.pt", conf=0.15, imgsz=160):
@@ -29,16 +28,10 @@ class DinoEmbedder:
         import torch
         device = device or ("cuda" if torch.cuda.is_available() else "cpu")
         from transformers import AutoImageProcessor, AutoModel
-        mid = model_id or (DINOV3_ID if os.environ.get("HF_TOKEN") else DINOV2_FALLBACK)
+        mid = model_id or DINOV3_ID
         loc = os.path.join(os.environ.get("DINO_LOCAL_DIR", "/nonexistent"), mid.split("/")[-1])
         if os.path.isdir(loc): mid = loc   # checkpoint từ private Kaggle dataset (không công khai trọng số gated)
-        try:
-            self.proc = AutoImageProcessor.from_pretrained(mid); self.model = AutoModel.from_pretrained(mid).to(device).eval()
-        except Exception as e:
-            if mid == DINOV2_FALLBACK: raise
-            print(f"[fallback] {mid} không tải được ({type(e).__name__}); dùng {DINOV2_FALLBACK} (CHỈ smoke test)")
-            mid = DINOV2_FALLBACK
-            self.proc = AutoImageProcessor.from_pretrained(mid); self.model = AutoModel.from_pretrained(mid).to(device).eval()
+        self.proc = AutoImageProcessor.from_pretrained(mid); self.model = AutoModel.from_pretrained(mid).to(device).eval()
         self.model_id, self.device, self.torch = mid, device, torch
     def __call__(self, crops, bs=32):
         feats = []

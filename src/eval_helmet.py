@@ -55,13 +55,13 @@ def run_b1(args, clips):
     from de14.detectors import YoloDetector, CachedSam3Detector
     from de14.classifiers import YoloHelmetCls, DinoProbe
     cls = YoloHelmetCls(args.helmet_weights) if args.classifier == "yolo" else DinoProbe.load(args.probe)
-    gt_tracks, pred, tot_f, tot_s, tdet, tcls = {}, {}, 0, 0, 0, 0
+    gt_tracks, pred, tot_f, tot_s, tdet, tcls, tsam = {}, {}, 0, 0, 0, 0, 0.0
     for clip in clips:
         gtf, gtt = load_clip(clip, W=1920, H=1080)
         only = None
         if args.detector == "yolo": det = YoloDetector(imgsz=1280, conf=0.15)
         else:
-            det = CachedSam3Detector(f"outputs/sam31/{clip}.json", conf=args.sam_conf); only = set(det.c)
+            det = CachedSam3Detector(f"outputs/sam31/{clip}.json", conf=args.sam_conf, prompts=args.sam_prompts.split(",")); only = set(det.c)
         fps_eff = 10 / args.stride
         pl = Pipeline(det, cls, fps=fps_eff, n_min=args.n_min, min_head=args.min_head)
         gen = list(frames_of(clip, args.stride, only))
@@ -83,10 +83,14 @@ def run_b1(args, clips):
             else: per_gt[g].append(tr["decision"])
         dec = {g: (VIOL if VIOL in ds else OK if OK in ds else UNDET) for g, ds in per_gt.items()}
         gt_tracks[clip] = gtt; pred[clip] = {"gt": dec, "fp_unmatched": fpu}
+        if args.detector == "sam31":   # FPS end-to-end gồm cả thời gian SAM 3.1 đo trong cache (set_image + từng prompt dùng)
+            ks = {k for _, k, _ in gen}; sp = args.sam_prompts.split(",")
+            tsam += sum(det.c[k].get("_t_image", 0) + sum(det.c[k].get("_t_prompt", {}).get(p, 0) for p in sp) for k in ks)
         tot_f += r["frames"]; tot_s += r["sec"]; tdet += r["t_det"]; tcls += r["t_cls"]
         print(clip, "frames", r["frames"], f"fps {r['fps']:.2f}", "pred tracks", len(r["tracks"]), "gt tracks", len(gtt), flush=True)
-    res = score(gt_tracks, pred); res.update({"frames": tot_f, "fps_end2end": tot_f / max(1e-6, tot_s),
-                                              "sec_det": tdet, "sec_cls": tcls})
+    res = score(gt_tracks, pred); res.update({"frames": tot_f, "fps_pipeline_only": tot_f / max(1e-6, tot_s),
+                "fps_end2end": tot_f / max(1e-6, tot_s + tsam), "sec_sam": tsam, "sam_prompts": args.sam_prompts if args.detector == "sam31" else None,
+                "sec_det": tdet, "sec_cls": tcls})
     return res
 
 def run_b0(args, clips):
@@ -128,6 +132,7 @@ if __name__ == "__main__":
     ap.add_argument("--clips", nargs="+", default=["Bago_highway_10", "Bago_highway_20", "Bago_rural_3", "Bago_rural_49", "Bago_urban_3", "Bago_urban_50"])
     ap.add_argument("--stride", type=int, default=1); ap.add_argument("--n_min", type=int, default=3)
     ap.add_argument("--min_head", type=int, default=8); ap.add_argument("--sam_conf", type=float, default=0.4)
+    ap.add_argument("--sam_prompts", default="motorcycle,person,head")
     ap.add_argument("--out", default="outputs/eval"); ap.add_argument("--tag", default=None)
     a = ap.parse_args()
     res = run_b0(a, a.clips) if a.method == "b0" else run_b1(a, a.clips)

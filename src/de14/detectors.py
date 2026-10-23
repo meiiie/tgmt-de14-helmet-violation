@@ -59,13 +59,13 @@ def sam31_video_tracks(video_path, prompts=("motorcycle", "person"), max_num_obj
 class CachedSam3Detector:
     """Đọc kết quả SAM 3.1 đã chạy sẵn (src/sam31_cache.py) theo tên frame — để chạy lại pipeline/đánh giá nhanh."""
     name = "sam3.1(cached)"
-    def __init__(self, cache_json, conf=0.4):
-        self.c = json.load(open(cache_json)); self.conf = conf; self.key = None
+    def __init__(self, cache_json, conf=0.4, prompts=("motorcycle", "person", "head")):
+        self.c = json.load(open(cache_json)); self.conf = conf; self.key = None; self.prompts = tuple(prompts)
     def __call__(self, img):
         rec = self.c[self.key]; out = {}
         w0, h0 = rec.get("_size", [640, 640]); sx, sy = img.shape[1] / w0, img.shape[0] / h0
         for p in ("motorcycle", "person", "head"):
-            r = rec.get(p, {"boxes": [], "scores": []})
+            r = rec.get(p, {"boxes": [], "scores": []}) if p in self.prompts else {"boxes": [], "scores": []}
             keep = [i for i, s in enumerate(r["scores"]) if s >= self.conf]
             out[p] = [[b[0]*sx, b[1]*sy, b[2]*sx, b[3]*sy] for b in (r["boxes"][i] for i in keep)]; out[p + "_score"] = [r["scores"][i] for i in keep]
         return out
