@@ -63,7 +63,7 @@ class RealtimePipeline:
         self.track_filter = track_filter
         self.votes = defaultdict(list); self.stats = defaultdict(OnlineTrackStats); self.last_job = {}
         self.lock = threading.Lock(); self.q = queue.Queue(); self.n_frames = 0; self.n_cls = 0; self.t_cls = 0.0
-        self.stop = False; self.w = threading.Thread(target=self._worker, daemon=True); self.w.start()
+        self.err = None; self.stop = False; self.w = threading.Thread(target=self._worker, daemon=True); self.w.start()
     # ---- worker: gom batch các job (tid, [crop...]) -> 1 lần forward DINOv3 ----
     def _worker(self):
         while not self.stop:
@@ -73,13 +73,21 @@ class RealtimePipeline:
                 try: jobs.append(self.q.get_nowait())
                 except queue.Empty: break
             crops = [c for _, cs in jobs for c in cs]; t = time.time()
-            ps = self.cls(crops); self.t_cls += time.time() - t; self.n_cls += len(crops); k = 0
+            try: ps = self.cls(crops)
+            except Exception as e:   # không để worker chết -> q.join() treo
+                self.err = repr(e); print("[realtime worker] lỗi:", self.err, flush=True); ps = [None] * len(crops)
+            self.t_cls += time.time() - t; self.n_cls += len(crops); k = 0
             with self.lock:
                 for tid, cs in jobs:
                     p = ps[k:k+len(cs)]; k += len(cs)
+                    p = [x for x in p if x is not None]
                     if p: self.votes[tid].append(max(p))   # rider "tệ nhất" (lái + ngồi sau)
             for _ in jobs: self.q.task_done()
-    def drain(self): self.q.join()
+    def drain(self, timeout=120):
+        """Chờ worker xử lý hết hàng đợi, có hạn chót (không treo vô hạn)."""
+        t = time.time()
+        while self.q.unfinished_tasks and time.time() - t < timeout and self.w.is_alive(): time.sleep(0.01)
+        return self.q.unfinished_tasks == 0
     def close(self): self.drain(); self.stop = True; self.w.join(timeout=2)
     def decision(self, tid):
         with self.lock: v = list(self.votes[tid])

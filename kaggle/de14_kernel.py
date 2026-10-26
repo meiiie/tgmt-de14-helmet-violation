@@ -1,12 +1,33 @@
 # Đề 14 – Kaggle GPU kernel (PRIVATE). HF_TOKEN chỉ lấy từ Kaggle Secrets (UserSecretsClient), không nhúng vào file.
 import os, subprocess, glob, json, sys, time, shutil
-def sh(c, check=False):
-    print("$", c, flush=True); r = subprocess.run(c, shell=True)
-    if check and r.returncode: raise SystemExit(f"failed: {c}")
-    return r.returncode
-sh("nvidia-smi")
-T0 = time.time(); BUDGET = float(os.environ.get("DE14_BUDGET_SEC", 110 * 60))   # giới hạn ~2h (quy tắc chia GPU)
+import signal, threading
+T0 = time.time(); BUDGET = float(os.environ.get("DE14_BUDGET_SEC", 100 * 60))   # HARD timeout toàn kernel: 100 phút (quy tắc chia GPU)
 def time_left(): return BUDGET - (time.time() - T0)
+_procs = []
+def sh(c, check=False):
+    """Chạy lệnh trong process group riêng; bị giết (cả cây) khi hết ngân sách toàn kernel."""
+    print("$", c, flush=True)
+    if time_left() < 30: print("SKIP (hard timeout)", c, flush=True); return 124
+    p = subprocess.Popen(c, shell=True, start_new_session=True); _procs.append(p)
+    try: rc = p.wait(timeout=max(1, time_left() - 20))
+    except subprocess.TimeoutExpired:
+        os.killpg(p.pid, signal.SIGKILL); p.wait(); rc = 124; print("KILLED (hard timeout)", c, flush=True)
+    if check and rc: raise SystemExit(f"failed: {c}")
+    return rc
+def _finalize(reason):
+    """Ghi kết quả từng phần + dọn trọng số gated khỏi output."""
+    W_ = "/kaggle/working"
+    subprocess.run(f"mkdir -p {W_}/results && cp -r {W_}/de14/outputs/metrics {W_}/results/ 2>/dev/null; cp {W_}/run_log.json {W_}/results/ 2>/dev/null; "
+                   f"echo '{reason}' > {W_}/results/STATUS.txt; rm -rf {W_}/frames {W_}/sam3.1_multiplex.pt {W_}/dinov3_local {W_}/de14/weights/*.engine {W_}/de14/weights/*.onnx", shell=True)
+def _watchdog():
+    while time_left() > 0: time.sleep(5)
+    print("HARD TIMEOUT 100 min: killing all steps, writing partial results", flush=True)
+    for p in _procs:
+        try: os.killpg(p.pid, signal.SIGKILL)
+        except Exception: pass
+    _finalize("partial: hard timeout at 100 min"); os._exit(0)
+threading.Thread(target=_watchdog, daemon=True).start()
+sh("nvidia-smi")
 # 1) checkpoint từ private dataset holilihu/de7-weights (SAM 3.1 chia part + sha256; DINOv3 S/B tên phẳng "<repo>__<file>")
 import hashlib
 ck, dl = [], []
@@ -86,7 +107,7 @@ T = " ".join(TEST); log = {}
 def timed(name, cmd):
     if time_left() < 300:
         print("SKIP (time budget)", name, flush=True); log[name] = {"rc": "skipped_budget"}; return
-    t = time.time(); rc = sh(f"timeout {int(time_left())} {cmd}"); log[name] = {"rc": rc, "sec": round(time.time() - t, 1)}
+    t = time.time(); rc = sh(cmd); log[name] = {"rc": rc, "sec": round(time.time() - t, 1)}
     json.dump(log, open(f"{W}/run_log.json", "w"), indent=1)
 # ---- v6: chế độ REALTIME (YOLO mọi frame fp16 + ByteTrack + DINOv3-S bất đồng bộ + F2 online), stride 1 = mọi frame ----
 sh("wget -q -O weights/yolo26s.pt https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26s.pt")
@@ -97,19 +118,19 @@ if HAS_TOKEN:
     PR = "weights/dino_probe_dinov3-vits16-pretrain-lvd1689m.joblib"
     for wt in ["yolo26s", "yolo11s"]:
         for isz in [640, 960, 1280]:
-            timed(f"rt_{wt}_{isz}", f"python -u src/eval_realtime.py --weights weights/{wt}.pt --imgsz {isz} --every_n 5 --probe {PR} --tag rt_{wt}_{isz}_n5")
+            timed(f"rt_{wt}_{isz}", f"timeout -k 10 600 python -u src/eval_realtime.py --weights weights/{wt}.pt --imgsz {isz} --every_n 5 --probe {PR} --tag rt_{wt}_{isz}_n5")
     for n in [1, 10]:
-        timed(f"rt_yolo26s_960_n{n}", f"python -u src/eval_realtime.py --weights weights/yolo26s.pt --imgsz 960 --every_n {n} --probe {PR} --tag rt_yolo26s_960_n{n}")
-    timed("rt_yolo26s_960_fp32", f"python -u src/eval_realtime.py --weights weights/yolo26s.pt --imgsz 960 --every_n 5 --no_half --probe {PR} --tag rt_yolo26s_960_n5_fp32")
+        timed(f"rt_yolo26s_960_n{n}", f"timeout -k 10 600 python -u src/eval_realtime.py --weights weights/yolo26s.pt --imgsz 960 --every_n {n} --probe {PR} --tag rt_yolo26s_960_n{n}")
+    timed("rt_yolo26s_960_fp32", f"timeout -k 10 600 python -u src/eval_realtime.py --weights weights/yolo26s.pt --imgsz 960 --every_n 5 --no_half --probe {PR} --tag rt_yolo26s_960_n5_fp32")
     # TensorRT (miễn phí, chỉ nếu cài + export được trên Kaggle)
-    if timed("trt_install", "pip -q install tensorrt-cu12") or log.get("trt_install", {}).get("rc") == 0:
+    if timed("trt_install", "timeout -k 10 600 pip -q install tensorrt-cu12") or log.get("trt_install", {}).get("rc") == 0:
         for isz in [640, 960]:
-            timed(f"trt_export_{isz}", f"python -c \"from ultralytics import YOLO; YOLO('weights/yolo26s.pt').export(format='engine', half=True, imgsz={isz}, device=0, workspace=4); import shutil; shutil.move('weights/yolo26s.engine', 'weights/yolo26s_{isz}.engine')\"")
+            timed(f"trt_export_{isz}", f"timeout -k 10 900 python -c \"from ultralytics import YOLO; YOLO('weights/yolo26s.pt').export(format='engine', half=True, imgsz={isz}, device=0, workspace=4); import shutil; shutil.move('weights/yolo26s.engine', 'weights/yolo26s_{isz}.engine')\"")
             if os.path.exists(f"weights/yolo26s_{isz}.engine"):
-                timed(f"rt_trt_{isz}", f"python -u src/eval_realtime.py --weights weights/yolo26s_{isz}.engine --imgsz {isz} --every_n 5 --probe {PR} --tag rt_yolo26s_trt_{isz}_n5")
+                timed(f"rt_trt_{isz}", f"timeout -k 10 600 python -u src/eval_realtime.py --weights weights/yolo26s_{isz}.engine --imgsz {isz} --every_n 5 --probe {PR} --tag rt_yolo26s_trt_{isz}_n5")
     sh(f"mkdir -p {W}/results && cp {PR} {W}/results/ 2>/dev/null")
 else:
     print("SKIP gated parts (SAM 3.1, DINOv3): HF_TOKEN secret missing", flush=True)
-sh(f"mkdir -p {W}/results && cp -r outputs/metrics {W}/results/ &&  cp {W}/run_log.json {W}/results/")
-sh(f"rm -rf {FR} {W}/de14/third_party_sam3/.git /kaggle/working/sam3.1_multiplex.pt /kaggle/working/dinov3_local")  # không để trọng số gated trong output
+_finalize("complete")  # ghi kết quả + xoá trọng số gated / engine khỏi output
+sh(f"rm -rf {W}/de14/third_party_sam3/.git")
 print(json.dumps(log, indent=1))
