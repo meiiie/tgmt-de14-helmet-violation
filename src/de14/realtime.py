@@ -114,6 +114,6 @@ class RealtimePipeline:
             cv2.rectangle(img, (x1, y1), (x2, y2), col[lab], 2)
             cv2.putText(img, f"#{tid} {dict([(VIOL,'VIOL'),(OK,'OK'),(UNDET,'?'),('filtered','F2')])[lab]}", (x1, max(12, y1-4)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, col[lab], 2)
         if fps is not None:
-            cv2.rectangle(img, (0, 0), (260, 34), (0, 0, 0), -1)
-            cv2.putText(img, f"FPS {fps:5.1f}  q={self.q.qsize()}", (6, 24), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+            H = img.shape[0]; cv2.rectangle(img, (0, H - 34), (260, H), (0, 0, 0), -1)
+            cv2.putText(img, f"FPS {fps:5.1f}  q={self.q.qsize()}", (6, H - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
         return img
