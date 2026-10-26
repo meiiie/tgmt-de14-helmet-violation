@@ -1,0 +1,106 @@
+{
+ "tag": "rt_boxcpu_yolo26s_640_n5",
+ "weights": "yolo26s.pt",
+ "imgsz": 640,
+ "every_n": 5,
+ "half": true,
+ "stride": 1,
+ "fps_end2end": 14.494898138588288,
+ "fps_eval4": 14.813218334606189,
+ "per_clip": {
+  "Bago_highway_10": {
+   "frames": 100,
+   "sec": 6.858966827392578,
+   "fps": 14.579455261487945,
+   "dino_crops": 110,
+   "dino_sec": 4.742572546005249
+  },
+  "Bago_highway_20": {
+   "frames": 100,
+   "sec": 6.8728859424591064,
+   "fps": 14.549928638015514,
+   "dino_crops": 81,
+   "dino_sec": 4.455305099487305
+  },
+  "Bago_rural_3": {
+   "frames": 100,
+   "sec": 6.699755907058716,
+   "fps": 14.925916912083647,
+   "dino_crops": 100,
+   "dino_sec": 5.416407346725464
+  },
+  "Bago_rural_49": {
+   "frames": 100,
+   "sec": 7.531998157501221,
+   "fps": 13.276689386920339,
+   "dino_crops": 148,
+   "dino_sec": 6.249613285064697
+  },
+  "Bago_urban_3": {
+   "frames": 100,
+   "sec": 7.189375400543213,
+   "fps": 13.909414160296071,
+   "dino_crops": 161,
+   "dino_sec": 6.272080421447754
+  },
+  "Bago_urban_50": {
+   "frames": 100,
+   "sec": 6.240892648696899,
+   "fps": 16.023348842714036,
+   "dino_crops": 141,
+   "dino_sec": 5.068619728088379
+  }
+ },
+ "track_filter": {
+  "tau_disp": 0.75,
+  "tau_person_static": 0.7
+ },
+ "all": {
+  "none": {
+   "precision": 0.8,
+   "precision_incl_unmatched": 0.36363636363636365,
+   "recall": 0.5,
+   "undetermined_rate": 0.4473684210526316,
+   "f1_incl_unmatched": 0.4210526315789474,
+   "TP": 8,
+   "FP": 2,
+   "FP_unmatched": 12,
+   "missed_gt": 6
+  },
+  "f2": {
+   "precision": 0.8,
+   "precision_incl_unmatched": 0.5714285714285714,
+   "recall": 0.5,
+   "undetermined_rate": 0.4,
+   "f1_incl_unmatched": 0.5333333333333333,
+   "TP": 8,
+   "FP": 2,
+   "FP_unmatched": 4,
+   "missed_gt": 9
+  }
+ },
+ "eval4": {
+  "none": {
+   "precision": 1.0,
+   "precision_incl_unmatched": 0.2857142857142857,
+   "recall": 0.4,
+   "undetermined_rate": 0.5652173913043478,
+   "f1_incl_unmatched": 0.3333333333333333,
+   "TP": 4,
+   "FP": 0,
+   "FP_unmatched": 10,
+   "missed_gt": 4
+  },
+  "f2": {
+   "precision": 1.0,
+   "precision_incl_unmatched": 0.5714285714285714,
+   "recall": 0.4,
+   "undetermined_rate": 0.5454545454545454,
+   "f1_incl_unmatched": 0.47058823529411764,
+   "TP": 4,
+   "FP": 0,
+   "FP_unmatched": 3,
+   "missed_gt": 5
+  }
+ }
+}

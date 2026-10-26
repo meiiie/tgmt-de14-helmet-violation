@@ -1,0 +1,106 @@
+{
+ "tag": "rt_boxcpu_yolo11s_640_n5",
+ "weights": "yolo11s.pt",
+ "imgsz": 640,
+ "every_n": 5,
+ "half": true,
+ "stride": 1,
+ "fps_end2end": 17.23665076752707,
+ "fps_eval4": 17.179411271602792,
+ "per_clip": {
+  "Bago_highway_10": {
+   "frames": 100,
+   "sec": 6.011374473571777,
+   "fps": 16.635130690932154,
+   "dino_crops": 137,
+   "dino_sec": 5.055724859237671
+  },
+  "Bago_highway_20": {
+   "frames": 100,
+   "sec": 5.585397958755493,
+   "fps": 17.903827218478348,
+   "dino_crops": 80,
+   "dino_sec": 3.853973865509033
+  },
+  "Bago_rural_3": {
+   "frames": 100,
+   "sec": 5.616292238235474,
+   "fps": 17.80534127465881,
+   "dino_crops": 109,
+   "dino_sec": 4.333214998245239
+  },
+  "Bago_rural_49": {
+   "frames": 100,
+   "sec": 5.514487266540527,
+   "fps": 18.13405220948751,
+   "dino_crops": 128,
+   "dino_sec": 4.4807069301605225
+  },
+  "Bago_urban_3": {
+   "frames": 100,
+   "sec": 6.037669897079468,
+   "fps": 16.562680919069763,
+   "dino_crops": 160,
+   "dino_sec": 5.241271495819092
+  },
+  "Bago_urban_50": {
+   "frames": 100,
+   "sec": 6.04432487487793,
+   "fps": 16.54444492479726,
+   "dino_crops": 146,
+   "dino_sec": 4.946518898010254
+  }
+ },
+ "track_filter": {
+  "tau_disp": 0.75,
+  "tau_person_static": 0.7
+ },
+ "all": {
+  "none": {
+   "precision": 0.7692307692307693,
+   "precision_incl_unmatched": 0.4166666666666667,
+   "recall": 0.625,
+   "undetermined_rate": 0.3125,
+   "f1_incl_unmatched": 0.5,
+   "TP": 10,
+   "FP": 3,
+   "FP_unmatched": 11,
+   "missed_gt": 12
+  },
+  "f2": {
+   "precision": 0.7692307692307693,
+   "precision_incl_unmatched": 0.5882352941176471,
+   "recall": 0.625,
+   "undetermined_rate": 0.2903225806451613,
+   "f1_incl_unmatched": 0.6060606060606061,
+   "TP": 10,
+   "FP": 3,
+   "FP_unmatched": 4,
+   "missed_gt": 13
+  }
+ },
+ "eval4": {
+  "none": {
+   "precision": 1.0,
+   "precision_incl_unmatched": 0.4117647058823529,
+   "recall": 0.7,
+   "undetermined_rate": 0.47368421052631576,
+   "f1_incl_unmatched": 0.5185185185185185,
+   "TP": 7,
+   "FP": 0,
+   "FP_unmatched": 10,
+   "missed_gt": 8
+  },
+  "f2": {
+   "precision": 1.0,
+   "precision_incl_unmatched": 0.7,
+   "recall": 0.7,
+   "undetermined_rate": 0.4444444444444444,
+   "f1_incl_unmatched": 0.7,
+   "TP": 7,
+   "FP": 0,
+   "FP_unmatched": 3,
+   "missed_gt": 9
+  }
+ }
+}
