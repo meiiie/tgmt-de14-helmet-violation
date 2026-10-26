@@ -1,5 +1,23 @@
-{"name": "F2_stationary_no_person",
- "track_filter": {"tau_disp": 0.75, "tau_person_static": 0.7},
+{
+ "name": "F2_stationary_no_person",
+ "track_filter": {
+  "tau_disp": 0.75,
+  "tau_person_static": 0.7
+ },
  "selected_by": "highest F1 (P incl. unmatched tracks) on held-out clips, kernel v4; thresholds tuned on fold {Bago_highway_10, Bago_rural_49, Mandalay_1_105}",
  "default_config": "SAM 3.1 (4 prompts, fp16) + DINOv3 ViT-S/16 linear probe + F2",
- "source": "docs/results/kaggle_v4/filters_v4.json"}
+ "source": "docs/results/kaggle_v4/filters_v4.json",
+ "validated_backends": {
+  "sam31_4p_dinov3_vits16": {
+   "tau_disp": 0.75,
+   "tau_person_static": 0.7,
+   "source": "docs/results/kaggle_v4/filters_v4.json"
+  },
+  "yolo11s_bytetrack_dinov3_vits16": {
+   "tau_disp": 0.75,
+   "tau_person_static": 0.7,
+   "source": "docs/results/kaggle_v5/filters_v5_yolo.json"
+  }
+ },
+ "note": "Re-selection on the YOLO backend (same tuning fold) returned the same thresholds, so one setting serves both backends."
+}

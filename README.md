@@ -170,6 +170,66 @@ Bộ lọc không làm mất TP nào (R giữ nguyên). Chúng chỉ loại 10�
 **Cấu hình mặc định của app: SAM 3.1 (4 prompt, fp16) + DINOv3 ViT-S + F2 (τd=0.75, τs=0.7).**
 - Lý do: F1u cao nhất trên clip đánh giá (0.452), nhanh hơn ViT-L, và trùng với chỉ đạo giữ ViT-S làm mặc định.
 - `app.py` đọc `configs/track_filter.json` và có checkbox bật/tắt F2.
-- Không có GPU hoặc checkpoint SAM thì app dùng YOLO11s + DINOv3-S + F2. Ngưỡng F2 được chọn trên SAM nên với YOLO là **chưa kiểm chứng**.
+- Không có GPU hoặc checkpoint SAM thì app dùng YOLO11s + DINOv3-S + F2. Ngưỡng F2 đã được **kiểm chứng lại cho YOLO** ở kernel v5: chọn lại trên cùng fold vẫn ra τd=0.75, τs=0.7 (xem mục F).
 
 **Lưu ý:** mẫu đánh giá nhỏ (10 GT vi phạm), nên chênh lệch 0.01–0.03 F1 giữa các bộ lọc chưa có ý nghĩa thống kê.
+
+### F. Kernel v5 (26/10/2026, T4): kiểm chứng F2 cho backend YOLO11s + ByteTrack + DINOv3-S
+Dùng cùng fold tinh chỉnh (Bago_highway_10, Bago_rural_49, Mandalay_1_105) và cùng 4 clip đánh giá như mục E. Chọn lại trên YOLO vẫn ra **τd=0.75, τs=0.7**, giống hệt ngưỡng chọn trên SAM, nên `configs/track_filter.json` dùng một ngưỡng cho cả hai backend.
+
+| YOLO11s + DINOv3-S, 4 clip đánh giá | P | Pu | R | Chưa xác định | F1u | FPS (T4) |
+|---|---|---|---|---|---|---|
+| Không lọc | 0.625 | 0.200 | 0.500 | 0.235 | 0.286 | 2.03 |
+| **F2** (τd 0.75, τs 0.7) | 0.625 | **0.385** | 0.500 | 0.235 | **0.435** | 2.03 |
+| F1 (τp 0.3), để tham khảo | 0.625 | 0.357 | 0.500 | 0.235 | 0.417 | 2.03 |
+
+FPS của app trên CPU của box (YOLO11s + DINOv3-S + F2, stride 3): 4.6 FPS với Hanoi 6 s và 2.6 FPS với HELMET Bago_urban_3. Ảnh chụp ở `docs/screenshots/03…06_*_f2.png`.
+
+## Bảng kết quả cuối cùng
+**Phạm vi dữ liệu:**
+- **T7** = 7 clip HELMET *test* (Bago_highway_10/20, Bago_rural_3/49, Bago_urban_3/50, Mandalay_1_105), stride 2, 350 frame, 51 GT track (19 vi phạm).
+- **E4** = 4 clip đánh giá giữ lại của T7 (Bago_highway_20, Bago_rural_3, Bago_urban_3, Bago_urban_50; 10 GT track vi phạm). Ngưỡng bộ lọc chọn trên 3 clip còn lại.
+- **CV** = GroupKFold 5 theo clip trên crop đầu từ clip HELMET *training* (kernel v3: 2809 crop, 39 clip).
+
+**Chỉ số:** P = precision trên track khớp GT; Pu = precision tính cả track không khớp GT; R = recall trên mọi GT track vi phạm. FPS là end-to-end, gồm cả SAM, đo trên Kaggle T4.
+
+| Phương pháp | Kernel | Tập | P | Pu | R | Chưa xác định | FPS |
+|---|---|---|---|---|---|---|---|
+| B0: YOLO helmet toàn khung, từng frame (gán GT bằng oracle) | v3 | T7 | 0.667 | – | 0.526 | 0.235 | 17.1 |
+| B1: YOLO11s + ByteTrack + YOLO helmet | v2 | T7 | 0.455 | 0.312 | 0.263 | 0.429 | 2.27 |
+| B1′: YOLO11s + ByteTrack + DINOv3-B | v2 | T7 | 0.786 | 0.268 | 0.579 | 0.200 | 1.98 |
+| B1′: YOLO11s + ByteTrack + DINOv3-S | v5 | T7 | 0.733 | 0.289 | 0.579 | 0.200 | 2.02 |
+| Core: SAM 3.1 fp16 4p + DINOv3-S | v4 | T7 | 0.800 | 0.185 | 0.632 | 0.184 | 0.57 |
+| Core: SAM 3.1 fp16 4p + DINOv3-B | v3 | T7 | 1.000 | 0.160 | 0.421 | 0.237 | 0.56 |
+| Core: SAM 3.1 fp16 4p + DINOv3-L | v4 | T7 | 0.917 | 0.234 | 0.579 | 0.158 | 0.47 |
+| Core: SAM 3.1 fp16 2p + DINOv3-S | v3 | T7 | 0.722 | 0.188 | 0.684 | 0.158 | 0.66 |
+| **App mặc định, GPU**: SAM 3.1 4p + DINOv3-S + F2 | v4 | E4 | 0.700 | 0.333 | 0.700 | 0.190 | 0.58 |
+| (cùng cấu hình, không lọc) | v4 | E4 | 0.700 | 0.179 | 0.700 | 0.190 | 0.58 |
+| **App mặc định, CPU**: YOLO11s + DINOv3-S + F2 | v5 | E4 | 0.625 | 0.385 | 0.500 | 0.235 | 2.03 |
+| (cùng cấu hình, không lọc) | v5 | E4 | 0.625 | 0.200 | 0.500 | 0.235 | 2.03 |
+
+| Probe crop đầu (CV, kernel v3) | P | R | F1 | AUC |
+|---|---|---|---|---|
+| DINOv3 ViT-S/16 + logistic | 0.648 | 0.806 | 0.718 | 0.903 |
+| DINOv3 ViT-B/16 + logistic | 0.652 | 0.801 | 0.719 | 0.911 |
+| DINOv3 ViT-L/16 + logistic | 0.709 | 0.850 | 0.773 | 0.937 |
+
+**Lưu ý:**
+- Mẫu E4 nhỏ (10 GT vi phạm), nên chênh lệch ±0.03 chưa có ý nghĩa thống kê.
+- Kiểm tra tay 20 track không khớp: 15 FP thật (13 xe đỗ, 2 nền), 2 box trùng, 0 xe thiếu nhãn, 3 chưa xác định (`docs/results/unmatched_review.md`).
+
+## Danh sách công nghệ (bản cuối)
+| Thành phần | Model / phiên bản | Thư viện | Dataset | License | Lý do | Nguồn |
+|---|---|---|---|---|---|---|
+| Detector lõi | SAM 3.1 `sam3.1_multiplex.pt`, fp16 autocast trên T4 | `sam3` (repo Meta, commit main) + torch | – | SAM License (gated) | Phát hiện open-vocabulary bằng prompt văn bản motorcycle/person/head/helmet | https://github.com/facebookresearch/sam3 · https://huggingface.co/facebook/sam3.1 |
+| Embedding đầu | DINOv3 ViT-S/16 (mặc định), B/16 và L/16 (so sánh), LVD-1689M | transformers ≥ 4.56 | – | DINOv3 License (gated) | Đặc trưng tự giám sát, probe tuyến tính rẻ; L tốt nhất trên CV nhưng chậm hơn | https://github.com/facebookresearch/dinov3 · https://huggingface.co/facebook/dinov3-vits16-pretrain-lvd1689m · https://huggingface.co/facebook/dinov3-vitl16-pretrain-lvd1689m |
+| Probe | Logistic regression (class_weight balanced), kNN k=7 | scikit-learn | crop đầu HELMET train | BSD-3 | Không cần fine-tune | https://scikit-learn.org |
+| Tracking | ByteTrack | ultralytics 8.4.184 | – | AGPL-3.0 | MOT chuẩn, dùng cho cả hai backend | https://github.com/ifzhang/ByteTrack |
+| Detector CPU / baseline | YOLO11s COCO | ultralytics 8.4.184 | COCO | AGPL-3.0 | Nhanh trên CPU, baseline B1/B1′ | https://github.com/ultralytics/ultralytics |
+| Helmet baseline | YOLO11s helmet `nnsohamnn/helmet-detection-yolo11` | ultralytics | – | MIT | Baseline B0/B1 | https://huggingface.co/nnsohamnn/helmet-detection-yolo11 |
+| Bộ lọc track F2 | person_score + disp_norm (tự viết), τd=0.75, τs=0.7 | numpy | chọn trên fold HELMET test | – | Loại xe đỗ không người, giữ rider dừng đèn đỏ | `src/de14/core.py`, `scripts/select_filters.py` |
+| Dữ liệu đánh giá | HELMET (Myanmar) | Kaggle API 2.2.5 | mirror Kaggle `hozngvan/helmet-detection` | CC-BY 4.0 (OSF) | Video có track + nhãn từng rider | https://osf.io/4pwj8/ · doi:10.1109/ACCESS.2020.3021357 |
+| Trọng số trên Kaggle | dataset riêng `holilihu/de7-weights` (SAM 3.1 chia part, DINOv3 S/B/L, sha256) và `holilihu/de14-sam31-cache-v3` (cache detection) | – | – | theo license model; chỉ dùng nội bộ, private | Không cần Kaggle Secret | (private) |
+| Video demo | "Stratkruciĝo en Hanojo" | – | Wikimedia Commons | CC BY-SA 4.0 | Giao thông Việt Nam | https://commons.wikimedia.org/wiki/File:Stratkruci%C4%9Do_en_Hanojo.webm |
+| Demo | Gradio app (`app.py`), chụp màn hình bằng Playwright | gradio, playwright | – | Apache-2.0 | Demo ảnh và video end-to-end | https://www.gradio.app |
+| Hạ tầng | Kaggle T4 (GPU), box CPU (Python 3.13.5, torch 2.14.1+cpu) | – | – | – | Chỉ dùng tài nguyên miễn phí | https://www.kaggle.com |
