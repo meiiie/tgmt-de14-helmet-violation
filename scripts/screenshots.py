@@ -12,6 +12,8 @@ def run(p, name, kind, path, backend, timeout=600000):
     pg.get_by_role("button", name="Phân tích").click()
     pg.wait_for_selector("text=/xe\\/track/", timeout=timeout); pg.wait_for_timeout(4000)
     pg.screenshot(path=f"docs/screenshots/{name}.png", full_page=True); print("saved", name); b.close()
-with sync_playwright() as p:
-    run(p, "01_image_helmet_dinov3", "image", "data/samples/helmet_bago_urban_3_001.jpg", "YOLO11s + DINOv3-S probe (CPU)")
-    run(p, "02_video_hanoi_yolohelmet", "video", "data/samples/hanoi_6s.mp4", "YOLO11s + YOLO helmet (CPU)")
+with sync_playwright() as p:   # F2 bật mặc định trong app (checkbox)
+    run(p, "03_image_helmet_dinov3_f2", "image", "data/samples/helmet_bago_urban_3_001.jpg", "YOLO11s + DINOv3-S probe (CPU)")
+    run(p, "04_image_hanoi_dinov3_f2", "image", "data/samples/hanoi_frame.jpg", "YOLO11s + DINOv3-S probe (CPU)")
+    run(p, "05_video_hanoi_dinov3_f2", "video", "data/samples/hanoi_6s.mp4", "YOLO11s + DINOv3-S probe (CPU)")
+    run(p, "06_video_helmet_bago_urban_3_dinov3_f2", "video", "data/samples/helmet_bago_urban_3_10s.mp4", "YOLO11s + DINOv3-S probe (CPU)")
