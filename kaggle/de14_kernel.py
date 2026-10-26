@@ -88,17 +88,12 @@ def timed(name, cmd):
         print("SKIP (time budget)", name, flush=True); log[name] = {"rc": "skipped_budget"}; return
     t = time.time(); rc = sh(f"timeout {int(time_left())} {cmd}"); log[name] = {"rc": rc, "sec": round(time.time() - t, 1)}
     json.dump(log, open(f"{W}/run_log.json", "w"), indent=1)
-# ---- v4: bộ lọc track trên cache SAM 3.1 fp16 của v3 (dataset riêng holilihu/de14-sam31-cache-v3), không chạy lại SAM ----
-SC = os.path.dirname((glob.glob("/kaggle/input/**/Bago_urban_3.json", recursive=True) or [""])[0]); print("SAM cache dir", SC, flush=True)
+# ---- v5: kiểm chứng ngưỡng F2 cho backend YOLO11s + ByteTrack + DINOv3-S (cùng fold tinh chỉnh / 4 clip đánh giá như v4) ----
 os.environ["CROP_STRIDE"] = "5"; timed("crops", "python -u src/build_head_crops.py")
-if HAS_TOKEN and SC:
-    for m in ["facebook/dinov3-vits16-pretrain-lvd1689m", "facebook/dinov3-vitl16-pretrain-lvd1689m"]:
-        timed("probe_" + m.split("/")[-1], f"python -u src/train_probe.py {m}")
-    for bm in ["dinov3-vits16-pretrain-lvd1689m", "dinov3-vitl16-pretrain-lvd1689m"]:
-        if not os.path.exists(f"weights/dino_probe_{bm}.joblib"): print("chưa xác định: no probe", bm, flush=True); continue
-        for tagp, pr_ in [("4p", "motorcycle,person,head,helmet"), ("2p", "motorcycle,person")]:
-            timed(f"core_v4_{tagp}_{bm}", f"python -u src/eval_helmet.py --method b1 --detector sam31 --sam_cache_dir {SC} --sam_prompts {pr_} --classifier dino --probe weights/dino_probe_{bm}.joblib --clips {T} --stride 2 --tag core_v4_{tagp}_{bm.split('-')[1]} --out {W}/eval_v4_{tagp}_{bm.split('-')[1]}")
-    timed("select_filters", "python -u scripts/select_filters.py outputs/metrics outputs/metrics/filters_v4.json")
+if HAS_TOKEN:
+    timed("probe_vits16", "python -u src/train_probe.py facebook/dinov3-vits16-pretrain-lvd1689m")
+    timed("yolo_v5_vits16", f"python -u src/eval_helmet.py --method b1 --detector yolo --classifier dino --probe weights/dino_probe_dinov3-vits16-pretrain-lvd1689m.joblib --clips {T} --stride 2 --tag yolo_v5_vits16 --out {W}/eval_yolo_v5")
+    timed("select_filters_yolo", "python -u scripts/select_filters.py outputs/metrics outputs/metrics/filters_v5_yolo.json yolo_v5_")
 else:
     print("SKIP gated parts (SAM 3.1, DINOv3): HF_TOKEN secret missing", flush=True)
 sh(f"mkdir -p {W}/results && cp -r outputs/metrics {W}/results/ &&  cp {W}/run_log.json {W}/results/")

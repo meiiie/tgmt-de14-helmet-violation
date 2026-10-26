@@ -34,12 +34,12 @@ GRID = {"none": [{}],
         "f1+f2": [{"tau_person": a, "tau_disp": d, "tau_person_static": s} for a in TP_ for d in TD_ for s in TS_ if s >= a]}
 
 if __name__ == "__main__":
-    md, out = sys.argv[1], sys.argv[2]; res = {}
-    for f in sorted(glob.glob(f"{md}/core_v4_*.json")):
+    md, out = sys.argv[1], sys.argv[2]; pat = sys.argv[3] if len(sys.argv) > 3 else "core_v4_"; res = {}
+    for f in sorted(glob.glob(f"{md}/{pat}*.json")):
         d = json.load(open(f)); tr, gts = d["_tracks"], d["_gt"]
         clips = sorted(gts); tune = clips[0::3]; ev = [c for c in clips if c not in tune]
         fps = sum(d["per_clip_frames"][c] for c in ev) / max(1e-6, sum(d["per_clip_sec"][c] for c in ev))
-        name = os.path.basename(f)[8:-5]; res[name] = {"tune_clips": tune, "eval_clips": ev, "fps_end2end_eval": fps}
+        name = os.path.basename(f)[len(pat):-5]; res[name] = {"tune_clips": tune, "eval_clips": ev, "fps_end2end_eval": fps}
         for k, grid in GRID.items():
             best = max(grid, key=lambda g: (round(score(tr, gts, tune, g)["f1_incl_unmatched"], 6), -len(g), -sum(g.values())))
             res[name][k] = {"thresholds": best, "tune": score(tr, gts, tune, best), "eval": score(tr, gts, ev, best)}
