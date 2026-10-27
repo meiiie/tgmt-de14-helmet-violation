@@ -86,10 +86,9 @@ python src/run_video.py <video_or_dir> --detector sam31 --classifier dino --stri
 ```
 GPU: `notebooks/de14_colab_kaggle.ipynb` (Colab/Kaggle T4, secrets qua Colab/Kaggle Secrets).
 
-## Ước lượng trên T4 (CHƯA ĐO)
-- SAM 3.1 có 848M tham số. Chạy fp16 cần khoảng 2–3 GB VRAM trọng số, tổng khoảng 6–8 GB ở độ phân giải 1008; vừa T4 16 GB nếu batch = 1.
-- T4 không có FA3 và không hỗ trợ bf16 phần cứng, nên dùng fp16 hoặc `use_fa3=False`. Ước lượng thô: 1–3 FPS với 3 prompt.
-- DINOv3-S: khoảng 200–500 crop/s.
+## Đo thật trên T4
+- SAM 3.1 fp16, offline: 0.62 FPS với 4 prompt, 0.72 FPS với 2 prompt (kernel v3, mục D).
+- Realtime YOLO26s + DINOv3-S async: 40–49 FPS với PyTorch fp16, 70–90 FPS với TensorRT. VRAM đỉnh khoảng 340 MB (PyTorch fp16) (kernel v7, mục G).
 
 ## Công nghệ
 | Thành phần | Model / phiên bản | Thư viện | License | Lý do | Link |
@@ -250,7 +249,55 @@ FPS của app trên CPU của box (YOLO11s + DINOv3-S + F2, stride 3): 4.6 FPS v
 | YOLO26s | 14.5 |
 | YOLO11s | 17.2 |
 
-Frame HELMET trên box là bản 640×640 phóng lại, nên P/R trên box không so được với offline. P/Pu/R/F1u và FPS trên T4 **đang chờ kernel v7**.
+Frame HELMET trên box là bản 640×640 phóng lại, nên P/R trên box không so được với offline.
+
+**Đo trên Kaggle T4 (kernel v7, 27/10/2026, COMPLETE, 1× Tesla T4)**
+- Ultralytics và TensorRT do kernel tự cài bằng pip.
+- Mọi frame HELMET full-res 1920×1080 (stride 1, 700 frame trên 7 clip).
+- FPS end-to-end = frame / thời gian thực, gồm đọc ảnh, YOLO, ByteTrack, DINOv3-S async (fp16, batch ≤ 32) và chờ worker xong; bỏ 1 frame warm-up.
+- E4 = 4 clip đánh giá giữ lại, T7 = cả 7 clip test.
+- Số liệu gốc ở `docs/results/kaggle_v7/`.
+
+| Cấu hình realtime (T4) | P (E4) | Pu (E4) | R (E4) | Chưa xác định (E4) | F1u (E4) | F1u (T7) | FPS end-to-end (T7) | VRAM đỉnh (MB, torch reserved) |
+|---|---|---|---|---|---|---|---|---|
+| YOLO26s 640, N=5, fp16 + F2 | 0.727 | 0.500 | 0.800 | 0.263 | 0.615 | 0.667 | 45.8 | 338 |
+| YOLO26s 960, N=5, fp16 + F2 | 0.750 | 0.462 | 0.600 | 0.435 | 0.522 | 0.578 | 43.9 | 340 |
+| YOLO26s 1280, N=5, fp16 + F2 | 0.778 | 0.350 | 0.700 | 0.350 | 0.467 | 0.538 | 40.2 | 370 |
+| YOLO11s 640, N=5, fp16 + F2 | 0.889 | 0.471 | 0.800 | 0.438 | 0.593 | 0.612 | 49.4 | 336 |
+| YOLO11s 960, N=5, fp16 + F2 | 0.778 | 0.412 | 0.700 | 0.348 | 0.519 | 0.609 | 48.8 | 344 |
+| YOLO11s 1280, N=5, fp16 + F2 | 0.615 | 0.364 | 0.800 | 0.292 | 0.500 | 0.604 | 43.2 | 368 |
+| YOLO26s 960, N=1 + F2 | 0.667 | 0.421 | 0.800 | 0.217 | 0.552 | 0.577 | 40.5 | 524 |
+| YOLO26s 960, N=10 + F2 | 0.800 | 0.400 | 0.400 | 0.609 | 0.400 | 0.462 | 48.6 | 334 |
+| YOLO26s 960, N=5, **fp32** + F2 | 0.778 | 0.538 | 0.700 | 0.435 | 0.609 | 0.638 | 41.7 | 534 |
+| YOLO26s **TensorRT fp16** 640, N=5 + F2 | 0.778 | 0.500 | 0.700 | 0.350 | 0.583 | 0.609 | 89.5 | 200 |
+| YOLO26s **TensorRT fp16** 960, N=5 + F2 | 0.700 | 0.412 | 0.700 | 0.560 | 0.519 | 0.622 | 70.0 | 208 |
+
+Cùng cấu hình YOLO26s 640 nhưng **không** lọc F2 (E4): P 0.667, Pu 0.276, R 0.800, chưa xác định 0.286, F1u 0.410.
+
+**So với chế độ offline trên E4 (đều có F2):**
+
+| Chế độ | P | Pu | R | Chưa xác định | F1u | FPS T4 |
+|---|---|---|---|---|---|---|
+| Offline SAM 3.1 4p + DINOv3-S + F2 (app mặc định GPU) | 0.700 | 0.333 | 0.700 | 0.190 | 0.452 | 0.58 |
+| Offline YOLO11s + DINOv3-S + F2 (app mặc định CPU, stride 2) | 0.625 | 0.385 | 0.500 | 0.235 | 0.435 | 2.03 |
+| **Realtime YOLO26s 640 + DINOv3-S async + F2 online** | 0.727 | 0.500 | 0.800 | 0.263 | **0.615** | **45.8** |
+| Realtime YOLO26s TensorRT 640 + F2 | 0.778 | 0.500 | 0.700 | 0.350 | 0.583 | **89.5** |
+
+**Kết luận:**
+- **Mục tiêu ≥ 15 FPS và ≥ 25 FPS đều đạt.** Mọi cấu hình realtime chạy 40–49 FPS trên T4 với PyTorch fp16 và 70–90 FPS với TensorRT fp16.
+- Mặc định realtime: **YOLO26s, imgsz 640, N = 5, F2**. Cấu hình này có F1u cao nhất trên E4 (0.615) và T7 (0.667) ở 45.8 FPS.
+- Realtime có F1u cao hơn offline. Lý do có thể là nó xử lý **mọi** frame (stride 1, nhiều phiếu hơn), trong khi offline dùng stride 2 và tối đa 50 frame/clip. Vì vậy tập frame và GT track không trùng hoàn toàn: so sánh mang tính chỉ dẫn, **chưa kiểm chứng** bằng cùng tập frame.
+- Mẫu E4 nhỏ (10 GT vi phạm).
+
+**Các bước tăng tốc đã thử:**
+- **fp16:** YOLO26s 960 fp16 đạt 43.9 FPS, fp32 đạt 41.7 FPS. VRAM giảm từ 534 xuống 340 MB.
+- **DINOv3 bất đồng bộ:** N = 1 đạt 40.5 FPS, N = 5 đạt 43.9, N = 10 đạt 48.6. N = 10 làm R giảm còn 0.40 vì quá ít phiếu, nên chọn N = 5.
+- **imgsz:** 640 nhanh nhất và tốt nhất trên E4. 1280 không cải thiện.
+- **TensorRT:** `pip install tensorrt-cu12` và `YOLO.export(format="engine", half=True)` **thành công** trên Kaggle (miễn phí). YOLO26s lên 89.5 FPS ở 640 và 70.0 FPS ở 960, nhanh gấp 1.6–2.0 lần PyTorch fp16, chất lượng tương đương (F1u E4 0.583 so với 0.615).
+  - VRAM 200 MB của torch **không gồm** bộ nhớ engine TRT: log TRT báo khoảng 253 MB GPU cho engine 960.
+  - Engine gắn với GPU/phiên bản TRT, nên không commit.
+- **ONNX:** không thử riêng vì TensorRT đã chạy được.
+
 
 **App, tab Realtime** (stream file, có lớp phủ FPS; CPU box, YOLO26s 640, F2 online):
 
@@ -274,4 +321,4 @@ Screenshot tab ảnh: `03_image_helmet_dinov3_f2.png`, `04_image_hanoi_dinov3_f2
 |---|---|---|
 | **YOLO26s** (ultralytics 8.4.x, release assets v8.4.0, AGPL-3.0) cho detector realtime | Phiên bản YOLO mới nhất có sẵn trong ultralytics đã cài | https://docs.ultralytics.com/models/yolo26/ · https://github.com/ultralytics/assets/releases/tag/v8.4.0 |
 | Gradio streaming (`gr.Image(streaming=True)`, generator) cho webcam/RTSP/file | Demo realtime trực tiếp trong app | https://www.gradio.app/guides/streaming-inputs |
-| TensorRT/ONNX | Sẽ thử trong v7 (`pip install tensorrt-cu12` + `YOLO.export(format="engine", half=True)`). Chưa có kết quả | https://docs.ultralytics.com/integrations/tensorrt/ |
+| TensorRT 10 (`tensorrt-cu12` qua pip) cho YOLO26s realtime | Đã chạy trên Kaggle T4: 89.5 FPS ở 640 (gấp khoảng 2 lần PyTorch fp16); tuỳ chọn, engine không commit | https://docs.ultralytics.com/integrations/tensorrt/ · https://pypi.org/project/tensorrt-cu12/ |

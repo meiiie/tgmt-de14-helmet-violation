@@ -1,0 +1,116 @@
+{
+ "tag": "rt_yolo26s_960_n10",
+ "weights": "yolo26s.pt",
+ "imgsz": 960,
+ "every_n": 10,
+ "half": true,
+ "stride": 1,
+ "fps_end2end": 48.61732821988131,
+ "fps_eval4": 47.972614814971976,
+ "per_clip": {
+  "Bago_highway_10": {
+   "frames": 100,
+   "sec": 1.9687778949737549,
+   "fps": 50.792931114930596,
+   "dino_crops": 71,
+   "dino_sec": 1.3256380558013916
+  },
+  "Bago_highway_20": {
+   "frames": 100,
+   "sec": 2.075901508331299,
+   "fps": 48.17184225680553,
+   "dino_crops": 84,
+   "dino_sec": 1.448108196258545
+  },
+  "Bago_rural_3": {
+   "frames": 100,
+   "sec": 2.051530122756958,
+   "fps": 48.744105139248234,
+   "dino_crops": 60,
+   "dino_sec": 1.2642199993133545
+  },
+  "Bago_rural_49": {
+   "frames": 100,
+   "sec": 2.1275863647460938,
+   "fps": 47.001617258406334,
+   "dino_crops": 91,
+   "dino_sec": 1.519343614578247
+  },
+  "Bago_urban_3": {
+   "frames": 100,
+   "sec": 2.1554434299468994,
+   "fps": 46.394165864266526,
+   "dino_crops": 100,
+   "dino_sec": 1.5914840698242188
+  },
+  "Bago_urban_50": {
+   "frames": 100,
+   "sec": 2.055215358734131,
+   "fps": 48.65670138899362,
+   "dino_crops": 87,
+   "dino_sec": 1.3908522129058838
+  },
+  "Mandalay_1_105": {
+   "frames": 100,
+   "sec": 1.9637038707733154,
+   "fps": 50.92417522231575,
+   "dino_crops": 94,
+   "dino_sec": 1.111738920211792
+  }
+ },
+ "track_filter": {
+  "tau_disp": 0.75,
+  "tau_person_static": 0.7
+ },
+ "vram_peak_alloc_mb": 303.62451171875,
+ "vram_peak_reserved_mb": 334.0,
+ "gpu": "Tesla T4",
+ "all": {
+  "none": {
+   "precision": 0.7142857142857143,
+   "precision_incl_unmatched": 0.2857142857142857,
+   "recall": 0.5263157894736842,
+   "undetermined_rate": 0.5454545454545454,
+   "f1_incl_unmatched": 0.37037037037037035,
+   "TP": 10,
+   "FP": 4,
+   "FP_unmatched": 21,
+   "missed_gt": 7
+  },
+  "f2": {
+   "precision": 0.6923076923076923,
+   "precision_incl_unmatched": 0.45,
+   "recall": 0.47368421052631576,
+   "undetermined_rate": 0.5581395348837209,
+   "f1_incl_unmatched": 0.46153846153846156,
+   "TP": 9,
+   "FP": 4,
+   "FP_unmatched": 7,
+   "missed_gt": 8
+  }
+ },
+ "eval4": {
+  "none": {
+   "precision": 0.8,
+   "precision_incl_unmatched": 0.18181818181818182,
+   "recall": 0.4,
+   "undetermined_rate": 0.6086956521739131,
+   "f1_incl_unmatched": 0.25000000000000006,
+   "TP": 4,
+   "FP": 1,
+   "FP_unmatched": 17,
+   "missed_gt": 4
+  },
+  "f2": {
+   "precision": 0.8,
+   "precision_incl_unmatched": 0.4,
+   "recall": 0.4,
+   "undetermined_rate": 0.6086956521739131,
+   "f1_incl_unmatched": 0.4000000000000001,
+   "TP": 4,
+   "FP": 1,
+   "FP_unmatched": 5,
+   "missed_gt": 4
+  }
+ }
+}
