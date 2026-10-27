@@ -44,6 +44,10 @@ if __name__ == "__main__":
     res = {"tag": a.tag, "weights": os.path.basename(a.weights), "imgsz": a.imgsz, "every_n": a.every_n, "half": not a.no_half, "stride": a.stride,
            "fps_end2end": tot_f / max(1e-6, tot_s), "fps_eval4": sum(per[c]["frames"] for c in ev) / max(1e-6, sum(per[c]["sec"] for c in ev)),
            "per_clip": per, "track_filter": flt}
+    try:
+        import torch
+        if torch.cuda.is_available(): res["vram_peak_alloc_mb"] = torch.cuda.max_memory_allocated() / 2**20; res["vram_peak_reserved_mb"] = torch.cuda.max_memory_reserved() / 2**20; res["gpu"] = torch.cuda.get_device_name(0)
+    except Exception as e: res["vram_err"] = repr(e)
     for nm, cl in [("all", clips), ("eval4", ev)]:
         res[nm] = {"none": score(tracks, gts, cl, {}), "f2": score(tracks, gts, cl, flt)}
     res["_tracks"] = tracks; res["_gt"] = gts
@@ -51,4 +55,4 @@ if __name__ == "__main__":
     for nm in ("all", "eval4"):
         for k in ("none", "f2"):
             e = res[nm][k]; print(a.tag, nm, k, {x: round(e[x], 3) for x in ("precision", "precision_incl_unmatched", "recall", "undetermined_rate", "f1_incl_unmatched")})
-    print(a.tag, "FPS all %.2f eval4 %.2f" % (res["fps_end2end"], res["fps_eval4"]))
+    print(a.tag, "FPS all %.2f eval4 %.2f" % (res["fps_end2end"], res["fps_eval4"]), "VRAM", res.get("vram_peak_reserved_mb"))
