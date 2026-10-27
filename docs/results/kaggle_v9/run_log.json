@@ -1,0 +1,30 @@
+{
+ "ort_install": {
+  "rc": 0,
+  "sec": 11.4
+ },
+ "ort_gpu_check": {
+  "rc": 0,
+  "sec": 6.9
+ },
+ "crops": {
+  "rc": 0,
+  "sec": 298.8
+ },
+ "probe_vits16": {
+  "rc": 0,
+  "sec": 64.9
+ },
+ "rt_base": {
+  "rc": 0,
+  "sec": 44.2
+ },
+ "rt_head_gpu_n5": {
+  "rc": 0,
+  "sec": 53.3
+ },
+ "rt_head_gpu_n10": {
+  "rc": 0,
+  "sec": 47.7
+ }
+}

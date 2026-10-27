@@ -340,3 +340,26 @@ Tech list bổ sung:
 - DEIMv2-Wholebody49 (PINTO0309, Apache-2.0) — head detector, ONNX sẵn: https://github.com/PINTO0309/PINTO_model_zoo/tree/main/488_DEIMv2-Wholebody49 , file tại https://github.com/PINTO0309/High-Angle_Robust_Fast_Head_Pose_Estimation/releases/tag/weights
 - HFHPE head pose (MIT) — chỉ tham khảo, không dùng (bài toán cần mũ, không cần pose): https://github.com/PINTO0309/High-Angle_Robust_Fast_Head_Pose_Estimation
 - onnxruntime (MIT) — chạy ONNX: https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html
+
+### H.2 Kernel v9 — head detector chạy trên GPU (T4)
+`onnxruntime-gpu==1.22.0` (CUDA 12): đã kiểm tra trước khi chạy, session providers = `['CUDAExecutionProvider', 'CPUExecutionProvider']`, 18.3 ms/lần gọi ở bước kiểm tra. Baseline chạy lại trong cùng kernel, không treo (timeout mỗi bước 1500 s, bật faulthandler). Tầng head **vốn chỉ chạy ở frame phân loại lại** (track mới hoặc mỗi N frame), nên biến thể "chỉ ở frame phân loại lại" chính là cấu hình N=5; thêm một biến thể N=10. τ và fallback chọn chỉ trên fold tinh chỉnh. VRAM là bộ nhớ torch reserved; ONNX Runtime cấp phát riêng nên phần bộ nhớ của nó **không được tính**.
+
+| Cấu hình (F2) | Fold | P | Pu | R | chưa xác định | F1u |
+|---|---|---|---|---|---|---|
+| Baseline YOLO26s 640, N=5 | tuning | 0.778 | 0.700 | 0.778 | 0.190 | 0.737 |
+| | E4 | 0.727 | 0.500 | 0.800 | 0.263 | 0.615 |
+| | T7 | 0.750 | 0.577 | 0.789 | 0.225 | 0.667 |
+| + head GPU, N=5 (τ=0.3, no fallback) | tuning | 0.857 | 0.750 | 0.667 | 0.286 | 0.706 |
+| | E4 | 0.889 | 0.667 | 0.800 | 0.263 | **0.727** |
+| | T7 | 0.875 | 0.700 | 0.737 | 0.275 | 0.718 |
+| + head GPU, N=10 (τ=0.2, no fallback) | tuning | 1.000 | 0.800 | 0.444 | 0.667 | 0.571 |
+| | E4 | 1.000 | 0.800 | 0.400 | 0.737 | 0.533 |
+| | T7 | 1.000 | 0.800 | 0.421 | 0.700 | 0.552 |
+
+| Cấu hình | FPS T4 (T7 / E4) | VRAM torch reserved | Tầng head |
+|---|---|---|---|
+| Baseline N=5 | 50.0 / 49.9 | 336 MB | — |
+| Head GPU N=5 | 28.1 / 28.0 | 538 MB | 16.1 ms/lần gọi ONNX, 24.6 ms/job (656 job, phủ 91.5%) |
+| Head GPU N=10 | 36.5 / 36.7 | 348 MB | 16.2 ms/lần gọi, 24.6 ms/job (364 job) |
+
+Kết luận v9: tầng head trên GPU vẫn đạt realtime (28 FPS) nhưng giảm FPS 44%. Nó giảm FP (Pu E4 0.500→0.667) **nhưng kém baseline trên fold tinh chỉnh** (F1u 0.706 so với 0.737, recall giảm). Lợi ích trên E4 dựa trên khoảng 2 track nên **chưa kiểm chứng**. Mặc định giữ nguyên baseline; head detector là tùy chọn thử nghiệm.
