@@ -32,10 +32,13 @@ sh("nvidia-smi")
 import hashlib
 ck, dl = [], []
 p0 = glob.glob("/kaggle/input/**/sam31_part_00", recursive=True)
+NEED_SAM = False   # v9: chỉ realtime (YOLO + DINOv3-S), bỏ ghép SAM 3.1 (~20 phút)
 if p0:
     wd = os.path.dirname(p0[0]); out = "/kaggle/working/sam3.1_multiplex.pt"
-    parts = sorted(glob.glob(f"{wd}/sam31_part_*")); h = hashlib.sha256()
-    with open(out, "wb") as fo:
+    parts = sorted(glob.glob(f"{wd}/sam31_part_*")) if NEED_SAM else []
+    _unused = sorted(glob.glob(f"{wd}/sam31_part_*")); h = hashlib.sha256()
+    if NEED_SAM:
+     with open(out, "wb") as fo:
         for pp in parts:
             with open(pp, "rb") as fi:
                 while True:
@@ -43,7 +46,8 @@ if p0:
                     if not b_: break
                     fo.write(b_); h.update(b_)
     want = open(f"{wd}/sam31_sha256.txt").read().split()[0].strip()
-    if h.hexdigest() == want:
+    if not NEED_SAM: print("SAM 3.1 skipped (v9 realtime only)", flush=True)
+    elif h.hexdigest() == want:
         ck = [out]; os.environ["SAM31_CKPT"] = out; print(f"SAM 3.1 reassembled from {len(parts)} parts, sha256 OK", flush=True)
     else:
         print("ERROR: SAM 3.1 sha256 mismatch", h.hexdigest(), "!=", want, flush=True); os.remove(out)
@@ -61,11 +65,11 @@ if p0:
         if not ok: shutil.rmtree(f"{DL}/{rep}", ignore_errors=True)
     if os.path.isdir(DL): dl = [DL]; os.environ["DINO_LOCAL_DIR"] = DL; print("DINOv3 local:", sorted(os.listdir(DL)), flush=True)
 # 2) không dùng Kaggle Secret: mọi trọng số gated lấy từ private dataset holilihu/de7-weights
-HAS_TOKEN = bool(ck and dl); os.environ.pop("HF_TOKEN", None)
+HAS_TOKEN = bool((ck or not NEED_SAM) and dl); os.environ.pop("HF_TOKEN", None)
 W = "/kaggle/working"; os.chdir(W)
 sh("git clone -q https://github.com/meiiie/tgmt-de14-helmet-violation.git de14", check=True); os.chdir(f"{W}/de14")
-sh("git clone -q https://github.com/facebookresearch/sam3.git third_party_sam3 && cd third_party_sam3 && git apply ../patches/sam3_cpu.patch && pip -q install --no-deps -e .")
-sh("pip -q install ultralytics timm ftfy regex iopath einops pycocotools lap 'transformers>=4.56' scikit-learn joblib")
+if NEED_SAM: sh("git clone -q https://github.com/facebookresearch/sam3.git third_party_sam3 && cd third_party_sam3 && git apply ../patches/sam3_cpu.patch && pip -q install --no-deps -e .")
+sh("pip -q install ultralytics lap 'transformers>=4.56' scikit-learn joblib" + (" timm ftfy regex iopath einops pycocotools" if NEED_SAM else ""))
 sys.path.insert(0, f"{W}/de14/third_party_sam3")
 # ---- dữ liệu: dataset input hozngvan/helmet-detection (mirror của HELMET, OSF CC-BY 4.0) ----
 roots = glob.glob("/kaggle/input/*")
@@ -109,21 +113,24 @@ def timed(name, cmd):
         print("SKIP (time budget)", name, flush=True); log[name] = {"rc": "skipped_budget"}; return
     t = time.time(); rc = sh(cmd); log[name] = {"rc": rc, "sec": round(time.time() - t, 1)}
     json.dump(log, open(f"{W}/run_log.json", "w"), indent=1)
-# ---- v8: thử tầng HEAD DETECTOR (DEIMv2-Wholebody49 ONNX, PINTO0309, Apache-2.0) trong crop rider, so với baseline realtime ----
+# ---- v9: head detector DEIMv2 HGNetV2-N trên GPU (onnxruntime-gpu CUDA 12) + baseline lặp lại, timeout/bước rộng ----
 sh("wget -q -O weights/yolo26s.pt https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26s.pt")
 REL = "https://github.com/PINTO0309/High-Angle_Robust_Fast_Head_Pose_Estimation/releases/download/weights"
-HD = ["deimv2_hgnetv2_n_wholebody49_boxes_only", "deimv2_dinov3_s_wholebody49_boxes_only"]
-for h in HD: sh(f"wget -q -O weights/{h}.onnx {REL}/{h}.onnx")
-timed("ort_install", "timeout -k 10 600 pip -q install onnxruntime-gpu")
-sh("python -c 'import onnxruntime as o,ultralytics,torch;print(\"ort\",o.__version__,o.get_available_providers(),\"ultralytics\",ultralytics.__version__,\"torch\",torch.__version__)'")
+HO = "weights/deimv2_hgnetv2_n_wholebody49_boxes_only.onnx"; sh(f"wget -q -O {HO} {REL}/{os.path.basename(HO)}")
+timed("ort_install", "timeout -k 10 600 pip -q install onnxruntime-gpu==1.22.0")
+os.environ["HEAD_REQUIRE_GPU"] = "1"
+timed("ort_gpu_check", "timeout -k 10 300 python -c \"import sys,time,numpy as np;sys.path.insert(0,'src');import onnxruntime as o;print('ort',o.__version__,o.get_available_providers());"
+      f"from de14.headdet import DeimHeadDetector as D;d=D('{HO}',require_gpu=True);print('session providers',d.providers);im=np.zeros((300,200,3),np.uint8);[d(im) for _ in range(5)];t=time.time();[d(im) for _ in range(50)];print('GPU head ms/call %.2f'%(20*(time.time()-t)))\"")
+GPU_OK = log.get("ort_gpu_check", {}).get("rc") == 0; print("HEAD GPU_OK", GPU_OK, flush=True)
 os.environ["CROP_STRIDE"] = "5"; timed("crops", "python -u src/build_head_crops.py")
 if HAS_TOKEN:
     timed("probe_vits16", "python -u src/train_probe.py facebook/dinov3-vits16-pretrain-lvd1689m")
     PR = "weights/dino_probe_dinov3-vits16-pretrain-lvd1689m.joblib"
-    timed("rt_base", f"timeout -k 10 600 python -u src/eval_realtime.py --weights weights/yolo26s.pt --imgsz 640 --every_n 5 --probe {PR} --tag rt_yolo26s_640_n5")
-    for h in HD:
-        tg = "hgn" if "hgnetv2" in h else "dv3s"
-        timed(f"rt_head_{tg}", f"timeout -k 10 900 python -u src/eval_realtime.py --weights weights/yolo26s.pt --imgsz 640 --every_n 5 --probe {PR} --head_onnx weights/{h}.onnx --tag rt_yolo26s_640_n5_head_{tg}")
+    E = "timeout -k 10 1500 python -u src/eval_realtime.py --weights weights/yolo26s.pt --imgsz 640 --probe " + PR
+    timed("rt_base", f"{E} --every_n 5 --tag rt_yolo26s_640_n5")
+    if GPU_OK:
+        timed("rt_head_gpu_n5", f"{E} --every_n 5 --head_onnx {HO} --tag rt_yolo26s_640_n5_head_hgn_gpu")
+        timed("rt_head_gpu_n10", f"{E} --every_n 10 --head_onnx {HO} --tag rt_yolo26s_640_n10_head_hgn_gpu")
     sh(f"mkdir -p {W}/results && cp {PR} {W}/results/ 2>/dev/null")
 else:
     print("SKIP gated parts (SAM 3.1, DINOv3): HF_TOKEN secret missing", flush=True)

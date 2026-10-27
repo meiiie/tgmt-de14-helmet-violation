@@ -9,10 +9,15 @@ HEAD = 7
 MEAN = np.array([0.485, 0.456, 0.406], np.float32)[:, None, None]; STD = np.array([0.229, 0.224, 0.225], np.float32)[:, None, None]
 
 class DeimHeadDetector:
-    def __init__(self, onnx_path, device="cuda", min_score=0.1):
+    def __init__(self, onnx_path, device="cuda", min_score=0.1, require_gpu=False):
         import onnxruntime as ort
+        if device.startswith("cuda") and hasattr(ort, "preload_dlls"):
+            try: ort.preload_dlls()   # nạp cuDNN/cuBLAS CUDA 12 từ wheel nvidia-* mà torch đã cài
+            except Exception as e: print("ort.preload_dlls:", e, flush=True)
         prov = (["CUDAExecutionProvider", "CPUExecutionProvider"] if device.startswith("cuda") else ["CPUExecutionProvider"])
         self.s = ort.InferenceSession(onnx_path, providers=prov); self.providers = self.s.get_providers()
+        if require_gpu and self.providers[0] != "CUDAExecutionProvider":
+            raise RuntimeError(f"head detector KHÔNG chạy trên GPU: providers={self.providers}")
         i = self.s.get_inputs()[0]; self.inp = i.name; self.hw = (int(i.shape[2]), int(i.shape[3]))
         self.names = {x.name for x in self.s.get_inputs()}; self.norm = "imagenet" if "dinov3" in onnx_path.lower() else "div255"
         self.min_score = min_score; self.t = 0.0; self.n = 0

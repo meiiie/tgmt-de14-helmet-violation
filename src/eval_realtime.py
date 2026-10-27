@@ -1,7 +1,8 @@
 """Đánh giá chế độ realtime trên HELMET test (mọi frame, stride 1), cùng luật khớp track/chấm điểm như offline.
 FPS end-to-end = số frame / thời gian thực (đọc ảnh + YOLO + ghép + ByteTrack + hàng đợi DINOv3 + chờ worker xong). Bỏ 1 frame warm-up.
 python src/eval_realtime.py --weights weights/yolo26s.pt --imgsz 960 --probe weights/dino_probe.joblib --tag rt_yolo26s_960"""
-import argparse, json, os, sys, time
+import argparse, json, os, sys, time, faulthandler
+faulthandler.dump_traceback_later(int(os.environ.get('HANG_DUMP_SEC', '900')), exit=False)  # in stack nếu treo
 sys.path.insert(0, os.path.dirname(__file__)); sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
 from eval_helmet import frames_of, match_tracks
 from de14.helmet_gt import load_clip
@@ -25,7 +26,7 @@ if __name__ == "__main__":
         hd = None
         if a.head_onnx:
             from de14.headdet import DeimHeadDetector
-            hd = DeimHeadDetector(a.head_onnx, device="cuda" if (a.device or "cuda").startswith("cuda") else "cpu"); print("head detector providers", hd.providers, flush=True)
+            hd = DeimHeadDetector(a.head_onnx, device="cuda" if (a.device or "cuda").startswith("cuda") else "cpu", require_gpu=bool(os.environ.get("HEAD_REQUIRE_GPU"))); print("head detector providers", hd.providers, flush=True)
         pl = RealtimePipeline(a.weights, a.probe, imgsz=a.imgsz, device=a.device, half=not a.no_half, every_n=a.every_n, fps=10 / a.stride, head_detector=hd)
         pl.step(gen[0][2].copy()); pl.drain()  # warm-up (không tính), rồi reset tracker/phiếu
         pl.tracker = type(pl.tracker)(fps=10 / a.stride); pl.votes.clear(); pl.stats.clear(); pl.last_job.clear(); pl.n_frames = 0; pl.jobs_log.clear(); pl.t_head = 0.0
