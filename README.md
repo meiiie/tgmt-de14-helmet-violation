@@ -23,7 +23,7 @@ Kernel [`holilihu/de14-helmet-sam31-dinov3`](https://www.kaggle.com/code/holilih
 
 | Phương pháp | Precision (track khớp GT) | Precision (tính cả track không khớp GT) | Recall (trên 19 GT vi phạm) | Recall (track đã quyết định) | Tỷ lệ chưa xác định | Coverage | FPS |
 |---|---|---|---|---|---|---|---|
-| B0: YOLO helmet theo từng frame | lỗi (`TypeError` tensor CUDA sang numpy, đã sửa bằng `.cpu()`, chưa chạy lại) | | | | | | |
+| B0: YOLO helmet theo từng frame (chạy lại ở kernel v3 sau khi sửa `.cpu()`; gán GT bằng oracle) | 0.667 | – | 0.526 | 0.667 | 0.235 | 1.000 | 17.1 |
 | B1: YOLO11s + ByteTrack + YOLO helmet | 0.455 | 0.313 | 0.263 | 0.556 | 0.429 | 0.686 | 2.27 |
 | B1': YOLO11s + ByteTrack + DINOv3-B probe | 0.786 | 0.268 | 0.579 | 0.917 | 0.200 | 0.686 | 1.98 |
 | Core: SAM 3.1 + ByteTrack + YOLO helmet | 0.250 | 0.083 | 0.053 | 0.125 | 0.500 | 0.745 | 9.50* |
@@ -233,3 +233,45 @@ FPS của app trên CPU của box (YOLO11s + DINOv3-S + F2, stride 3): 4.6 FPS v
 | Video demo | "Stratkruciĝo en Hanojo" | – | Wikimedia Commons | CC BY-SA 4.0 | Giao thông Việt Nam | https://commons.wikimedia.org/wiki/File:Stratkruci%C4%9Do_en_Hanojo.webm |
 | Demo | Gradio app (`app.py`), chụp màn hình bằng Playwright | gradio, playwright | – | Apache-2.0 | Demo ảnh và video end-to-end | https://www.gradio.app |
 | Hạ tầng | Kaggle T4 (GPU), box CPU (Python 3.13.5, torch 2.14.1+cpu) | – | – | – | Chỉ dùng tài nguyên miễn phí | https://www.kaggle.com |
+
+### G. Chế độ REALTIME (`src/de14/realtime.py`, tab "Realtime" trong app)
+**Pipeline:**
+- YOLO26s (hoặc YOLO11s) chạy trên **mọi frame**, fp16 khi có GPU, rồi ghép rider–xe và ByteTrack.
+- DINOv3-S + probe chạy **bất đồng bộ** trong worker thread. Worker chỉ nhận track mới hoặc track đến lượt sau mỗi N frame (mặc định 5), gom batch tối đa 32 crop, fp16.
+- Bỏ phiếu theo track như chế độ offline.
+- F2 được tính **online**: trung bình person_score và span tâm xe cập nhật tăng dần. Khác offline ở một điểm: đường chéo xe dùng trung bình chạy thay vì trung vị.
+- SAM 3.1 vẫn là chế độ offline độ chính xác cao.
+- Worker bắt lỗi classifier và `drain()` có hạn chót, nên lỗi không làm treo vòng lặp (`scripts/test_realtime_worker.py`: PASS).
+
+**FPS end-to-end đo trên CPU của box** (đọc ảnh + YOLO + ByteTrack + DINOv3 async + chờ worker xong; 6 clip HELMET, mọi frame, imgsz 640, N=5; `docs/results/realtime_boxcpu/`):
+
+| Detector | FPS CPU |
+|---|---|
+| YOLO26s | 14.5 |
+| YOLO11s | 17.2 |
+
+Frame HELMET trên box là bản 640×640 phóng lại, nên P/R trên box không so được với offline. P/Pu/R/F1u và FPS trên T4 **đang chờ kernel v7**.
+
+**App, tab Realtime** (stream file, có lớp phủ FPS; CPU box, YOLO26s 640, F2 online):
+
+| Video | FPS trung bình | Screenshot |
+|---|---|---|
+| Hanoi 6 s | 12.3 | `docs/screenshots/07_realtime_hanoi_file.png` |
+| HELMET Bago_urban_3 (1920×1080) | 4.4 | `docs/screenshots/08_realtime_helmet_bago_urban_3_file.png` |
+
+**App, tab Offline** (YOLO11s + DINOv3-S + F2, CPU, stride 3):
+
+| Video | Frame | FPS | Track | Không mũ | Có mũ | Chưa xác định | Screenshot |
+|---|---|---|---|---|---|---|---|
+| Hanoi 6 s | 30 | 4.63 | 9 | 0 | 3 | 6 | `05_video_hanoi_dinov3_f2.png` |
+| HELMET Bago_urban_3 | 27 | 2.57 | 4 | 0 | 2 | 2 | `06_video_helmet_bago_urban_3_dinov3_f2.png` |
+
+Screenshot tab ảnh: `03_image_helmet_dinov3_f2.png`, `04_image_hanoi_dinov3_f2.png`.
+
+**Công nghệ mới (thay đổi so với trước):**
+
+| Thành phần | Lý do | Nguồn |
+|---|---|---|
+| **YOLO26s** (ultralytics 8.4.x, release assets v8.4.0, AGPL-3.0) cho detector realtime | Phiên bản YOLO mới nhất có sẵn trong ultralytics đã cài | https://docs.ultralytics.com/models/yolo26/ · https://github.com/ultralytics/assets/releases/tag/v8.4.0 |
+| Gradio streaming (`gr.Image(streaming=True)`, generator) cho webcam/RTSP/file | Demo realtime trực tiếp trong app | https://www.gradio.app/guides/streaming-inputs |
+| TensorRT/ONNX | Sẽ thử trong v7 (`pip install tensorrt-cu12` + `YOLO.export(format="engine", half=True)`). Chưa có kết quả | https://docs.ultralytics.com/integrations/tensorrt/ |
