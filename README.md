@@ -322,3 +322,21 @@ Screenshot tab ảnh: `03_image_helmet_dinov3_f2.png`, `04_image_hanoi_dinov3_f2
 | **YOLO26s** (ultralytics 8.4.x, release assets v8.4.0, AGPL-3.0) cho detector realtime | Phiên bản YOLO mới nhất có sẵn trong ultralytics đã cài | https://docs.ultralytics.com/models/yolo26/ · https://github.com/ultralytics/assets/releases/tag/v8.4.0 |
 | Gradio streaming (`gr.Image(streaming=True)`, generator) cho webcam/RTSP/file | Demo realtime trực tiếp trong app | https://www.gradio.app/guides/streaming-inputs |
 | TensorRT 10 (`tensorrt-cu12` qua pip) cho YOLO26s realtime | Đã chạy trên Kaggle T4: 89.5 FPS ở 640 (gấp khoảng 2 lần PyTorch fp16); tuỳ chọn, engine không commit | https://docs.ultralytics.com/integrations/tensorrt/ · https://pypi.org/project/tensorrt-cu12/ |
+
+## H. Thử tầng HEAD DETECTOR (2-stage) — kernel v8 (T4), ⚠️ thay đổi công nghệ (thử nghiệm, CHƯA đưa vào mặc định)
+
+Pipeline: YOLO26s 640 (person/motorcycle, mọi frame, fp16) + ByteTrack → crop rider → **DEIMv2-Wholebody49 HGNetV2-N ONNX** (lớp Head=7) → crop đầu (lề 5%, vuông) → DINOv3-S probe; vẫn giữ voting, F2, chưa xác định. Ngưỡng mới (τ điểm head, fallback về crop heuristic) chọn **chỉ trên fold tinh chỉnh** → τ=0.3, không fallback. Số so sánh lấy **trong cùng một lần chạy** (cột heuristic = cùng track, dùng crop heuristic).
+
+| Cấu hình (E4, F2) | P | Pu | R | chưa xác định | F1u | FPS T4 | VRAM peak |
+|---|---|---|---|---|---|---|---|
+| Baseline realtime v7 (YOLO26s 640, N=5) | 0.727 | 0.500 | 0.800 | 0.263 | 0.615 | 45.8 | 338 MB |
+| v8 cùng run, crop heuristic | 0.727 | 0.500 | 0.800 | 0.263 | 0.615 | — | — |
+| v8 + head detector (τ=0.3, no fallback) | **0.889** | **0.667** | 0.800 | 0.263 | **0.727** | **3.3** ⚠️ | 421 MB (alloc) |
+
+T7 (cả 7 clip, F2): heuristic F1u 0.667 → head 0.718. Trên **fold tinh chỉnh** head lại kém hơn heuristic (0.706 vs 0.737) → lợi ích trên E4 (2 FP ít hơn, 4 clip) **chưa kiểm chứng** về độ bền.
+Độ trễ tầng head: 223 ms/lần gọi ONNX, 311 ms/job — **chạy trên CPU** vì `onnxruntime-gpu` 1.31 cần CUDA 13 (Kaggle cu12.8: thiếu libcublasLt.so.13) ⇒ FPS GPU của tầng head **chưa kiểm chứng**. Phủ head: 91.5% rider crop có head. Biến thể DINOv3-S DEIMv2 và lần chạy baseline lặp lại bị timeout 600 s (rc 124).
+
+Tech list bổ sung:
+- DEIMv2-Wholebody49 (PINTO0309, Apache-2.0) — head detector, ONNX sẵn: https://github.com/PINTO0309/PINTO_model_zoo/tree/main/488_DEIMv2-Wholebody49 , file tại https://github.com/PINTO0309/High-Angle_Robust_Fast_Head_Pose_Estimation/releases/tag/weights
+- HFHPE head pose (MIT) — chỉ tham khảo, không dùng (bài toán cần mũ, không cần pose): https://github.com/PINTO0309/High-Angle_Robust_Fast_Head_Pose_Estimation
+- onnxruntime (MIT) — chạy ONNX: https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html

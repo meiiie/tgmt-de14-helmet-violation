@@ -1,0 +1,26 @@
+{
+ "ort_install": {
+  "rc": 0,
+  "sec": 9.1
+ },
+ "crops": {
+  "rc": 0,
+  "sec": 1053.3
+ },
+ "probe_vits16": {
+  "rc": 0,
+  "sec": 161.9
+ },
+ "rt_base": {
+  "rc": 124,
+  "sec": 600.6
+ },
+ "rt_head_hgn": {
+  "rc": 0,
+  "sec": 315.6
+ },
+ "rt_head_dv3s": {
+  "rc": 124,
+  "sec": 654.3
+ }
+}
