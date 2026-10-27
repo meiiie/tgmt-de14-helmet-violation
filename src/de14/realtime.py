@@ -50,9 +50,18 @@ class OnlineTrackStats:
         span = float(np.hypot(self.xmax - self.xmin, self.ymax - self.ymin))
         return {"person_score": self.cov / self.n, "disp_norm": span / max(1e-6, self.diag / self.n), "n_frames": self.n}
 
+def choose_probs(rec, tau, fallback=True):
+    """Chọn xác suất mỗi rider: crop từ head detector nếu score >= tau; ngược lại crop heuristic (fallback) hoặc bỏ."""
+    out = []
+    for r in rec:
+        if r["p_head"] is not None and r["score"] >= tau: out.append(r["p_head"])
+        elif fallback and r["p_heur"] is not None: out.append(r["p_heur"])
+    return out
+
 class RealtimePipeline:
     def __init__(self, yolo_weights="weights/yolo26s.pt", probe="weights/dino_probe.joblib", imgsz=960, conf=0.15, device=None,
-                 half=True, every_n=5, batch=32, n_min=3, hi=0.6, lo=0.4, min_head=8, fps=10, track_filter=None, classifier=None):
+                 half=True, every_n=5, batch=32, n_min=3, hi=0.6, lo=0.4, min_head=8, fps=10, track_filter=None, classifier=None,
+                 head_detector=None, head_tau=0.5, head_fallback=True):
         import torch
         from ultralytics import YOLO
         self.dev = device or ("cuda:0" if torch.cuda.is_available() else "cpu"); self.half = half and self.dev.startswith("cuda")
@@ -61,6 +70,8 @@ class RealtimePipeline:
         self.tracker = ByteTrackWrapper(fps=fps); self.every_n, self.batch = every_n, batch
         self.n_min, self.hi, self.lo, self.min_head = n_min, hi, lo, min_head
         self.track_filter = track_filter
+        # tầng đầu 2-stage (tuỳ chọn): DeimHeadDetector chạy trong crop rider ở worker; ghi lại mọi job để chọn ngưỡng offline
+        self.hd, self.head_tau, self.head_fallback = head_detector, head_tau, head_fallback; self.jobs_log = []; self.t_head = 0.0
         self.votes = defaultdict(list); self.stats = defaultdict(OnlineTrackStats); self.last_job = {}
         self.lock = threading.Lock(); self.q = queue.Queue(); self.n_frames = 0; self.n_cls = 0; self.t_cls = 0.0
         self.err = None; self.stop = False; self.w = threading.Thread(target=self._worker, daemon=True); self.w.start()
@@ -72,6 +83,7 @@ class RealtimePipeline:
             while len(jobs) < self.batch:
                 try: jobs.append(self.q.get_nowait())
                 except queue.Empty: break
+            if self.hd is not None: jobs = self._head_stage(jobs)
             crops = [c for _, cs in jobs for c in cs]; t = time.time()
             try: ps = self.cls(crops)
             except Exception as e:   # không để worker chết -> q.join() treo
@@ -81,8 +93,35 @@ class RealtimePipeline:
                 for tid, cs in jobs:
                     p = ps[k:k+len(cs)]; k += len(cs)
                     p = [x for x in p if x is not None]
+                    if self.hd is not None: p = self._log_job(tid, cs, p)
                     if p: self.votes[tid].append(max(p))   # rider "tệ nhất" (lái + ngồi sau)
             for _ in jobs: self.q.task_done()
+    def _head_stage(self, jobs):
+        """jobs: (tid, [(rider_crop, heur_head_crop, ox, oy)...]) -> (tid, [crop...]) gồm cả crop heuristic và crop từ head detector.
+        Ghi meta để _log_job tách xác suất từng loại."""
+        out = []; t = time.time()
+        for tid, items in jobs:
+            cs, meta = [], []
+            for rc, hc, _, _ in items:
+                heads = self.hd(rc) if rc is not None and rc.size else []
+                H = rc.shape[0] if rc is not None else 0
+                heads = [h for h in heads if (h[1][1] + h[1][3]) / 2 < 0.65 * H]   # đầu phải nằm nửa trên crop rider
+                m = {"heur": None, "head": None, "score": heads[0][0] if heads else 0.0}
+                if hc is not None: m["heur"] = len(cs); cs.append(hc)
+                if heads:
+                    b = [int(round(v)) for v in __import__("de14.headdet", fromlist=["square"]).square(heads[0][1])]
+                    x1, y1, x2, y2 = max(0, b[0]), max(0, b[1]), min(rc.shape[1], b[2]), min(rc.shape[0], b[3])
+                    if x2 - x1 >= 4 and y2 - y1 >= 4: m["head"] = len(cs); cs.append(rc[y1:y2, x1:x2].copy())
+                meta.append(m)
+            out.append((tid, cs)); self._meta = getattr(self, "_meta", {}); self._meta[id(cs)] = meta
+        self.t_head += time.time() - t
+        return out
+    def _log_job(self, tid, cs, p_all):
+        meta = self._meta.pop(id(cs), [])
+        rec = [{"p_heur": (p_all[m["heur"]] if m["heur"] is not None and m["heur"] < len(p_all) else None),
+                "p_head": (p_all[m["head"]] if m["head"] is not None and m["head"] < len(p_all) else None), "score": m["score"]} for m in meta]
+        self.jobs_log.append({"tid": tid, "riders": rec})
+        return choose_probs(rec, self.head_tau, self.head_fallback)
     def drain(self, timeout=120):
         """Chờ worker xử lý hết hàng đợi, có hạn chót (không treo vô hạn)."""
         t = time.time()
@@ -111,8 +150,16 @@ class RealtimePipeline:
             self.stats[tid].update(m, riders)
             if tid not in self.last_job or self.n_frames - self.last_job[tid] >= self.every_n:
                 rs = riders or [[m[0], m[1] - (m[3]-m[1]), m[2], m[3]]]
-                cs = [x for x in (crop(img, head_box(p), self.min_head) for p in rs) if x is not None]
-                if cs: self.q.put((tid, [x.copy() for x in cs])); self.last_job[tid] = self.n_frames
+                if self.hd is None:
+                    cs = [x for x in (crop(img, head_box(p), self.min_head) for p in rs) if x is not None]
+                    if cs: self.q.put((tid, [x.copy() for x in cs])); self.last_job[tid] = self.n_frames
+                else:   # 2-stage: gửi crop rider (người mở rộng 15%) + crop đầu heuristic để so sánh
+                    items = []
+                    for p in rs:
+                        w, h = p[2]-p[0], p[3]-p[1]; rb = [p[0]-0.15*w, p[1]-0.1*h, p[2]+0.15*w, p[1]+0.7*h]
+                        rc = crop(img, rb, 16); hc = crop(img, head_box(p), self.min_head)
+                        items.append((rc.copy() if rc is not None else None, hc.copy() if hc is not None else None, rb[0], rb[1]))
+                    self.q.put((tid, items)); self.last_job[tid] = self.n_frames
             out.append((tid, tb, m))
         return out
     def draw(self, img, recs, fps=None):

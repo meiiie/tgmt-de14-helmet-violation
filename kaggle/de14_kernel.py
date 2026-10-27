@@ -109,25 +109,21 @@ def timed(name, cmd):
         print("SKIP (time budget)", name, flush=True); log[name] = {"rc": "skipped_budget"}; return
     t = time.time(); rc = sh(cmd); log[name] = {"rc": rc, "sec": round(time.time() - t, 1)}
     json.dump(log, open(f"{W}/run_log.json", "w"), indent=1)
-# ---- v6: chế độ REALTIME (YOLO mọi frame fp16 + ByteTrack + DINOv3-S bất đồng bộ + F2 online), stride 1 = mọi frame ----
+# ---- v8: thử tầng HEAD DETECTOR (DEIMv2-Wholebody49 ONNX, PINTO0309, Apache-2.0) trong crop rider, so với baseline realtime ----
 sh("wget -q -O weights/yolo26s.pt https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26s.pt")
-sh("python -c 'import ultralytics,torch;print(\"ultralytics\",ultralytics.__version__,\"torch\",torch.__version__)'")
+REL = "https://github.com/PINTO0309/High-Angle_Robust_Fast_Head_Pose_Estimation/releases/download/weights"
+HD = ["deimv2_hgnetv2_n_wholebody49_boxes_only", "deimv2_dinov3_s_wholebody49_boxes_only"]
+for h in HD: sh(f"wget -q -O weights/{h}.onnx {REL}/{h}.onnx")
+timed("ort_install", "timeout -k 10 600 pip -q install onnxruntime-gpu")
+sh("python -c 'import onnxruntime as o,ultralytics,torch;print(\"ort\",o.__version__,o.get_available_providers(),\"ultralytics\",ultralytics.__version__,\"torch\",torch.__version__)'")
 os.environ["CROP_STRIDE"] = "5"; timed("crops", "python -u src/build_head_crops.py")
 if HAS_TOKEN:
     timed("probe_vits16", "python -u src/train_probe.py facebook/dinov3-vits16-pretrain-lvd1689m")
     PR = "weights/dino_probe_dinov3-vits16-pretrain-lvd1689m.joblib"
-    for wt in ["yolo26s", "yolo11s"]:
-        for isz in [640, 960, 1280]:
-            timed(f"rt_{wt}_{isz}", f"timeout -k 10 600 python -u src/eval_realtime.py --weights weights/{wt}.pt --imgsz {isz} --every_n 5 --probe {PR} --tag rt_{wt}_{isz}_n5")
-    for n in [1, 10]:
-        timed(f"rt_yolo26s_960_n{n}", f"timeout -k 10 600 python -u src/eval_realtime.py --weights weights/yolo26s.pt --imgsz 960 --every_n {n} --probe {PR} --tag rt_yolo26s_960_n{n}")
-    timed("rt_yolo26s_960_fp32", f"timeout -k 10 600 python -u src/eval_realtime.py --weights weights/yolo26s.pt --imgsz 960 --every_n 5 --no_half --probe {PR} --tag rt_yolo26s_960_n5_fp32")
-    # TensorRT (miễn phí, chỉ nếu cài + export được trên Kaggle)
-    if timed("trt_install", "timeout -k 10 600 pip -q install tensorrt-cu12") or log.get("trt_install", {}).get("rc") == 0:
-        for isz in [640, 960]:
-            timed(f"trt_export_{isz}", f"timeout -k 10 900 python -c \"from ultralytics import YOLO; YOLO('weights/yolo26s.pt').export(format='engine', half=True, imgsz={isz}, device=0, workspace=4); import shutil; shutil.move('weights/yolo26s.engine', 'weights/yolo26s_{isz}.engine')\"")
-            if os.path.exists(f"weights/yolo26s_{isz}.engine"):
-                timed(f"rt_trt_{isz}", f"timeout -k 10 600 python -u src/eval_realtime.py --weights weights/yolo26s_{isz}.engine --imgsz {isz} --every_n 5 --probe {PR} --tag rt_yolo26s_trt_{isz}_n5")
+    timed("rt_base", f"timeout -k 10 600 python -u src/eval_realtime.py --weights weights/yolo26s.pt --imgsz 640 --every_n 5 --probe {PR} --tag rt_yolo26s_640_n5")
+    for h in HD:
+        tg = "hgn" if "hgnetv2" in h else "dv3s"
+        timed(f"rt_head_{tg}", f"timeout -k 10 900 python -u src/eval_realtime.py --weights weights/yolo26s.pt --imgsz 640 --every_n 5 --probe {PR} --head_onnx weights/{h}.onnx --tag rt_yolo26s_640_n5_head_{tg}")
     sh(f"mkdir -p {W}/results && cp {PR} {W}/results/ 2>/dev/null")
 else:
     print("SKIP gated parts (SAM 3.1, DINOv3): HF_TOKEN secret missing", flush=True)
