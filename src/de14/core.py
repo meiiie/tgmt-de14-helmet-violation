@@ -14,7 +14,56 @@ def ioa(a, b):
     ix = max(0, min(a[2], b[2]) - max(a[0], b[0])); iy = max(0, min(a[3], b[3]) - max(a[1], b[1]))
     return ix * iy / max(1e-6, (a[2]-a[0])*(a[3]-a[1]))
 
-def associate(persons, motos, min_ioa=0.25):
+def _aligned_fragments_share_riders(a, b, persons, person_scores):
+    """Check aligned halves for a shared rider and a passenger on one side."""
+    height = max(a[3] - a[1], b[3] - b[1])
+    if abs(a[1] - b[1]) > .10 * height or abs(a[3] - b[3]) > .06 * height:
+        return False
+    overlap_x = min(a[2], b[2]) - max(a[0], b[0])
+    if overlap_x < .35 * min(a[2] - a[0], b[2] - b[0]):
+        return False
+
+    support = set()
+    for person, score in zip(persons, person_scores):
+        if score < .5:
+            continue
+        center_x = (person[0] + person[2]) / 2
+        foot_y = person[3]
+        support.add(tuple(
+            box[0] <= center_x <= box[2] and box[1] <= foot_y <= box[3] and ioa(person, box) >= .35
+            for box in (a, b)
+        ))
+    a_only = (True, False) in support
+    b_only = (False, True) in support
+    return (True, True) in support and a_only != b_only
+
+
+def merge_motorcycle_fragments(boxes, scores, persons, person_scores, weak_threshold=.45):
+    """Join front/rear detections supported by rider geometry."""
+    merged = [list(b) for b in boxes]; groups = [[i] for i in range(len(boxes))]
+    for i in sorted(range(len(scores)), key=lambda k: -scores[k]):
+        if len(groups[i]) != 1: continue
+        for j in range(len(boxes)):
+            if i == j or len(groups[j]) != 1 or scores[j] > scores[i]: continue
+            a, b = merged[i], merged[j]
+            overlap = iou(a, b)
+            if scores[j] >= weak_threshold:
+                supported = .1 <= overlap <= .5 and _aligned_fragments_share_riders(a, b, persons, person_scores)
+            else:
+                overlap_y = max(0, min(a[3], b[3])-max(a[1], b[1])) / max(a[3]-a[1], b[3]-b[1], 1)
+                supported = 0 < overlap < .1 and overlap_y > .8 and any(
+                    s >= .5 and p[2]-p[0] <= max(a[2]-a[0], b[2]-b[0])
+                    and ioa(p, a) >= .25 and ioa(p, b) >= .25
+                    for p, s in zip(persons, person_scores))
+            if not supported: continue
+            merged[i] = [min(a[0], b[0]), min(a[1], b[1]), max(a[2], b[2]), max(a[3], b[3])]
+            groups[i] += groups[j]; groups[j] = []
+            break
+    keep = [i for i in range(len(boxes)) if groups[i]]
+    return [merged[i] for i in keep], [scores[i] for i in keep], [groups[i] for i in keep]
+
+
+def associate(persons, motos, min_ioa=0.25, min_foot_fraction=-0.1):
     """Gán mỗi person cho xe máy phù hợp nhất (người lái + người ngồi sau).
     Điều kiện: chân (đáy bbox người) nằm trong bbox xe mở rộng ngang và người chồng lấn xe.
     Trả về dict moto_idx -> list person_idx, sắp xếp theo x (vị trí người trên xe)."""
@@ -24,7 +73,7 @@ def associate(persons, motos, min_ioa=0.25):
         cx, by = (p[0]+p[2]) / 2, p[3]
         for mi, m in enumerate(motos):
             mw, mh = m[2]-m[0], m[3]-m[1]
-            if not (m[0]-0.25*mw <= cx <= m[2]+0.25*mw and m[1]-0.1*mh <= by <= m[3]+0.35*mh):
+            if not (m[0]-0.25*mw <= cx <= m[2]+0.25*mw and m[1]+min_foot_fraction*mh <= by <= m[3]+0.35*mh):
                 continue
             s = ioa(p, [m[0]-0.25*mw, m[1]-mh, m[2]+0.25*mw, m[3]+0.2*mh]) + iou(p, m)
             if s > bs and ioa(p, m) + 1e-6 >= 0 and s >= min_ioa:
@@ -51,6 +100,8 @@ def crop(img, b, min_side=0):
 
 def decide(probs, n_min=3, hi=0.6, lo=0.4):
     """probs: list xác suất 'không mũ' của từng quan sát hợp lệ. Trả (nhãn, tỉ lệ, n)."""
+    # A probability near 0.5 is not evidence for either class.
+    probs = [p for p in probs if p is not None and np.isfinite(p) and (p >= hi or p <= lo)]
     if len(probs) < n_min:
         return UNDET, (float(np.mean(probs)) if probs else None), len(probs)
     r = float(np.mean([p >= 0.5 for p in probs]))

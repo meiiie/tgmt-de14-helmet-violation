@@ -10,8 +10,12 @@ datasets/
 __pycache__/
 .venv/
 venv/
+.gradio/
 runs/
 outputs/
+kernel.errors.txt
+docs/presentation/
+docs/superpowers/
 third_party_sam3/
 weights/
 *.joblib

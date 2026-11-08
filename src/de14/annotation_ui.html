@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="vi">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bàn gán nhãn · Helmet Lab</title>
+<style>
+:root{--ink:#192b35;--muted:#61717a;--line:#d9dfdc;--paper:#f3f3ed;--green:#087f68;--blue:#2766b1;--red:#d64c36;--amber:#aa751c}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 'Trebuchet MS','Segoe UI',sans-serif}button,input,select{font:inherit}button,select,input{border:1px solid var(--line);border-radius:6px;padding:8px 10px;background:#fff;color:var(--ink)}button{cursor:pointer}button:hover{border-color:var(--green)}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #50b9a9;outline-offset:2px}button:disabled{opacity:.4;cursor:default}.primary{background:var(--green);color:white;border-color:var(--green)}.danger{color:var(--red)}.mono{font-family:Consolas,'Cascadia Code',monospace}.muted{color:var(--muted)}
+header{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px 28px;background:#fff;border-bottom:1px solid var(--line)}.brand{font:25px Georgia,serif;letter-spacing:-.5px}.eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--green);font-weight:bold}.actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.shell{max-width:1600px;margin:auto;padding:18px 28px}.intro{display:flex;justify-content:space-between;gap:24px;margin-bottom:15px}.intro p{margin:3px 0}.progress{min-width:185px;text-align:right}progress{display:block;width:185px;height:7px;margin:8px 0 0 auto;accent-color:var(--green)}main{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:18px}.workspace,.panel{background:white;border:1px solid var(--line);border-radius:9px;overflow:hidden}.toolbar{display:flex;align-items:center;gap:7px;padding:10px 12px;flex-wrap:wrap;border-bottom:1px solid var(--line)}.mode.active{background:#e4f2ef;border-color:var(--green);color:var(--green);font-weight:bold}.spacer{flex:1}.canvas-scroll{overflow:auto;background:#26343a;min-height:250px;max-height:65vh;position:relative}canvas{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair}.framebar{display:flex;gap:10px;align-items:center;padding:12px;border-top:1px solid var(--line)}.framebar input[type=range]{flex:1;min-width:90px;padding:0;accent-color:var(--green)}.frame-label{min-width:135px;font-size:12px}.review{background:#e4f2ef;color:var(--green);border:1px solid #afd6cc;border-radius:4px;padding:2px 7px;font-size:11px;white-space:nowrap}.unreviewed{background:#fbf1db;color:#895c0b;border-color:#e8d2a0}.panel section{padding:15px;border-bottom:1px solid var(--line)}.panel h2{font-size:13px;margin:0 0 9px;text-transform:uppercase;letter-spacing:.8px}.field{display:block;margin:10px 0}.field span{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}.field select,.field input{width:100%}.field input[type=number]{width:90px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.list{max-height:170px;overflow:auto}.item{width:100%;display:flex;align-items:center;justify-content:space-between;margin:5px 0;text-align:left;padding:7px 9px}.item.selected{border-color:var(--green);background:#edf6f3}.head-item{margin-left:16px;width:calc(100% - 16px);font-size:12px}.dot{width:9px;height:9px;display:inline-block;border-radius:50%;margin-right:5px}.tag{font-size:11px;color:var(--muted)}.tip{font-size:12px;color:var(--muted);margin:8px 0 0}.notice{padding:11px 14px;border-left:3px solid var(--green);background:#eaf4ee;margin-top:14px;font-size:12px}#message{min-height:22px;margin:10px 2px;color:var(--green)}#message.error{color:var(--red)}details{margin-top:15px;background:#fff;border:1px solid var(--line);border-radius:7px;padding:12px 15px}summary{cursor:pointer;font-weight:bold}details li{margin:8px 0}.footer{font-size:11px;color:var(--muted);margin:12px 0}.stats{font-size:12px;color:var(--muted)}#selection-title{font-size:18px;font-family:Georgia,serif;margin-bottom:8px}.legend{font-size:11px;display:flex;gap:12px;flex-wrap:wrap}#review-button{width:100%;margin-top:8px}kbd{font:11px Consolas,monospace;background:#f2f3ef;padding:1px 4px;border:1px solid var(--line);border-radius:3px}
+@media(max-width:1000px){header{padding:14px 16px}.shell{padding:14px 16px}main{grid-template-columns:1fr}.panel{display:grid;grid-template-columns:1fr 1fr}.canvas-scroll{max-height:65vh}.progress{min-width:130px}progress{width:130px}}@media(max-width:650px){header,.intro{display:block}.actions{margin-top:12px}.progress{text-align:left;margin-top:12px}progress{margin-left:0}.panel{display:block}.brand{font-size:22px}.frame-label{min-width:105px}.toolbar button{padding:7px}.shell{padding:10px}}
+</style></head>
+<body>
+<header><div><div class="eyebrow">Helmet Lab / Nhãn do người kiểm tra</div><div class="brand">Bàn gán nhãn video</div></div><div class="actions"><button id="import-button">Mở file nhãn</button><button id="csv-button">Xuất CSV</button><button id="export-button" class="primary">Lưu file JSON</button><input type="file" id="import-file" accept=".json,application/json" hidden></div></header>
+<div class="shell"><div class="intro"><div><p><strong id="source-title"></strong> <span class="muted" id="source-info"></span></p><p class="muted">Vẽ một khung lớn cho <b>xe + người</b>, rồi một khung nhỏ cho <b>từng đầu nhìn thấy</b>.</p><p class="stats">Ảnh sạch từ video gốc · Nhãn gợi ý cần được kiểm tra · Nhãn chưa duyệt vẫn là bản nháp</p></div><div class="progress"><b id="progress-text"></b><progress id="progress" max="100" value="0"></progress></div></div>
+<main><div><div class="workspace"><div class="toolbar"><button class="mode active" data-mode="vehicle">1 · Vẽ xe <kbd>V</kbd></button><button class="mode" data-mode="head">2 · Vẽ đầu <kbd>H</kbd></button><button class="mode" data-mode="select">Chọn / sửa <kbd>S</kbd></button><span class="spacer"></span><button id="undo-button" title="Hoàn tác thay đổi ở frame hiện tại">↶ Hoàn tác</button><label>Zoom <select id="zoom"><option value="1">Vừa màn hình</option><option value="2">2×</option><option value="3">3×</option></select></label></div>
+<div class="canvas-scroll" id="canvas-scroll"><canvas id="canvas" aria-label="Ảnh nguồn để vẽ khung xe và đầu"></canvas></div>
+<div class="framebar" style="flex-wrap:wrap"><button id="prev-button" aria-label="Frame trước">←</button><input id="frame-slider" type="range" min="0" value="0" aria-label="Chọn frame"><button id="next-button" aria-label="Frame sau">→</button><div class="frame-label"><b id="frame-time" class="mono"></b><br><span class="muted" id="frame-index"></span></div><span id="review-status" class="review unreviewed">Chưa duyệt</span><label class="row" style="font-size:12px">Tới frame <input id="source-frame-input" type="number" min="0" style="width:85px" aria-label="Frame nguồn cần tới"><button id="jump-frame-button">Đi</button></label></div></div>
+<div id="message" role="status" aria-live="polite"></div><div class="legend"><span><i class="dot" style="background:var(--blue)"></i>Xe + người</span><span><i class="dot" style="background:var(--green)"></i>Có mũ bảo hiểm</span><span><i class="dot" style="background:var(--red)"></i>Không có mũ bảo hiểm</span><span><i class="dot" style="background:var(--amber)"></i>Chưa rõ</span></div>
+<div class="notice"><b>Giữ cùng ID cho cùng một xe qua các frame.</b> Ở frame sau, chọn ID cũ trong ô “ID khi vẽ xe” rồi vẽ lại vị trí của xe. Chỉ tạo ID mới khi đó là một xe khác.</div></div>
+<aside class="panel"><section><h2>Đối tượng trong frame</h2><label class="field"><span>ID khi vẽ xe</span><select id="reuse-id"><option value="">+ Tạo xe mới</option></select></label><div id="object-list" class="list"></div><p class="tip">Chọn “Chọn / sửa”, bấm vào khung để chọn; kéo trong khung để di chuyển. Vẽ sai kích thước: xóa và vẽ lại.</p></section>
+<section><div id="selection-title">Chưa chọn đối tượng</div><div id="vehicle-fields" hidden><label class="field"><span>ID của xe đang chọn</span><input id="vehicle-id" type="text" maxlength="32" list="known-vehicle-ids" autocomplete="off"><datalist id="known-vehicle-ids"></datalist></label><button id="rename-id-button">Đổi ID, giữ nguyên các khung</button><label class="field"><span>Xe có người ngồi / đi xe không?</span><select id="occupancy"><option value="unknown">Chưa xác định</option><option value="occupied">Có người ngồi / đi xe</option><option value="empty">Xe không có người ngồi</option></select></label><p class="tip">Xe đứng yên vẫn là xe có người nếu có người ngồi trên xe. “Không có người” không đồng nghĩa “không di chuyển”.</p><label class="field"><span>Tổng người trên xe (kể cả đầu bị che)</span><input id="rider-count" type="number" min="0" step="1"></label></div>
+<div id="head-fields" hidden><label class="field"><span>Loại mũ của đầu đang chọn</span><select id="helmet-label"><option value="unknown">Chưa rõ / bị che</option><option value="helmet">Có mũ bảo hiểm</option><option value="no_helmet">Không có mũ bảo hiểm</option></select></label><p class="tip">Mũ lưỡi trai, mũ vải, mũ lông không phải mũ bảo hiểm. Nếu ảnh không đủ rõ, giữ “Chưa rõ”.</p></div><button id="delete-button" class="danger" disabled>Xóa khung đã chọn</button><p id="vehicle-summary" class="tip"></p><p id="frame-uncertainty" class="tip"></p><button id="review-button" class="primary">✓ Đã kiểm tra đầy đủ frame này</button><p class="tip">Chỉ bấm sau khi đã đánh dấu tất cả xe cần đánh giá. Sửa bất kỳ nhãn nào sẽ đưa frame về “Chưa duyệt”.</p></section></aside></main>
+<details open><summary>Lần đầu gán nhãn? Bắt đầu với 3 frame</summary><ol><li>Chọn <b>Vẽ xe</b>, kéo từ góc trên trái tới góc dưới phải để ôm trọn một xe và tất cả người trên xe.</li><li>Chọn <b>Vẽ đầu</b>. Mỗi đầu là một khung riêng; chọn <b>có mũ / không mũ / chưa rõ</b> ở bên phải. Nếu có 4 người, cố gắng đánh dấu cả 4 đầu nhìn thấy.</li><li>Chọn trạng thái xe và tổng người. Nếu biết có 2 người nhưng chỉ nhìn thấy 1 đầu, nhập tổng người là 2; không vẽ đầu giả cho người bị che hoàn toàn.</li><li>Bấm <b>Đã kiểm tra đầy đủ frame này</b>. Sang frame sau bằng <kbd>→</kbd>, chọn lại ID của cùng xe rồi vẽ khung mới. Không coi các ID do mô hình tạo là nhãn chuẩn.</li><li>Làm thử 3 frame rồi bấm <b>Lưu file JSON</b>. Bạn có thể dừng bất kỳ lúc nào, mở lại bằng <b>Mở file nhãn</b> và tiếp tục. JSON là file chính để tôi đọc; CSV là bảng dễ kiểm tra.</li></ol><p class="muted">Chỉ những frame bạn duyệt mới dùng để tính chỉ số. Bộ ảnh này là các mốc lấy mẫu, chưa phải nhãn cho mọi frame của video. Trang không nội suy nhãn và không gửi dữ liệu ra ngoài máy.</p></details>
+<p class="footer" id="storage-note">Nhãn tự lưu trong trình duyệt này. Hãy tải JSON định kỳ để có bản sao độc lập.</p></div>
+<script id="annotation-data" type="application/json">__ANNOTATION_DATA__</script>
+<script>
+'use strict';
+const base=JSON.parse(document.getElementById('annotation-data').textContent);
+const key='helmet-labels-v1:'+base.source.sha256+':'+base.sample_stride;
+let data=structuredClone(base),index=0,mode='vehicle',selected=null,activeVehicle=null,drag=null,image=new Image(),imageReady=false,history={};
+const $=id=>document.getElementById(id),canvas=$('canvas'),ctx=canvas.getContext('2d');
+const colors={helmet:'#087f68',no_helmet:'#d64c36',unknown:'#b47a18'};
+const names={helmet:'Có mũ',no_helmet:'Không mũ',unknown:'Chưa rõ'};
+function frame(){return data.frames[index]}
+function message(text,error=false){$('message').textContent=text;$('message').classList.toggle('error',error)}
+function remember(){(history[index]??=[]).push(structuredClone(frame()));if(history[index].length>35)history[index].shift()}
+function save(){try{localStorage.setItem(key,JSON.stringify({data,index}))}catch(e){$('storage-note').textContent='Trình duyệt không tự lưu được. Hãy bấm Lưu file JSON để giữ tiến độ.'}}
+function changed(){frame().reviewed=false;save();render()}
+function validate(candidate){
+ if(candidate.schema_version!==1||candidate.source?.sha256!==base.source.sha256)throw Error('File nhãn không thuộc video này.');
+ for(const k of ['width','height','fps','frame_count'])if(candidate.source[k]!==base.source[k])throw Error('Metadata nguồn không khớp.');
+ if(!Array.isArray(candidate.frames)||candidate.frames.length!==base.frames.length)throw Error('Danh sách frame không khớp bộ ảnh này.');
+ const validBox=b=>Array.isArray(b)&&b.length===4&&b.every(v=>typeof v==='number'&&Number.isFinite(v))&&0<=b[0]&&b[0]<b[2]&&b[2]<=base.source.width&&0<=b[1]&&b[1]<b[3]&&b[3]<=base.source.height;
+ candidate.frames.forEach((f,i)=>{
+  if(f.source_index!==base.frames[i].source_index||typeof f.timestamp_s!=='number'||!Number.isFinite(f.timestamp_s)||Math.abs(f.timestamp_s-base.frames[i].timestamp_s)>1e-5||typeof f.reviewed!=='boolean'||!Array.isArray(f.vehicles))throw Error('Frame hoặc timestamp không hợp lệ.');
+  const seen=new Set();
+  f.vehicles.forEach(v=>{
+   if(typeof v.id!=='string'||!/^[A-Za-z0-9_-]{1,32}$/.test(v.id)||seen.has(v.id)||!validBox(v.box))throw Error('ID xe bị trùng hoặc khung xe không hợp lệ.');seen.add(v.id);
+   if(!['occupied','empty','unknown'].includes(v.occupancy)||!Number.isInteger(v.rider_count)||v.rider_count<0||!Array.isArray(v.heads)||v.heads.length>v.rider_count)throw Error('Số người / trạng thái xe không hợp lệ.');
+   if(v.occupancy==='empty'&&(v.rider_count||v.heads.length))throw Error('Xe không người không được có đầu / số người khác 0.');
+   if(v.occupancy==='occupied'&&v.rider_count<1)throw Error('Xe có người cần nhập ít nhất 1 người.');
+   const heads=new Set();v.heads.forEach(h=>{if(typeof h.id!=='string'||!/^[A-Za-z0-9_-]{1,32}$/.test(h.id)||heads.has(h.id)||!validBox(h.box)||!Object.hasOwn(colors,h.helmet))throw Error('Khung đầu, ID hoặc nhãn mũ không hợp lệ.');heads.add(h.id)});
+  });
+ });
+}
+function currentVehicle(){return frame().vehicles.find(v=>v.id===activeVehicle)}
+function chosen(){let v=frame().vehicles.find(v=>v.id===selected?.vehicle);return selected?.head?v?.heads.find(h=>h.id===selected.head):v}
+function select(v,h=null){activeVehicle=v.id;selected={vehicle:v.id,head:h?.id??null};render()}
+function element(tag,text,cls=''){const e=document.createElement(tag);e.textContent=text;e.className=cls;return e}
+function cancelDrag(){if(drag?.type==='move'){drag.target.box=[...drag.original];save()}drag=null;render()}
+function setMode(value){if(drag)cancelDrag();mode=value;document.querySelectorAll('.mode').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));canvas.style.cursor=mode==='select'?'move':'crosshair'}
+function refreshIds(){
+ const old=$('reuse-id').value,ids=[...new Set(data.frames.flatMap(f=>f.vehicles.map(v=>v.id)))].sort();$('reuse-id').replaceChildren(new Option('+ Tạo xe mới',''));
+ ids.forEach(id=>$('reuse-id').add(new Option(id,id)));$('reuse-id').value=ids.includes(old)?old:'';
+ $('known-vehicle-ids').replaceChildren(...ids.map(id=>new Option(id,id)));
+}
+function render(){
+ const f=frame();$('frame-slider').value=index;$('frame-time').textContent=f.timestamp_s.toFixed(3)+' s';$('frame-index').textContent='Frame nguồn '+f.source_index;
+ $('source-frame-input').value=f.source_index;
+ $('prev-button').disabled=index===0;$('next-button').disabled=index===data.frames.length-1;
+ const reviewed=data.frames.filter(f=>f.reviewed).length;$('progress-text').textContent=reviewed+' / '+data.frames.length+' frame đã duyệt';$('progress').value=100*reviewed/data.frames.length;
+ $('review-status').textContent=f.reviewed?'Đã duyệt':'Chưa duyệt';$('review-status').classList.toggle('unreviewed',!f.reviewed);
+ $('object-list').replaceChildren();
+ f.vehicles.forEach(v=>{
+  const b=element('button',v.id+' · '+v.rider_count+' người','item'+(selected?.vehicle===v.id&&!selected?.head?' selected':''));b.onclick=()=>select(v);$('object-list').append(b);
+  v.heads.forEach(h=>{const b=element('button',h.id+' · '+names[h.helmet],'item head-item'+(selected?.vehicle===v.id&&selected?.head===h.id?' selected':''));b.style.borderLeft='4px solid '+colors[h.helmet];b.onclick=()=>select(v,h);$('object-list').append(b)})
+ });
+ if(!f.vehicles.length)$('object-list').append(element('p','Chưa có xe. Kéo khung trên ảnh để bắt đầu.','tip'));
+ const v=currentVehicle(),obj=chosen(),isHead=Boolean(selected?.head&&obj);
+ $('selection-title').textContent=obj?(isHead?selected.vehicle+' / '+selected.head:selected.vehicle):'Chưa chọn đối tượng';
+ $('vehicle-fields').hidden=!v;$('head-fields').hidden=!isHead;$('delete-button').disabled=!obj;
+ if(v){$('vehicle-id').value=v.id;$('occupancy').value=v.occupancy;$('rider-count').value=v.rider_count;let yes=v.heads.filter(h=>h.helmet==='helmet').length,no=v.heads.filter(h=>h.helmet==='no_helmet').length;$('vehicle-summary').textContent=v.id+': '+yes+' có mũ · '+no+' không mũ · '+(v.rider_count-yes-no)+' chưa rõ / bị che.'}else $('vehicle-summary').textContent='';
+ const uncertain=f.vehicles.filter(v=>v.occupancy==='unknown').length;$('frame-uncertainty').textContent=uncertain?uncertain+' xe còn trạng thái Chưa xác định. Nếu đã thấy người ngồi trên xe, nhớ chọn Có người ngồi / đi xe.':'';
+ if(isHead)$('helmet-label').value=obj.helmet;
+ $('undo-button').disabled=!(history[index]?.length);refreshIds();draw();
+}
+function drawBox(box,color,label,selectedBox){
+ ctx.strokeStyle=color;ctx.lineWidth=selectedBox?6:4;ctx.strokeRect(box[0],box[1],box[2]-box[0],box[3]-box[1]);
+ ctx.font='bold 28px Trebuchet MS';const w=ctx.measureText(label).width+16,y=Math.max(32,box[1]);ctx.fillStyle=color;ctx.fillRect(box[0],y-32,w,32);ctx.fillStyle='white';ctx.fillText(label,box[0]+8,y-7);
+}
+function draw(){
+ ctx.clearRect(0,0,canvas.width,canvas.height);if(imageReady)ctx.drawImage(image,0,0,canvas.width,canvas.height);
+ frame().vehicles.forEach(v=>{drawBox(v.box,'#2766b1',v.id,selected?.vehicle===v.id&&!selected?.head);v.heads.forEach(h=>drawBox(h.box,colors[h.helmet],h.id,selected?.vehicle===v.id&&selected?.head===h.id))});
+ if(drag?.type==='draw'){ctx.setLineDash([12,8]);drawBox(rect(drag.start,drag.now),mode==='head'?'#b47a18':'#2766b1','Mới',false);ctx.setLineDash([])}
+}
+function loadFrame(next){
+ if(drag)cancelDrag();
+ index=Math.max(0,Math.min(data.frames.length-1,next));selected=null;activeVehicle=frame().vehicles[0]?.id??null;drag=null;imageReady=false;
+ image=new Image();const thisImage=image;image.onload=()=>{if(image!==thisImage)return;imageReady=true;draw()};image.onerror=()=>message('Không đọc được ảnh nguồn. Hãy giữ nguyên thư mục frames cạnh trang này.',true);
+ image.src=base.frames[index].image;$('canvas-scroll').scrollTo(0,0);save();render();
+}
+function point(e){const r=canvas.getBoundingClientRect();return [Math.max(0,Math.min(canvas.width,(e.clientX-r.left)*canvas.width/r.width)),Math.max(0,Math.min(canvas.height,(e.clientY-r.top)*canvas.height/r.height))]}
+function rect(a,b){return [Math.min(a[0],b[0]),Math.min(a[1],b[1]),Math.max(a[0],b[0]),Math.max(a[1],b[1])].map(v=>Math.round(v*10)/10)}
+function contains(b,p){return b[0]<=p[0]&&p[0]<=b[2]&&b[1]<=p[1]&&p[1]<=b[3]}
+function hit(p){for(const v of [...frame().vehicles].reverse()){for(const h of [...v.heads].reverse())if(contains(h.box,p))return {v,h};if(contains(v.box,p))return {v,h:null}}return null}
+canvas.addEventListener('pointerdown',e=>{
+ if(!imageReady||e.button!==0)return;const p=point(e);canvas.setPointerCapture(e.pointerId);
+ if(mode==='select'){const found=hit(p);if(!found){selected=null;render();return}select(found.v,found.h);drag={type:'move',start:p,original:[...chosen().box],target:chosen(),frameIndex:index,before:structuredClone(frame()),moved:false};return}
+ if(mode==='head'&&!currentVehicle()){message('Hãy vẽ / chọn một xe trước khi vẽ đầu.',true);return}
+ if(mode==='head'&&currentVehicle().occupancy==='empty'){message('Xe đang chọn là xe không người. Hãy sửa trạng thái trước khi thêm đầu.',true);return}
+ drag={type:'draw',start:p,now:p};
+});
+canvas.addEventListener('pointermove',e=>{
+ if(!drag)return;const p=point(e);
+ if(drag.type==='draw'){drag.now=p;draw();return}
+ const b=drag.original,dx=Math.max(-b[0],Math.min(canvas.width-b[2],p[0]-drag.start[0])),dy=Math.max(-b[1],Math.min(canvas.height-b[3],p[1]-drag.start[1]));drag.target.box=[b[0]+dx,b[1]+dy,b[2]+dx,b[3]+dy].map(v=>Math.round(v*10)/10);drag.moved=drag.target.box.some((v,i)=>v!==b[i]);draw();
+});
+canvas.addEventListener('pointerup',e=>{
+ if(!drag)return;const state=drag;drag=null;
+ if(state.type==='move'){if(state.moved){(history[state.frameIndex]??=[]).push(state.before);changed()}else draw();return}
+ const b=rect(state.start,point(e));if(b[2]-b[0]<2||b[3]-b[1]<2){draw();return}
+ if(mode==='vehicle'){
+  const used=new Set(data.frames.flatMap(f=>f.vehicles.map(v=>v.id)));let id=$('reuse-id').value;
+  if(!id){let n=1;while(used.has('V'+String(n).padStart(3,'0')))n++;id='V'+String(n).padStart(3,'0')}
+  if(frame().vehicles.some(v=>v.id===id)){message('Frame này đã có '+id+'. Chọn / sửa khung cũ, hoặc chọn Tạo xe mới.',true);draw();return}
+  remember();const v={id,box:b,occupancy:'unknown',rider_count:0,heads:[]};frame().vehicles.push(v);activeVehicle=id;selected={vehicle:id,head:null};message('Đã tạo '+id+'. Chọn trạng thái xe và vẽ từng đầu nhìn thấy.');
+ }else{
+  const v=currentVehicle();remember();let n=1;while(v.heads.some(h=>h.id==='R'+String(n).padStart(2,'0')))n++;const h={id:'R'+String(n).padStart(2,'0'),box:b,helmet:'unknown'};v.heads.push(h);v.rider_count=Math.max(v.rider_count,v.heads.length);selected={vehicle:v.id,head:h.id};message('Đã thêm '+h.id+'. Chọn nhãn mũ ở bên phải; chưa rõ thì giữ nguyên.');
+ }
+ changed();
+});
+canvas.addEventListener('pointercancel',cancelDrag);
+document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
+$('zoom').onchange=()=>{canvas.style.width=(Number($('zoom').value)*100)+'%'};
+$('frame-slider').max=data.frames.length-1;$('frame-slider').oninput=e=>loadFrame(Number(e.target.value));
+$('prev-button').onclick=()=>loadFrame(index-1);$('next-button').onclick=()=>loadFrame(index+1);
+$('jump-frame-button').onclick=()=>{const value=$('source-frame-input').value,n=Number(value);const target=data.frames.findIndex(f=>f.source_index===n);if(String(value).trim()===''||!Number.isInteger(n)||target<0){message('Không có frame nguồn này trong bộ ảnh. Các mốc hiện cách nhau '+base.sample_stride+' frame.',true);return}loadFrame(target);message('Đã tới frame nguồn '+n+'.')};
+$('source-frame-input').addEventListener('keydown',e=>{if(e.key==='Enter')$('jump-frame-button').click()});
+$('rename-id-button').onclick=()=>{const id=$('vehicle-id').value.trim();if(drag)cancelDrag();const v=currentVehicle();if(!v)return;if(!/^[A-Za-z0-9_-]{1,32}$/.test(id)){message('ID dùng chữ không dấu, số, dấu gạch dưới/gạch ngang, tối đa 32 ký tự.',true);return}if(id===v.id){message('ID không thay đổi.');return}if(frame().vehicles.some(other=>other!==v&&other.id===id)){message('Frame này đã có xe mang ID '+id+'. Hai xe khác nhau không được chung ID.',true);return}remember();v.id=id;activeVehicle=id;if(selected)selected={...selected,vehicle:id};changed();message('Đã đổi ID thành '+id+', giữ nguyên khung xe và các đầu. Hãy kiểm tra rồi duyệt lại frame.')};
+$('reuse-id').onchange=()=>{if($('reuse-id').value&&frame().vehicles.some(v=>v.id===$('reuse-id').value))select(frame().vehicles.find(v=>v.id===$('reuse-id').value))};
+$('occupancy').onchange=()=>{
+ const v=currentVehicle();if(!v)return;const value=$('occupancy').value;
+ if(value==='empty'&&v.heads.length){message('Hãy xóa các đầu trước khi đánh dấu xe không người.',true);render();return}
+ remember();v.occupancy=value;v.rider_count=value==='empty'?0:value==='occupied'?Math.max(1,v.rider_count):v.rider_count;changed();
+};
+$('rider-count').onchange=()=>{const v=currentVehicle(),n=Number($('rider-count').value);if(!v)return;if(!Number.isInteger(n)||n<v.heads.length||n<0||v.occupancy==='occupied'&&n<1||v.occupancy==='empty'&&n!==0){message('Số người phải phù hợp trạng thái xe và không ít hơn số đầu đã vẽ.',true);render();return}remember();v.rider_count=n;changed()};
+$('helmet-label').onchange=()=>{if(!selected?.head)return;remember();chosen().helmet=$('helmet-label').value;changed()};
+$('delete-button').onclick=()=>{if(!selected)return;remember();const v=currentVehicle();if(selected.head){v.heads=v.heads.filter(h=>h.id!==selected.head);selected={vehicle:v.id,head:null}}else{frame().vehicles=frame().vehicles.filter(x=>x.id!==v.id);selected=null;activeVehicle=frame().vehicles[0]?.id??null}changed()};
+$('undo-button').onclick=()=>{if(!history[index]?.length)return;data.frames[index]=history[index].pop();selected=null;activeVehicle=frame().vehicles[0]?.id??null;save();render()};
+$('review-button').onclick=()=>{try{if(drag)cancelDrag();validate(data);if(!frame().vehicles.length&&!confirm('Bạn xác nhận frame này không có xe máy cần đánh giá?'))return;frame().reviewed=true;save();render();message('Đã duyệt frame '+frame().source_index+'. Bạn có thể sang frame tiếp theo.')}catch(e){message(e.message,true)}};
+function download(name,body,type){const blob=new Blob([body],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000)}
+function exportJSON(){try{if(drag)cancelDrag();validate(data);const result=structuredClone(data);result.status=data.frames.every(f=>f.reviewed)?'user_reviewed_anchor_frames':'draft';result.exported_at=new Date().toISOString();download(base.source.name.replace(/\.[^.]+$/,'')+'_labels.json',JSON.stringify(result,null,2),'application/json');message('Đã tải JSON. Giữ file này để tiếp tục hoặc đưa lại cho tôi đánh giá.')}catch(e){message(e.message,true)}}
+$('export-button').onclick=exportJSON;
+$('csv-button').onclick=()=>{
+ if(drag)cancelDrag();
+ const rows=[['source_index','timestamp_s','reviewed','vehicle_id','vehicle_x1','vehicle_y1','vehicle_x2','vehicle_y2','occupancy','rider_count','head_id','head_x1','head_y1','head_x2','head_y2','helmet']];
+ data.frames.forEach(f=>f.vehicles.forEach(v=>(v.heads.length?v.heads:[null]).forEach(h=>rows.push([f.source_index,f.timestamp_s,f.reviewed,v.id,...v.box,v.occupancy,v.rider_count,h?.id??'',...(h?.box??['','','','']),h?.helmet??'']))));
+ const quote=x=>'"'+String(x).replaceAll('"','""')+'"';download('1102_labels.csv','\uFEFF'+rows.map(r=>r.map(quote).join(',')).join('\r\n'),'text/csv;charset=utf-8');message('CSV là bảng xem nhanh; JSON giữ cả frame trống và trạng thái duyệt để đánh giá.');
+};
+$('import-button').onclick=()=>$('import-file').click();$('import-file').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;const candidate=JSON.parse(await file.text());validate(candidate);candidate.frames.forEach((f,i)=>f.image=base.frames[i].image);data=candidate;history={};index=0;save();loadFrame(0);message('Đã mở file nhãn, có thể tiếp tục từ các frame chưa duyệt.')}catch(error){message(error.message,true)}finally{e.target.value=''}};
+document.addEventListener('keydown',e=>{if(['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName))return;if(e.ctrlKey&&e.key.toLowerCase()==='s'){e.preventDefault();exportJSON()}else if(e.key==='ArrowRight')loadFrame(index+1);else if(e.key==='ArrowLeft')loadFrame(index-1);else if(e.key.toLowerCase()==='v')setMode('vehicle');else if(e.key.toLowerCase()==='h')setMode('head');else if(e.key.toLowerCase()==='s')setMode('select');else if(e.key==='Delete')$('delete-button').click();else if(e.key==='Escape')cancelDrag()});
+canvas.width=base.source.width;canvas.height=base.source.height;$('source-title').textContent=base.source.name;$('source-info').textContent=base.source.width+' × '+base.source.height+' · '+base.source.fps+' FPS · '+base.frames.length+' mốc';
+try{const saved=JSON.parse(localStorage.getItem(key)||'null');if(saved){validate(saved.data);data=saved.data;index=Math.max(0,Math.min(data.frames.length-1,saved.index||0))}}catch(e){message('Không dùng bản tự lưu không hợp lệ. Bạn có thể mở JSON đã lưu trước đó.',true)}
+loadFrame(index);
+</script></body></html>

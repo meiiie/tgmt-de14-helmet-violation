@@ -1,0 +1,3 @@
+-r requirements.txt
+onnxruntime
+openvino>=2025.3

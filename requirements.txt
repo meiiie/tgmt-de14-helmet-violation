@@ -1,6 +1,13 @@
-ultralytics>=8.3
+# Shared runtime dependencies. Install the ONNX Runtime build for your device separately.
+ultralytics>=8.4,<9
 huggingface_hub
+requests
 opencv-python-headless
 numpy
 pandas
 lap
+gradio>=6.31,<7
+joblib
+transformers>=4.56
+scikit-learn
+av>=19,<20

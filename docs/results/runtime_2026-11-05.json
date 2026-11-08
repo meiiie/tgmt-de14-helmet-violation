@@ -1,0 +1,569 @@
+{
+  "date": "2026-11-05",
+  "dataset_scope": "16 unique HELMET official-test frames, 32 annotated vehicle observations, 8 positive observations in 4 clips; correlated smoke subset",
+  "profiles": {
+    "baseline_cpu": {
+      "repeats": 2,
+      "frame_samples": 32,
+      "latency_ms": {
+        "p50": 5902.205550024519,
+        "p95": 7317.571484969812,
+        "min": 4361.843399994541,
+        "max": 7501.720600004774
+      },
+      "fps_compute": 0.16699037829780417,
+      "classifier_calls": 58,
+      "clip_forward_counts_after_warmup": {
+        "text_forwards": 58,
+        "image_forwards": 58
+      },
+      "metrics_frame_vehicle": {
+        "iou_threshold": 0.3,
+        "counts": {
+          "frames": 16,
+          "gt_vehicles": 32,
+          "predicted_vehicles": 55,
+          "matched_vehicles": 26,
+          "gt_violations": 8,
+          "predicted_violations": 8,
+          "violation_tp": 5,
+          "violation_fp": 3,
+          "violation_fn": 3,
+          "unknown_decisions": 37,
+          "rider_absolute_error": 13,
+          "rider_exact": 16
+        },
+        "vehicle_detection_precision": 0.4727272727272727,
+        "vehicle_detection_recall": 0.8125,
+        "violation_precision": 0.625,
+        "violation_recall": 0.625,
+        "unknown_rate": 0.6727272727272727,
+        "rider_count_mae": 0.5,
+        "rider_count_exact_rate": 0.6153846153846154
+      },
+      "regression_images": {
+        "unhelmeted": {
+          "riders_per_motorcycle": [
+            2
+          ],
+          "head_labels": [
+            "không đội mũ",
+            "không đội mũ"
+          ],
+          "passed": true
+        },
+        "family": {
+          "riders_per_motorcycle": [
+            1,
+            2,
+            4
+          ],
+          "head_labels": [
+            "chưa xác định",
+            "chưa xác định",
+            "có đội mũ",
+            "có đội mũ",
+            "có đội mũ",
+            "chưa xác định",
+            "có đội mũ"
+          ],
+          "passed": true
+        }
+      },
+      "vram": {
+        "torch_peak_allocated_mib": null,
+        "torch_peak_reserved_mib": null,
+        "process_peak_sampled_mib": null,
+        "note": "CPU execution; VRAM not applicable"
+      },
+      "runtime": {
+        "config": {
+          "device": "cpu",
+          "imgsz": 1280,
+          "cpu_threads": 4,
+          "ort_threads": 0,
+          "ort_spinning": true,
+          "head_backend": "onnx",
+          "openvino_device": "CPU",
+          "batch_heads": false,
+          "cache_clip_text": false,
+          "local_files_only": true,
+          "accurate": true,
+          "detector_kind": "yolo",
+          "classifier_kind": "dino",
+          "yolo_weights": "weights/yolo26s.pt",
+          "head_path": "weights/deimv2_wholebody49_boxes_only.onnx",
+          "probe_path": "weights/dino_probe.joblib",
+          "clip_path": "weights/clip-vit-base-patch32"
+        },
+        "torch_device": "cpu",
+        "head_providers": [
+          "CPUExecutionProvider"
+        ],
+        "cuda_device": null
+      },
+      "manifest_sha256": "3134f196ed85fb35f97f87fe1e8b839f947993ed271aa4794a6086027f83ea59",
+      "checkpoint_sha256": {
+        "yolo": "646f8bc3fe0a656803d95c294f7852321748cb29d13466a1af8862e2db384a1b",
+        "head": "f70ffbd4a937f6ed8d2873f230b56b356b87c827465338f735f4f8fba8ab0c62",
+        "probe": "d130efe4fa758d72ba7e5047aa07b58160f7f568b4ce3e42acd49e033cb8e4df",
+        "clip": "d5853196afb60ca6373692d9af911aacd8fa821af6d4af54720d4eb9c8f5da0a"
+      }
+    },
+    "optimized_cpu": {
+      "repeats": 2,
+      "frame_samples": 32,
+      "latency_ms": {
+        "p50": 4840.037349989871,
+        "p95": 5636.832185019739,
+        "min": 4395.264299993869,
+        "max": 5825.423299975228
+      },
+      "fps_compute": 0.2033236811304087,
+      "classifier_calls": 30,
+      "clip_forward_counts_after_warmup": {
+        "text_forwards": 0,
+        "image_forwards": 30
+      },
+      "metrics_frame_vehicle": {
+        "iou_threshold": 0.3,
+        "counts": {
+          "frames": 16,
+          "gt_vehicles": 32,
+          "predicted_vehicles": 55,
+          "matched_vehicles": 26,
+          "gt_violations": 8,
+          "predicted_violations": 8,
+          "violation_tp": 5,
+          "violation_fp": 3,
+          "violation_fn": 3,
+          "unknown_decisions": 37,
+          "rider_absolute_error": 13,
+          "rider_exact": 16
+        },
+        "vehicle_detection_precision": 0.4727272727272727,
+        "vehicle_detection_recall": 0.8125,
+        "violation_precision": 0.625,
+        "violation_recall": 0.625,
+        "unknown_rate": 0.6727272727272727,
+        "rider_count_mae": 0.5,
+        "rider_count_exact_rate": 0.6153846153846154
+      },
+      "regression_images": {
+        "unhelmeted": {
+          "riders_per_motorcycle": [
+            2
+          ],
+          "head_labels": [
+            "không đội mũ",
+            "không đội mũ"
+          ],
+          "passed": true
+        },
+        "family": {
+          "riders_per_motorcycle": [
+            1,
+            2,
+            4
+          ],
+          "head_labels": [
+            "chưa xác định",
+            "chưa xác định",
+            "có đội mũ",
+            "có đội mũ",
+            "có đội mũ",
+            "chưa xác định",
+            "có đội mũ"
+          ],
+          "passed": true
+        }
+      },
+      "vram": {
+        "torch_peak_allocated_mib": null,
+        "torch_peak_reserved_mib": null,
+        "process_peak_sampled_mib": null,
+        "note": "CPU execution; VRAM not applicable"
+      },
+      "runtime": {
+        "config": {
+          "device": "cpu",
+          "imgsz": 1280,
+          "cpu_threads": 4,
+          "ort_threads": 4,
+          "ort_spinning": false,
+          "head_backend": "onnx",
+          "openvino_device": "CPU",
+          "batch_heads": true,
+          "cache_clip_text": true,
+          "local_files_only": true,
+          "accurate": true,
+          "detector_kind": "yolo",
+          "classifier_kind": "dino",
+          "yolo_weights": "weights/yolo26s.pt",
+          "head_path": "weights/deimv2_wholebody49_boxes_only.onnx",
+          "probe_path": "weights/dino_probe.joblib",
+          "clip_path": "weights/clip-vit-base-patch32"
+        },
+        "torch_device": "cpu",
+        "head_providers": [
+          "CPUExecutionProvider"
+        ],
+        "cuda_device": null
+      },
+      "manifest_sha256": "3134f196ed85fb35f97f87fe1e8b839f947993ed271aa4794a6086027f83ea59",
+      "checkpoint_sha256": {
+        "yolo": "646f8bc3fe0a656803d95c294f7852321748cb29d13466a1af8862e2db384a1b",
+        "head": "f70ffbd4a937f6ed8d2873f230b56b356b87c827465338f735f4f8fba8ab0c62",
+        "probe": "d130efe4fa758d72ba7e5047aa07b58160f7f568b4ce3e42acd49e033cb8e4df",
+        "clip": "d5853196afb60ca6373692d9af911aacd8fa821af6d4af54720d4eb9c8f5da0a"
+      }
+    },
+    "openvino_cpu": {
+      "repeats": 2,
+      "frame_samples": 32,
+      "latency_ms": {
+        "p50": 3416.79980000481,
+        "p95": 4657.797735009808,
+        "min": 2919.0698000020348,
+        "max": 5528.935699956492
+      },
+      "fps_compute": 0.28226664885800035,
+      "classifier_calls": 30,
+      "clip_forward_counts_after_warmup": {
+        "text_forwards": 0,
+        "image_forwards": 30
+      },
+      "metrics_frame_vehicle": {
+        "iou_threshold": 0.3,
+        "counts": {
+          "frames": 16,
+          "gt_vehicles": 32,
+          "predicted_vehicles": 55,
+          "matched_vehicles": 26,
+          "gt_violations": 8,
+          "predicted_violations": 8,
+          "violation_tp": 5,
+          "violation_fp": 3,
+          "violation_fn": 3,
+          "unknown_decisions": 37,
+          "rider_absolute_error": 13,
+          "rider_exact": 16
+        },
+        "vehicle_detection_precision": 0.4727272727272727,
+        "vehicle_detection_recall": 0.8125,
+        "violation_precision": 0.625,
+        "violation_recall": 0.625,
+        "unknown_rate": 0.6727272727272727,
+        "rider_count_mae": 0.5,
+        "rider_count_exact_rate": 0.6153846153846154
+      },
+      "regression_images": {
+        "unhelmeted": {
+          "riders_per_motorcycle": [
+            2
+          ],
+          "head_labels": [
+            "không đội mũ",
+            "không đội mũ"
+          ],
+          "passed": true
+        },
+        "family": {
+          "riders_per_motorcycle": [
+            1,
+            2,
+            4
+          ],
+          "head_labels": [
+            "chưa xác định",
+            "chưa xác định",
+            "có đội mũ",
+            "có đội mũ",
+            "có đội mũ",
+            "chưa xác định",
+            "có đội mũ"
+          ],
+          "passed": true
+        }
+      },
+      "vram": {
+        "torch_peak_allocated_mib": null,
+        "torch_peak_reserved_mib": null,
+        "process_peak_sampled_mib": null,
+        "note": "CPU execution; VRAM not applicable"
+      },
+      "runtime": {
+        "config": {
+          "device": "cpu",
+          "imgsz": 1280,
+          "cpu_threads": 4,
+          "ort_threads": 4,
+          "ort_spinning": false,
+          "head_backend": "openvino",
+          "openvino_device": "CPU",
+          "batch_heads": true,
+          "cache_clip_text": true,
+          "local_files_only": true,
+          "accurate": true,
+          "detector_kind": "yolo",
+          "classifier_kind": "dino",
+          "yolo_weights": "weights/yolo26s.pt",
+          "head_path": "weights/deimv2_wholebody49_boxes_only.onnx",
+          "probe_path": "weights/dino_probe.joblib",
+          "clip_path": "weights/clip-vit-base-patch32"
+        },
+        "torch_device": "cpu",
+        "head_providers": [
+          "OpenVINO:CPU"
+        ],
+        "cuda_device": null
+      },
+      "manifest_sha256": "3134f196ed85fb35f97f87fe1e8b839f947993ed271aa4794a6086027f83ea59",
+      "checkpoint_sha256": {
+        "yolo": "646f8bc3fe0a656803d95c294f7852321748cb29d13466a1af8862e2db384a1b",
+        "head": "f70ffbd4a937f6ed8d2873f230b56b356b87c827465338f735f4f8fba8ab0c62",
+        "probe": "d130efe4fa758d72ba7e5047aa07b58160f7f568b4ce3e42acd49e033cb8e4df",
+        "clip": "d5853196afb60ca6373692d9af911aacd8fa821af6d4af54720d4eb9c8f5da0a"
+      }
+    },
+    "openvino_gpu": {
+      "repeats": 1,
+      "frame_samples": 16,
+      "latency_ms": {
+        "p50": 3719.8394499719143,
+        "p95": 4391.409199975897,
+        "min": 2826.942000014242,
+        "max": 5163.591500022449
+      },
+      "fps_compute": 0.27483271902886325,
+      "classifier_calls": 15,
+      "clip_forward_counts_after_warmup": {
+        "text_forwards": 0,
+        "image_forwards": 15
+      },
+      "metrics_frame_vehicle": {
+        "iou_threshold": 0.3,
+        "counts": {
+          "frames": 16,
+          "gt_vehicles": 32,
+          "predicted_vehicles": 55,
+          "matched_vehicles": 26,
+          "gt_violations": 8,
+          "predicted_violations": 8,
+          "violation_tp": 5,
+          "violation_fp": 3,
+          "violation_fn": 3,
+          "unknown_decisions": 37,
+          "rider_absolute_error": 13,
+          "rider_exact": 16
+        },
+        "vehicle_detection_precision": 0.4727272727272727,
+        "vehicle_detection_recall": 0.8125,
+        "violation_precision": 0.625,
+        "violation_recall": 0.625,
+        "unknown_rate": 0.6727272727272727,
+        "rider_count_mae": 0.5,
+        "rider_count_exact_rate": 0.6153846153846154
+      },
+      "regression_images": {
+        "unhelmeted": {
+          "riders_per_motorcycle": [
+            2
+          ],
+          "head_labels": [
+            "không đội mũ",
+            "không đội mũ"
+          ],
+          "passed": true
+        },
+        "family": {
+          "riders_per_motorcycle": [
+            1,
+            2,
+            4
+          ],
+          "head_labels": [
+            "chưa xác định",
+            "chưa xác định",
+            "có đội mũ",
+            "có đội mũ",
+            "có đội mũ",
+            "chưa xác định",
+            "có đội mũ"
+          ],
+          "passed": true
+        }
+      },
+      "vram": {
+        "torch_peak_allocated_mib": null,
+        "torch_peak_reserved_mib": null,
+        "process_peak_sampled_mib": null,
+        "note": "CUDA VRAM not applicable on CPU/Intel GPU; Intel shared-memory usage is not measured"
+      },
+      "runtime": {
+        "config": {
+          "device": "cpu",
+          "imgsz": 1280,
+          "cpu_threads": 4,
+          "ort_threads": 4,
+          "ort_spinning": false,
+          "head_backend": "openvino",
+          "openvino_device": "GPU",
+          "batch_heads": true,
+          "cache_clip_text": true,
+          "verify_with_clip": true,
+          "local_files_only": true,
+          "accurate": true,
+          "detector_kind": "yolo",
+          "classifier_kind": "dino",
+          "yolo_weights": "weights/yolo26s.pt",
+          "head_path": "weights/deimv2_wholebody49_boxes_only.onnx",
+          "probe_path": "weights/dino_probe.joblib",
+          "clip_path": "weights/clip-vit-base-patch32"
+        },
+        "torch_device": "cpu",
+        "active_models": [
+          "yolo",
+          "dino",
+          "deim_head",
+          "clip"
+        ],
+        "head_providers": [
+          "OpenVINO:GPU.0"
+        ],
+        "cuda_device": null
+      },
+      "manifest_sha256": "3134f196ed85fb35f97f87fe1e8b839f947993ed271aa4794a6086027f83ea59",
+      "checkpoint_sha256": {
+        "yolo": "646f8bc3fe0a656803d95c294f7852321748cb29d13466a1af8862e2db384a1b",
+        "head": "f70ffbd4a937f6ed8d2873f230b56b356b87c827465338f735f4f8fba8ab0c62",
+        "probe": "d130efe4fa758d72ba7e5047aa07b58160f7f568b4ce3e42acd49e033cb8e4df",
+        "clip": "d5853196afb60ca6373692d9af911aacd8fa821af6d4af54720d4eb9c8f5da0a"
+      }
+    },
+    "experiment_dino_only": {
+      "repeats": 1,
+      "frame_samples": 16,
+      "latency_ms": {
+        "p50": 4675.9508500108495,
+        "p95": 4954.616000017268,
+        "min": 4304.604099947028,
+        "max": 5382.508399954531
+      },
+      "fps_compute": 0.21486938846621,
+      "classifier_calls": 15,
+      "clip_forward_counts_after_warmup": {},
+      "metrics_frame_vehicle": {
+        "iou_threshold": 0.3,
+        "counts": {
+          "frames": 16,
+          "gt_vehicles": 32,
+          "predicted_vehicles": 55,
+          "matched_vehicles": 26,
+          "gt_violations": 8,
+          "predicted_violations": 8,
+          "violation_tp": 5,
+          "violation_fp": 3,
+          "violation_fn": 3,
+          "unknown_decisions": 28,
+          "rider_absolute_error": 13,
+          "rider_exact": 16
+        },
+        "vehicle_detection_precision": 0.4727272727272727,
+        "vehicle_detection_recall": 0.8125,
+        "violation_precision": 0.625,
+        "violation_recall": 0.625,
+        "unknown_rate": 0.509090909090909,
+        "rider_count_mae": 0.5,
+        "rider_count_exact_rate": 0.6153846153846154
+      },
+      "regression_images": {
+        "unhelmeted": {
+          "riders_per_motorcycle": [
+            2
+          ],
+          "head_labels": [
+            "không đội mũ",
+            "có đội mũ"
+          ],
+          "passed": false
+        },
+        "family": {
+          "riders_per_motorcycle": [
+            1,
+            2,
+            4
+          ],
+          "head_labels": [
+            "chưa xác định",
+            "chưa xác định",
+            "có đội mũ",
+            "có đội mũ",
+            "có đội mũ",
+            "chưa xác định",
+            "có đội mũ"
+          ],
+          "passed": true
+        }
+      },
+      "vram": {
+        "torch_peak_allocated_mib": null,
+        "torch_peak_reserved_mib": null,
+        "process_peak_sampled_mib": null,
+        "note": "CUDA VRAM not applicable on CPU/Intel GPU; Intel shared-memory usage is not measured"
+      },
+      "runtime": {
+        "config": {
+          "device": "cpu",
+          "imgsz": 1280,
+          "cpu_threads": 4,
+          "ort_threads": 4,
+          "ort_spinning": false,
+          "head_backend": "onnx",
+          "openvino_device": "CPU",
+          "batch_heads": true,
+          "cache_clip_text": true,
+          "verify_with_clip": false,
+          "local_files_only": true,
+          "accurate": true,
+          "detector_kind": "yolo",
+          "classifier_kind": "dino",
+          "yolo_weights": "weights/yolo26s.pt",
+          "head_path": "weights/deimv2_wholebody49_boxes_only.onnx",
+          "probe_path": "weights/dino_probe.joblib",
+          "clip_path": "weights/clip-vit-base-patch32"
+        },
+        "torch_device": "cpu",
+        "active_models": [
+          "yolo",
+          "dino",
+          "deim_head"
+        ],
+        "head_providers": [
+          "CPUExecutionProvider"
+        ],
+        "cuda_device": null
+      },
+      "manifest_sha256": "3134f196ed85fb35f97f87fe1e8b839f947993ed271aa4794a6086027f83ea59",
+      "checkpoint_sha256": {
+        "yolo": "646f8bc3fe0a656803d95c294f7852321748cb29d13466a1af8862e2db384a1b",
+        "probe": "d130efe4fa758d72ba7e5047aa07b58160f7f568b4ce3e42acd49e033cb8e4df",
+        "head": "f70ffbd4a937f6ed8d2873f230b56b356b87c827465338f735f4f8fba8ab0c62"
+      }
+    }
+  },
+  "decision": {
+    "preferred_measured_local_profile": "openvino_cpu",
+    "portable_default": "optimized_cpu",
+    "model_reduction": "rejected DINO-only; fur-hat regression",
+    "cloud_gpu_run": "not executed; see outputs/benchmarks/cloud_cuda/status.json"
+  },
+  "verification": {
+    "software_tests": 51,
+    "software_test_log": "outputs/runtime_unit_tests_20261105.log",
+    "compileall": "passed",
+    "cloud_notebook_code_cells": 7,
+    "cloud_notebook_compilation": "passed",
+    "local_app_http_acceptance": "outputs/runtime/app_acceptance_20261106.json"
+  }
+}

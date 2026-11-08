@@ -1,0 +1,363 @@
+{
+  "status": "measured_head_history_fix_validated_with_small_smoke_limits",
+  "models_changed": false,
+  "training_performed": false,
+  "classification_architecture_changed": false,
+  "default_tracker_fusion_changed": false,
+  "public_quality": {
+    "scope": "16 correlated official HELMET test frames/4 clips; 32 vehicles/8 violations; frozen downstream final-policy projection",
+    "evaluation": "causal vehicle decisions; full IoU rematching after eligibility; assisted labels never GT",
+    "rows": [
+      {
+        "mode": "baseline",
+        "repeat": 1,
+        "metrics": {
+          "iou_threshold": 0.3,
+          "counts": {
+            "frames": 16,
+            "gt_vehicles": 32,
+            "predicted_vehicles": 55,
+            "matched_vehicles": 26,
+            "gt_violations": 8,
+            "predicted_violations": 7,
+            "violation_tp": 6,
+            "violation_fp": 1,
+            "violation_fn": 2,
+            "unknown_decisions": 26,
+            "rider_absolute_error": 13,
+            "rider_exact": 16
+          },
+          "vehicle_detection_precision": 0.4727272727272727,
+          "vehicle_detection_recall": 0.8125,
+          "violation_precision": 0.8571428571428571,
+          "violation_recall": 0.75,
+          "unknown_rate": 0.4727272727272727,
+          "rider_count_mae": 0.5,
+          "rider_count_exact_rate": 0.6153846153846154
+        },
+        "projected_backfilled_vehicle_frames": 0
+      },
+      {
+        "mode": "backfill",
+        "repeat": 1,
+        "metrics": {
+          "iou_threshold": 0.3,
+          "counts": {
+            "frames": 16,
+            "gt_vehicles": 32,
+            "predicted_vehicles": 56,
+            "matched_vehicles": 27,
+            "gt_violations": 8,
+            "predicted_violations": 8,
+            "violation_tp": 7,
+            "violation_fp": 1,
+            "violation_fn": 1,
+            "unknown_decisions": 26,
+            "rider_absolute_error": 14,
+            "rider_exact": 16
+          },
+          "vehicle_detection_precision": 0.48214285714285715,
+          "vehicle_detection_recall": 0.84375,
+          "violation_precision": 0.875,
+          "violation_recall": 0.875,
+          "unknown_rate": 0.4642857142857143,
+          "rider_count_mae": 0.5185185185185185,
+          "rider_count_exact_rate": 0.5925925925925926
+        },
+        "projected_backfilled_vehicle_frames": 1
+      },
+      {
+        "mode": "baseline",
+        "repeat": 2,
+        "metrics": {
+          "iou_threshold": 0.3,
+          "counts": {
+            "frames": 16,
+            "gt_vehicles": 32,
+            "predicted_vehicles": 55,
+            "matched_vehicles": 26,
+            "gt_violations": 8,
+            "predicted_violations": 7,
+            "violation_tp": 6,
+            "violation_fp": 1,
+            "violation_fn": 2,
+            "unknown_decisions": 26,
+            "rider_absolute_error": 13,
+            "rider_exact": 16
+          },
+          "vehicle_detection_precision": 0.4727272727272727,
+          "vehicle_detection_recall": 0.8125,
+          "violation_precision": 0.8571428571428571,
+          "violation_recall": 0.75,
+          "unknown_rate": 0.4727272727272727,
+          "rider_count_mae": 0.5,
+          "rider_count_exact_rate": 0.6153846153846154
+        },
+        "projected_backfilled_vehicle_frames": 0
+      },
+      {
+        "mode": "backfill",
+        "repeat": 2,
+        "metrics": {
+          "iou_threshold": 0.3,
+          "counts": {
+            "frames": 16,
+            "gt_vehicles": 32,
+            "predicted_vehicles": 56,
+            "matched_vehicles": 27,
+            "gt_violations": 8,
+            "predicted_violations": 8,
+            "violation_tp": 7,
+            "violation_fp": 1,
+            "violation_fn": 1,
+            "unknown_decisions": 26,
+            "rider_absolute_error": 14,
+            "rider_exact": 16
+          },
+          "vehicle_detection_precision": 0.48214285714285715,
+          "vehicle_detection_recall": 0.84375,
+          "violation_precision": 0.875,
+          "violation_recall": 0.875,
+          "unknown_rate": 0.4642857142857143,
+          "rider_count_mae": 0.5185185185185185,
+          "rider_count_exact_rate": 0.5925925925925926
+        },
+        "projected_backfilled_vehicle_frames": 1
+      }
+    ],
+    "limitations": [
+      "Small smoke subset from available mirrored clips; not representative accuracy.",
+      "Consecutive frames within a clip are correlated; frame metrics are not independent track metrics.",
+      "HF mirror contains 640x640 resized images; resize to 1920x1080 before inference to match annotation boxes. Original image detail cannot be recovered.",
+      "Mirrored GT may be incomplete. Unmatched predicted violations count as FP against available annotations.",
+      "Local split CSV is authoritative; source test label is normalized to manifest testing.",
+      "Frame vehicle detection/classification metrics are not head AP or track-level metrics.",
+      "First repeat timing overlapped a short unit-test process; do not use for speed comparisons.",
+      "Final output labels recomputed from raw known/unknown votes, n_min1/hi.6/lo.4; not from aggregated decisions.",
+      "No F2 in this public run; projected eligibility does not change association or observations.",
+      "Eligibility policy was chosen after seeing this smoke subset; evaluate broader independent labelled data before claiming general accuracy.",
+      "32 GT vehicle occurrences/8 violation occurrences are correlated frames from only four clips.",
+      "No representative temporal identity benchmark; IDSW/fragmentation not claimed."
+    ]
+  },
+  "live_timing_reference": {
+    "scope": "same-model live pre-eligibility policy; repeat2 only; shared Intel CPU; not measured final-policy speedup",
+    "rows": [
+      {
+        "mode": "baseline",
+        "repeat": 2,
+        "processing_seconds": 70.28431701660156,
+        "inference_fps": 0.22764680200592555,
+        "latency_ms_p50": 4350.125750002917,
+        "latency_ms_p95": 4641.922825030633
+      },
+      {
+        "mode": "backfill",
+        "repeat": 2,
+        "processing_seconds": 70.71281576156616,
+        "inference_fps": 0.2262673297291652,
+        "latency_ms_p50": 4365.238450001925,
+        "latency_ms_p95": 4778.500149972388
+      }
+    ],
+    "final_policy_end_to_end_inference_seconds": null,
+    "speedup_claimed": false,
+    "vram_mb": null,
+    "cloud_gpu_tested": false
+  },
+  "user_video": {
+    "source_sha256": "4239a39500fbccf4c9908099ff4cce1e570c7fcd91078da6bafaaee165d9e335",
+    "scope": "frozen detector replay; identical classifier, cached unchanged probabilities plus real new crops; NOT live inference FPS",
+    "legacy_exact_parity": "asserted exact per_frame and tracks/votes for every baseline",
+    "rows": [
+      {
+        "mode": "baseline",
+        "stride": 10,
+        "supplied_box_coverage": {
+          "scope": "original49explicitlyreviewed anchors only; diagnostic coverage, NOT final precision/recall",
+          "provided_head_boxes": 68,
+          "provided_occupied_vehicle_boxes": 43,
+          "matched_head_boxes": 13,
+          "matched_occupied_vehicle_boxes": 8
+        },
+        "vehicle_tracks": 9,
+        "vehicle_records": 48,
+        "unknown_tracks": 7,
+        "violation_tracks": 0,
+        "f2": {
+          "total_before": 10,
+          "removed": 1,
+          "kept": 9
+        },
+        "head_crops": 37,
+        "new_classifier_crops": 0,
+        "new_classifier_seconds": 0.0,
+        "backfilled_vehicle_frames": 0,
+        "skipped_no_valid_head": 0,
+        "discarded_unconfirmed": 0
+      },
+      {
+        "mode": "backfill",
+        "stride": 10,
+        "supplied_box_coverage": {
+          "scope": "original49explicitlyreviewed anchors only; diagnostic coverage, NOT final precision/recall",
+          "provided_head_boxes": 68,
+          "provided_occupied_vehicle_boxes": 43,
+          "matched_head_boxes": 17,
+          "matched_occupied_vehicle_boxes": 10
+        },
+        "vehicle_tracks": 9,
+        "vehicle_records": 56,
+        "unknown_tracks": 7,
+        "violation_tracks": 0,
+        "f2": {
+          "total_before": 10,
+          "removed": 1,
+          "kept": 9
+        },
+        "head_crops": 45,
+        "new_classifier_crops": 8,
+        "new_classifier_seconds": 1.6487504999968223,
+        "backfilled_vehicle_frames": 8,
+        "skipped_no_valid_head": 119,
+        "discarded_unconfirmed": 52
+      },
+      {
+        "mode": "baseline",
+        "stride": 5,
+        "supplied_box_coverage": {
+          "scope": "original49explicitlyreviewed anchors only; diagnostic coverage, NOT final precision/recall",
+          "provided_head_boxes": 68,
+          "provided_occupied_vehicle_boxes": 43,
+          "matched_head_boxes": 22,
+          "matched_occupied_vehicle_boxes": 14
+        },
+        "vehicle_tracks": 32,
+        "vehicle_records": 187,
+        "unknown_tracks": 27,
+        "violation_tracks": 0,
+        "f2": {
+          "total_before": 41,
+          "removed": 9,
+          "kept": 32
+        },
+        "head_crops": 107,
+        "new_classifier_crops": 0,
+        "new_classifier_seconds": 0.0,
+        "backfilled_vehicle_frames": 0,
+        "skipped_no_valid_head": 0,
+        "discarded_unconfirmed": 0
+      },
+      {
+        "mode": "backfill",
+        "stride": 5,
+        "supplied_box_coverage": {
+          "scope": "original49explicitlyreviewed anchors only; diagnostic coverage, NOT final precision/recall",
+          "provided_head_boxes": 68,
+          "provided_occupied_vehicle_boxes": 43,
+          "matched_head_boxes": 23,
+          "matched_occupied_vehicle_boxes": 14
+        },
+        "vehicle_tracks": 32,
+        "vehicle_records": 203,
+        "unknown_tracks": 27,
+        "violation_tracks": 0,
+        "f2": {
+          "total_before": 41,
+          "removed": 9,
+          "kept": 32
+        },
+        "head_crops": 124,
+        "new_classifier_crops": 17,
+        "new_classifier_seconds": 2.326768200029619,
+        "backfilled_vehicle_frames": 16,
+        "skipped_no_valid_head": 174,
+        "discarded_unconfirmed": 74
+      },
+      {
+        "mode": "baseline",
+        "stride": 2,
+        "supplied_box_coverage": {
+          "scope": "original49explicitlyreviewed anchors only; diagnostic coverage, NOT final precision/recall",
+          "provided_head_boxes": 68,
+          "provided_occupied_vehicle_boxes": 43,
+          "matched_head_boxes": 29,
+          "matched_occupied_vehicle_boxes": 19
+        },
+        "vehicle_tracks": 62,
+        "vehicle_records": 864,
+        "unknown_tracks": 48,
+        "violation_tracks": 3,
+        "f2": {
+          "total_before": 88,
+          "removed": 26,
+          "kept": 62
+        },
+        "head_crops": 453,
+        "new_classifier_crops": 0,
+        "new_classifier_seconds": 0.0,
+        "backfilled_vehicle_frames": 0,
+        "skipped_no_valid_head": 0,
+        "discarded_unconfirmed": 0
+      },
+      {
+        "mode": "backfill",
+        "stride": 2,
+        "supplied_box_coverage": {
+          "scope": "original49explicitlyreviewed anchors only; diagnostic coverage, NOT final precision/recall",
+          "provided_head_boxes": 68,
+          "provided_occupied_vehicle_boxes": 43,
+          "matched_head_boxes": 30,
+          "matched_occupied_vehicle_boxes": 21
+        },
+        "vehicle_tracks": 63,
+        "vehicle_records": 891,
+        "unknown_tracks": 48,
+        "violation_tracks": 3,
+        "f2": {
+          "total_before": 88,
+          "removed": 25,
+          "kept": 63
+        },
+        "head_crops": 482,
+        "new_classifier_crops": 29,
+        "new_classifier_seconds": 3.7986250000540167,
+        "backfilled_vehicle_frames": 27,
+        "skipped_no_valid_head": 223,
+        "discarded_unconfirmed": 45
+      }
+    ],
+    "precision": null,
+    "recall": null,
+    "id_switches": null,
+    "quality_limit": "Original49reviewed anchors/68heads incomplete and inconsistent IDs. Assisted draft excluded."
+  },
+  "output_video": {
+    "path": "E:\\test_thacsi\\TGMTNC-helmet\\tgmt-de14-helmet-violation\\outputs\\video_tracking_20261106\\final\\1102_backfill_stride2_full_length.mp4",
+    "sha256": "c83c0da42ebd246f70436f7de5a447027a7a609d3caf9560dd7b38be7076132f",
+    "frame_count": 1052,
+    "fps_rational": "30/1",
+    "width": 1920,
+    "height": 1080,
+    "duration_s": 35.06666666666666,
+    "audio_streams": 1,
+    "decoded_audio_hash_source": "SHA256=dff75fb03263d33ebc5a853853214d3da521e56c44da04559670b7ae6caa79f0",
+    "decoded_audio_hash_output": "SHA256=dff75fb03263d33ebc5a853853214d3da521e56c44da04559670b7ae6caa79f0",
+    "source_audio_equal": true,
+    "unsampled_frames": "original_unannotated",
+    "interpolation": false
+  },
+  "verification": {
+    "python_regression_tests": 111,
+    "python_result": "passed",
+    "focused_tentative_tests": 14,
+    "independent_review": "two P2 findings fixed and regression-tested; final read-only recheck found no blockers",
+    "encoder_state_sha256": "8a1e7e2a2c10b4566b5a79c31713242daf0cd977fbd0b843bfab29eb056a69f6",
+    "pipeline_sha256": "e7044c70e1678392f33ded9ac33b69f4db212e876bc3c80b115c7cb35b74d28d",
+    "tracker_sha256": "c365350d48180820afddc3f284182a60e39049f1a78b9a6136c915eddbda85cd"
+  },
+  "references": [
+    "https://docs.nvidia.com/deepstream/text/DS_plugin_gst-nvtracker",
+    "https://arxiv.org/abs/2110.06864"
+  ]
+}

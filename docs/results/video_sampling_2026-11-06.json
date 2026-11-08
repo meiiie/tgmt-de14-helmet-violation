@@ -1,0 +1,4606 @@
+{
+  "status": "complete_operational_benchmark_quality_pending_gt",
+  "source_sha256": "4239a39500fbccf4c9908099ff4cce1e570c7fcd91078da6bafaaee165d9e335",
+  "runtime": {
+    "config": {
+      "device": "cpu",
+      "imgsz": 1280,
+      "cpu_threads": 4,
+      "ort_threads": 4,
+      "ort_spinning": false,
+      "head_backend": "openvino",
+      "openvino_device": "CPU",
+      "batch_heads": true,
+      "cache_clip_text": true,
+      "verify_with_clip": true,
+      "local_files_only": true,
+      "accurate": false,
+      "detect_heads": true,
+      "detector_kind": "yolo",
+      "classifier_kind": "dino",
+      "yolo_weights": "weights/yolo26s.pt",
+      "head_path": "weights/deimv2_wholebody49_boxes_only.onnx",
+      "probe_path": "weights/dino_probe.joblib",
+      "clip_path": "weights/clip-vit-base-patch32"
+    },
+    "torch_device": "cpu",
+    "active_models": [
+      "yolo",
+      "dino",
+      "deim_head"
+    ],
+    "encoder": {
+      "model_id": "facebook/dinov3-vits16-pretrain-lvd1689m",
+      "revision": null,
+      "loaded_from": "facebook/dinov3-vits16-pretrain-lvd1689m"
+    },
+    "head_providers": [
+      "OpenVINO:CPU"
+    ],
+    "cuda_device": null
+  },
+  "model_load_seconds": 49.04328370001167,
+  "rows": [
+    {
+      "stride": 10,
+      "min_observations": 5,
+      "sampled_frames": 106,
+      "sample_interval_s": 0.3333333333333333,
+      "vehicle_tracks": 9,
+      "person_detections": 446,
+      "counters": {
+        "person_detections": 446,
+        "head_detections": 205,
+        "associated_heads": 37,
+        "missing_head_frames": 11,
+        "invalid_crops": 0
+      },
+      "unknown_tracks": 7,
+      "unknown_rate": 0.7777777777777778,
+      "unknown_denominator": 9,
+      "violation_tracks": 0,
+      "f2": {
+        "total_before": 10,
+        "removed": 1,
+        "kept": 9
+      },
+      "f2_shadow_off": {
+        "vehicle_tracks": 10,
+        "unknown_rate": 0.8,
+        "violation_tracks": 0
+      },
+      "tracks_with_fewer_known_observations_than_min": 8,
+      "precision": null,
+      "recall": null,
+      "fp": null,
+      "fn": null,
+      "id_switches": null,
+      "gt_fragmentation": null,
+      "quality_status": "N/A: verified temporal GT is not available",
+      "processing_seconds": 386.068407535553,
+      "sampled_processing_fps": 0.2745627405170118,
+      "model_inference_seconds": 376.01800606795587,
+      "model_inference_fps": 0.2819013937881558,
+      "detector_seconds": 370.9387471675873,
+      "classifier_seconds": 5.079258900368586,
+      "output_duration": 35.06666666666666,
+      "output_fps": 30.0,
+      "output_frames": 1052,
+      "render_encode_seconds": 91.88536729995394,
+      "tracker_buffer_seconds": 10.0,
+      "measurement_note": "Uncached inference, shared within same-stride n_min pair; n_min replay/render are timed separately",
+      "vote_replay_seconds": 0.05448739998973906,
+      "video_path": "E:\\test_thacsi\\TGMTNC-helmet\\tgmt-de14-helmet-violation\\outputs\\benchmarks\\video_sampling_20261106\\S10_M5\\full_length_annotated.mp4"
+    },
+    {
+      "stride": 10,
+      "min_observations": 10,
+      "sampled_frames": 106,
+      "sample_interval_s": 0.3333333333333333,
+      "vehicle_tracks": 9,
+      "person_detections": 446,
+      "counters": {
+        "person_detections": 446,
+        "head_detections": 205,
+        "associated_heads": 37,
+        "missing_head_frames": 11,
+        "invalid_crops": 0
+      },
+      "unknown_tracks": 9,
+      "unknown_rate": 1.0,
+      "unknown_denominator": 9,
+      "violation_tracks": 0,
+      "f2": {
+        "total_before": 10,
+        "removed": 1,
+        "kept": 9
+      },
+      "f2_shadow_off": {
+        "vehicle_tracks": 10,
+        "unknown_rate": 1.0,
+        "violation_tracks": 0
+      },
+      "tracks_with_fewer_known_observations_than_min": 10,
+      "precision": null,
+      "recall": null,
+      "fp": null,
+      "fn": null,
+      "id_switches": null,
+      "gt_fragmentation": null,
+      "quality_status": "N/A: verified temporal GT is not available",
+      "processing_seconds": 386.068407535553,
+      "sampled_processing_fps": 0.2745627405170118,
+      "model_inference_seconds": 376.01800606795587,
+      "model_inference_fps": 0.2819013937881558,
+      "detector_seconds": 370.9387471675873,
+      "classifier_seconds": 5.079258900368586,
+      "output_duration": 35.06666666666666,
+      "output_fps": 30.0,
+      "output_frames": 1052,
+      "render_encode_seconds": 89.10360769997351,
+      "tracker_buffer_seconds": 10.0,
+      "measurement_note": "Uncached inference, shared within same-stride n_min pair; n_min replay/render are timed separately",
+      "vote_replay_seconds": 0.033621500013396144,
+      "video_path": "E:\\test_thacsi\\TGMTNC-helmet\\tgmt-de14-helmet-violation\\outputs\\benchmarks\\video_sampling_20261106\\S10_M10\\full_length_annotated.mp4"
+    },
+    {
+      "stride": 5,
+      "min_observations": 5,
+      "sampled_frames": 211,
+      "sample_interval_s": 0.16666666666666666,
+      "vehicle_tracks": 32,
+      "person_detections": 852,
+      "counters": {
+        "person_detections": 852,
+        "head_detections": 393,
+        "associated_heads": 107,
+        "missing_head_frames": 81,
+        "invalid_crops": 0
+      },
+      "unknown_tracks": 27,
+      "unknown_rate": 0.84375,
+      "unknown_denominator": 32,
+      "violation_tracks": 0,
+      "f2": {
+        "total_before": 41,
+        "removed": 9,
+        "kept": 32
+      },
+      "f2_shadow_off": {
+        "vehicle_tracks": 41,
+        "unknown_rate": 0.8780487804878049,
+        "violation_tracks": 0
+      },
+      "tracks_with_fewer_known_observations_than_min": 36,
+      "precision": null,
+      "recall": null,
+      "fp": null,
+      "fn": null,
+      "id_switches": null,
+      "gt_fragmentation": null,
+      "quality_status": "N/A: verified temporal GT is not available",
+      "processing_seconds": 917.28249168396,
+      "sampled_processing_fps": 0.23002728375709347,
+      "model_inference_seconds": 905.5491059057531,
+      "model_inference_fps": 0.2330077945236912,
+      "detector_seconds": 888.4558680057526,
+      "classifier_seconds": 17.09323790000053,
+      "output_duration": 35.06666666666666,
+      "output_fps": 30.0,
+      "output_frames": 1052,
+      "render_encode_seconds": 92.97354400000768,
+      "tracker_buffer_seconds": 5.0,
+      "measurement_note": "Uncached inference, shared within same-stride n_min pair; n_min replay/render are timed separately",
+      "vote_replay_seconds": 0.1093692000140436,
+      "video_path": "E:\\test_thacsi\\TGMTNC-helmet\\tgmt-de14-helmet-violation\\outputs\\benchmarks\\video_sampling_20261106\\S5_M5\\full_length_annotated.mp4"
+    },
+    {
+      "stride": 5,
+      "min_observations": 10,
+      "sampled_frames": 211,
+      "sample_interval_s": 0.16666666666666666,
+      "vehicle_tracks": 32,
+      "person_detections": 852,
+      "counters": {
+        "person_detections": 852,
+        "head_detections": 393,
+        "associated_heads": 107,
+        "missing_head_frames": 81,
+        "invalid_crops": 0
+      },
+      "unknown_tracks": 30,
+      "unknown_rate": 0.9375,
+      "unknown_denominator": 32,
+      "violation_tracks": 0,
+      "f2": {
+        "total_before": 41,
+        "removed": 9,
+        "kept": 32
+      },
+      "f2_shadow_off": {
+        "vehicle_tracks": 41,
+        "unknown_rate": 0.9512195121951219,
+        "violation_tracks": 0
+      },
+      "tracks_with_fewer_known_observations_than_min": 39,
+      "precision": null,
+      "recall": null,
+      "fp": null,
+      "fn": null,
+      "id_switches": null,
+      "gt_fragmentation": null,
+      "quality_status": "N/A: verified temporal GT is not available",
+      "processing_seconds": 917.28249168396,
+      "sampled_processing_fps": 0.23002728375709347,
+      "model_inference_seconds": 905.5491059057531,
+      "model_inference_fps": 0.2330077945236912,
+      "detector_seconds": 888.4558680057526,
+      "classifier_seconds": 17.09323790000053,
+      "output_duration": 35.06666666666666,
+      "output_fps": 30.0,
+      "output_frames": 1052,
+      "render_encode_seconds": 84.64069710002514,
+      "tracker_buffer_seconds": 5.0,
+      "measurement_note": "Uncached inference, shared within same-stride n_min pair; n_min replay/render are timed separately",
+      "vote_replay_seconds": 0.12227160000475124,
+      "video_path": "E:\\test_thacsi\\TGMTNC-helmet\\tgmt-de14-helmet-violation\\outputs\\benchmarks\\video_sampling_20261106\\S5_M10\\full_length_annotated.mp4"
+    },
+    {
+      "stride": 2,
+      "min_observations": 5,
+      "sampled_frames": 526,
+      "sample_interval_s": 0.06666666666666667,
+      "vehicle_tracks": 62,
+      "person_detections": 2125,
+      "counters": {
+        "person_detections": 2125,
+        "head_detections": 980,
+        "associated_heads": 453,
+        "missing_head_frames": 414,
+        "invalid_crops": 0
+      },
+      "unknown_tracks": 48,
+      "unknown_rate": 0.7741935483870968,
+      "unknown_denominator": 62,
+      "violation_tracks": 3,
+      "f2": {
+        "total_before": 88,
+        "removed": 26,
+        "kept": 62
+      },
+      "f2_shadow_off": {
+        "vehicle_tracks": 88,
+        "unknown_rate": 0.8409090909090909,
+        "violation_tracks": 3
+      },
+      "tracks_with_fewer_known_observations_than_min": 73,
+      "precision": null,
+      "recall": null,
+      "fp": null,
+      "fn": null,
+      "id_switches": null,
+      "gt_fragmentation": null,
+      "quality_status": "N/A: verified temporal GT is not available",
+      "processing_seconds": 1629.8422355651855,
+      "sampled_processing_fps": 0.3227306229535752,
+      "model_inference_seconds": 1619.8741483514896,
+      "model_inference_fps": 0.3247165840230852,
+      "detector_seconds": 1580.6863553524017,
+      "classifier_seconds": 39.18779299908783,
+      "output_duration": 35.06666666666666,
+      "output_fps": 30.0,
+      "output_frames": 1052,
+      "render_encode_seconds": 45.795226700021885,
+      "tracker_buffer_seconds": 2.0,
+      "measurement_note": "Uncached inference, shared within same-stride n_min pair; n_min replay/render are timed separately",
+      "vote_replay_seconds": 0.05630840000230819,
+      "video_path": "E:\\test_thacsi\\TGMTNC-helmet\\tgmt-de14-helmet-violation\\outputs\\benchmarks\\video_sampling_20261106\\S2_M5\\full_length_annotated.mp4"
+    },
+    {
+      "stride": 2,
+      "min_observations": 10,
+      "sampled_frames": 526,
+      "sample_interval_s": 0.06666666666666667,
+      "vehicle_tracks": 62,
+      "person_detections": 2125,
+      "counters": {
+        "person_detections": 2125,
+        "head_detections": 980,
+        "associated_heads": 453,
+        "missing_head_frames": 414,
+        "invalid_crops": 0
+      },
+      "unknown_tracks": 54,
+      "unknown_rate": 0.8709677419354839,
+      "unknown_denominator": 62,
+      "violation_tracks": 0,
+      "f2": {
+        "total_before": 88,
+        "removed": 26,
+        "kept": 62
+      },
+      "f2_shadow_off": {
+        "vehicle_tracks": 88,
+        "unknown_rate": 0.9090909090909091,
+        "violation_tracks": 0
+      },
+      "tracks_with_fewer_known_observations_than_min": 80,
+      "precision": null,
+      "recall": null,
+      "fp": null,
+      "fn": null,
+      "id_switches": null,
+      "gt_fragmentation": null,
+      "quality_status": "N/A: verified temporal GT is not available",
+      "processing_seconds": 1629.8422355651855,
+      "sampled_processing_fps": 0.3227306229535752,
+      "model_inference_seconds": 1619.8741483514896,
+      "model_inference_fps": 0.3247165840230852,
+      "detector_seconds": 1580.6863553524017,
+      "classifier_seconds": 39.18779299908783,
+      "output_duration": 35.06666666666666,
+      "output_fps": 30.0,
+      "output_frames": 1052,
+      "render_encode_seconds": 43.736328099970706,
+      "tracker_buffer_seconds": 2.0,
+      "measurement_note": "Uncached inference, shared within same-stride n_min pair; n_min replay/render are timed separately",
+      "vote_replay_seconds": 0.057310900010634214,
+      "video_path": "E:\\test_thacsi\\TGMTNC-helmet\\tgmt-de14-helmet-violation\\outputs\\benchmarks\\video_sampling_20261106\\S2_M10\\full_length_annotated.mp4"
+    }
+  ],
+  "stage_flow": {
+    "2": {
+      "counts": {
+        "raw_motorcycles": 2001,
+        "raw_heads": 980,
+        "raw_persons": 2125,
+        "motorcycles_after_confidence": 1569,
+        "heads_associated_before_tracking": 589,
+        "multi_head_vehicle_frame_candidates_before_tracking": 10,
+        "tracked_vehicle_frame_records": 864,
+        "untracked_motorcycle_frame_records": 705,
+        "untracked_above_new_threshold": 295,
+        "head_crops_after_tracking": 453,
+        "unknown_head_classifications": 41
+      },
+      "head_association_reasons": {
+        "associated_body": 567,
+        "body_outside_rider_zone": 343,
+        "outside_rider_zone": 44,
+        "head_only_geometry": 22,
+        "duplicate_head": 4
+      },
+      "note": "Per-sampled-frame events, not independent unique objects or ground-truth recall."
+    },
+    "5": {
+      "counts": {
+        "raw_motorcycles": 802,
+        "raw_heads": 393,
+        "raw_persons": 852,
+        "motorcycles_after_confidence": 627,
+        "heads_associated_before_tracking": 234,
+        "multi_head_vehicle_frame_candidates_before_tracking": 2,
+        "tracked_vehicle_frame_records": 187,
+        "untracked_motorcycle_frame_records": 440,
+        "untracked_above_new_threshold": 264,
+        "head_crops_after_tracking": 107,
+        "unknown_head_classifications": 3
+      },
+      "head_association_reasons": {
+        "associated_body": 224,
+        "body_outside_rider_zone": 130,
+        "outside_rider_zone": 22,
+        "head_only_geometry": 10,
+        "duplicate_head": 7
+      },
+      "note": "Per-sampled-frame events, not independent unique objects or ground-truth recall."
+    },
+    "10": {
+      "counts": {
+        "raw_motorcycles": 411,
+        "raw_heads": 205,
+        "raw_persons": 446,
+        "motorcycles_after_confidence": 319,
+        "heads_associated_before_tracking": 118,
+        "multi_head_vehicle_frame_candidates_before_tracking": 1,
+        "tracked_vehicle_frame_records": 48,
+        "untracked_motorcycle_frame_records": 271,
+        "untracked_above_new_threshold": 179,
+        "head_crops_after_tracking": 37,
+        "unknown_head_classifications": 2
+      },
+      "head_association_reasons": {
+        "associated_body": 113,
+        "outside_rider_zone": 9,
+        "body_outside_rider_zone": 76,
+        "head_only_geometry": 5,
+        "duplicate_head": 2
+      },
+      "note": "Per-sampled-frame events, not independent unique objects or ground-truth recall."
+    }
+  },
+  "observation_and_filter_audit": {
+    "2": {
+      "f2": {
+        "total_before": 88,
+        "removed": 26,
+        "kept": 62
+      },
+      "tracks": {
+        "1": {
+          "track_id": 1,
+          "person_score": 1.0,
+          "disp_norm": 0.6588358393133156,
+          "n_frames": 8,
+          "person_positive_frames": 8,
+          "head_positive_frames": 2,
+          "invalid_crops": 0,
+          "track_detection_frames": 8,
+          "known_vehicle_observations": 2,
+          "unknown_observations": 6,
+          "t_start": 0.0,
+          "t_end": 0.533333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.15388314425945282,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "8": {
+          "track_id": 8,
+          "person_score": 0.9961784999060312,
+          "disp_norm": 1.2102762700554128,
+          "n_frames": 11,
+          "person_positive_frames": 11,
+          "head_positive_frames": 10,
+          "invalid_crops": 0,
+          "track_detection_frames": 11,
+          "known_vehicle_observations": 8,
+          "unknown_observations": 3,
+          "t_start": 3.0,
+          "t_end": 3.733333,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.125,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "9": {
+          "track_id": 9,
+          "person_score": 0.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 1,
+          "t_start": 3.066667,
+          "t_end": 3.066667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "11": {
+          "track_id": 11,
+          "person_score": 0.9890331769393197,
+          "disp_norm": 1.3874468976102439,
+          "n_frames": 16,
+          "person_positive_frames": 16,
+          "head_positive_frames": 15,
+          "invalid_crops": 0,
+          "track_detection_frames": 16,
+          "known_vehicle_observations": 10,
+          "unknown_observations": 6,
+          "t_start": 3.466667,
+          "t_end": 4.6,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.1,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "13": {
+          "track_id": 13,
+          "person_score": 0.625,
+          "disp_norm": 0.38343006854970263,
+          "n_frames": 8,
+          "person_positive_frames": 5,
+          "head_positive_frames": 4,
+          "invalid_crops": 0,
+          "track_detection_frames": 8,
+          "known_vehicle_observations": 4,
+          "unknown_observations": 4,
+          "t_start": 3.8,
+          "t_end": 4.266667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.895420104265213,
+          "n_riders": 1,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "17": {
+          "track_id": 17,
+          "person_score": 1.0,
+          "disp_norm": 0.6651787329789043,
+          "n_frames": 13,
+          "person_positive_frames": 13,
+          "head_positive_frames": 13,
+          "invalid_crops": 0,
+          "track_detection_frames": 13,
+          "known_vehicle_observations": 7,
+          "unknown_observations": 6,
+          "t_start": 4.066667,
+          "t_end": 5.466667,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.0,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "19": {
+          "track_id": 19,
+          "person_score": 1.0,
+          "disp_norm": 3.2025777531300124,
+          "n_frames": 8,
+          "person_positive_frames": 8,
+          "head_positive_frames": 8,
+          "invalid_crops": 0,
+          "track_detection_frames": 8,
+          "known_vehicle_observations": 3,
+          "unknown_observations": 5,
+          "t_start": 5.066667,
+          "t_end": 6.533333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.2897629539171855,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "29": {
+          "track_id": 29,
+          "person_score": 0.9989837249652859,
+          "disp_norm": 1.5139628662026936,
+          "n_frames": 9,
+          "person_positive_frames": 9,
+          "head_positive_frames": 9,
+          "invalid_crops": 0,
+          "track_detection_frames": 9,
+          "known_vehicle_observations": 4,
+          "unknown_observations": 5,
+          "t_start": 6.0,
+          "t_end": 7.733333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.376811720430851,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "30": {
+          "track_id": 30,
+          "person_score": 0.9267744171593391,
+          "disp_norm": 0.5011622128191576,
+          "n_frames": 2,
+          "person_positive_frames": 2,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 2,
+          "t_start": 6.0,
+          "t_end": 6.666667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "31": {
+          "track_id": 31,
+          "person_score": 0.9709224109226104,
+          "disp_norm": 0.18115307619098922,
+          "n_frames": 3,
+          "person_positive_frames": 3,
+          "head_positive_frames": 3,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 2,
+          "unknown_observations": 1,
+          "t_start": 6.133333,
+          "t_end": 6.266667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.2931545525789261,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "32": {
+          "track_id": 32,
+          "person_score": 1.0,
+          "disp_norm": 0.029391916225939146,
+          "n_frames": 2,
+          "person_positive_frames": 2,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 2,
+          "t_start": 6.2,
+          "t_end": 6.266667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "34": {
+          "track_id": 34,
+          "person_score": 0.5,
+          "disp_norm": 0.6881626030574441,
+          "n_frames": 2,
+          "person_positive_frames": 1,
+          "head_positive_frames": 1,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 2,
+          "t_start": 6.666667,
+          "t_end": 7.266667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 1,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "43": {
+          "track_id": 43,
+          "person_score": 0.8283008100946542,
+          "disp_norm": 0.9405022340955994,
+          "n_frames": 6,
+          "person_positive_frames": 5,
+          "head_positive_frames": 3,
+          "invalid_crops": 0,
+          "track_detection_frames": 6,
+          "known_vehicle_observations": 2,
+          "unknown_observations": 4,
+          "t_start": 7.933333,
+          "t_end": 8.8,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.4319554641842842,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "44": {
+          "track_id": 44,
+          "person_score": 1.0,
+          "disp_norm": 0.041446043635734967,
+          "n_frames": 2,
+          "person_positive_frames": 2,
+          "head_positive_frames": 1,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 2,
+          "t_start": 7.933333,
+          "t_end": 8.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "51": {
+          "track_id": 51,
+          "person_score": 0.9722222222222222,
+          "disp_norm": 2.2398332444849105,
+          "n_frames": 72,
+          "person_positive_frames": 69,
+          "head_positive_frames": 62,
+          "invalid_crops": 0,
+          "track_detection_frames": 72,
+          "known_vehicle_observations": 56,
+          "unknown_observations": 16,
+          "t_start": 8.466667,
+          "t_end": 13.2,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.017857142857142856,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "53": {
+          "track_id": 53,
+          "person_score": 1.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 1,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 1,
+          "t_start": 9.0,
+          "t_end": 9.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "64": {
+          "track_id": 64,
+          "person_score": 0.0,
+          "disp_norm": 0.18286164672421626,
+          "n_frames": 4,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 4,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 4,
+          "t_start": 11.8,
+          "t_end": 12.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "65": {
+          "track_id": 65,
+          "person_score": 0.0,
+          "disp_norm": 0.05231757269154847,
+          "n_frames": 2,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 2,
+          "t_start": 11.8,
+          "t_end": 11.866667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "66": {
+          "track_id": 66,
+          "person_score": 0.9144664821328228,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 1,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 1,
+          "t_start": 11.8,
+          "t_end": 11.8,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "67": {
+          "track_id": 67,
+          "person_score": 1.0,
+          "disp_norm": 0.11950266085975905,
+          "n_frames": 2,
+          "person_positive_frames": 2,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 2,
+          "t_start": 11.866667,
+          "t_end": 11.933333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "78": {
+          "track_id": 78,
+          "person_score": 0.6666666666666666,
+          "disp_norm": 0.06800839795482164,
+          "n_frames": 3,
+          "person_positive_frames": 2,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 3,
+          "t_start": 13.666667,
+          "t_end": 13.8,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "79": {
+          "track_id": 79,
+          "person_score": 0.8,
+          "disp_norm": 0.5221377262230913,
+          "n_frames": 5,
+          "person_positive_frames": 4,
+          "head_positive_frames": 3,
+          "invalid_crops": 0,
+          "track_detection_frames": 5,
+          "known_vehicle_observations": 3,
+          "unknown_observations": 2,
+          "t_start": 14.0,
+          "t_end": 14.266667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.40656883517901105,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "84": {
+          "track_id": 84,
+          "person_score": 0.75,
+          "disp_norm": 0.25008850495691665,
+          "n_frames": 4,
+          "person_positive_frames": 3,
+          "head_positive_frames": 1,
+          "invalid_crops": 0,
+          "track_detection_frames": 4,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 4,
+          "t_start": 14.533333,
+          "t_end": 15.666667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "90": {
+          "track_id": 90,
+          "person_score": 1.0,
+          "disp_norm": 0.3327647960775186,
+          "n_frames": 8,
+          "person_positive_frames": 8,
+          "head_positive_frames": 4,
+          "invalid_crops": 0,
+          "track_detection_frames": 8,
+          "known_vehicle_observations": 4,
+          "unknown_observations": 4,
+          "t_start": 15.0,
+          "t_end": 15.466667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.3420123904943466,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "91": {
+          "track_id": 91,
+          "person_score": 0.3333333333333333,
+          "disp_norm": 0.1762889366874823,
+          "n_frames": 3,
+          "person_positive_frames": 1,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 3,
+          "t_start": 15.0,
+          "t_end": 15.2,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "98": {
+          "track_id": 98,
+          "person_score": 1.0,
+          "disp_norm": 0.527824821100558,
+          "n_frames": 17,
+          "person_positive_frames": 17,
+          "head_positive_frames": 15,
+          "invalid_crops": 0,
+          "track_detection_frames": 17,
+          "known_vehicle_observations": 8,
+          "unknown_observations": 9,
+          "t_start": 15.933333,
+          "t_end": 17.0,
+          "decision_before_filter": "không đội mũ",
+          "no_helmet_ratio": 0.875,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "100": {
+          "track_id": 100,
+          "person_score": 0.5688167420764901,
+          "disp_norm": 0.5423669931747518,
+          "n_frames": 8,
+          "person_positive_frames": 5,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 8,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 8,
+          "t_start": 15.933333,
+          "t_end": 17.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "103": {
+          "track_id": 103,
+          "person_score": 0.625,
+          "disp_norm": 0.47448944675198496,
+          "n_frames": 8,
+          "person_positive_frames": 5,
+          "head_positive_frames": 1,
+          "invalid_crops": 0,
+          "track_detection_frames": 8,
+          "known_vehicle_observations": 1,
+          "unknown_observations": 7,
+          "t_start": 16.0,
+          "t_end": 16.8,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.6004252433776855,
+          "n_riders": 2,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "104": {
+          "track_id": 104,
+          "person_score": 0.0,
+          "disp_norm": 0.2380749516943241,
+          "n_frames": 3,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 3,
+          "t_start": 16.0,
+          "t_end": 16.333333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "108": {
+          "track_id": 108,
+          "person_score": 0.9255163252968369,
+          "disp_norm": 0.36556346416761987,
+          "n_frames": 5,
+          "person_positive_frames": 5,
+          "head_positive_frames": 3,
+          "invalid_crops": 0,
+          "track_detection_frames": 5,
+          "known_vehicle_observations": 1,
+          "unknown_observations": 4,
+          "t_start": 16.266667,
+          "t_end": 16.866667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.6902646422386169,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "110": {
+          "track_id": 110,
+          "person_score": 1.0,
+          "disp_norm": 0.47589720201586116,
+          "n_frames": 3,
+          "person_positive_frames": 3,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 3,
+          "t_start": 16.333333,
+          "t_end": 17.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "111": {
+          "track_id": 111,
+          "person_score": 1.0,
+          "disp_norm": 0.1132487327133732,
+          "n_frames": 3,
+          "person_positive_frames": 3,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 3,
+          "t_start": 16.666667,
+          "t_end": 16.8,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "120": {
+          "track_id": 120,
+          "person_score": 0.875,
+          "disp_norm": 0.765910446191467,
+          "n_frames": 8,
+          "person_positive_frames": 7,
+          "head_positive_frames": 6,
+          "invalid_crops": 0,
+          "track_detection_frames": 8,
+          "known_vehicle_observations": 5,
+          "unknown_observations": 3,
+          "t_start": 17.333333,
+          "t_end": 17.8,
+          "decision_before_filter": "không đội mũ",
+          "no_helmet_ratio": 1.0,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "128": {
+          "track_id": 128,
+          "person_score": 0.9866746394880815,
+          "disp_norm": 0.2539569008268069,
+          "n_frames": 3,
+          "person_positive_frames": 3,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 3,
+          "t_start": 17.666667,
+          "t_end": 17.8,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "129": {
+          "track_id": 129,
+          "person_score": 0.0,
+          "disp_norm": 1.2962181640432133,
+          "n_frames": 6,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 6,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 6,
+          "t_start": 17.733333,
+          "t_end": 20.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "130": {
+          "track_id": 130,
+          "person_score": 0.9957608812583464,
+          "disp_norm": 2.4583837047879205,
+          "n_frames": 23,
+          "person_positive_frames": 23,
+          "head_positive_frames": 6,
+          "invalid_crops": 0,
+          "track_detection_frames": 23,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 23,
+          "t_start": 17.8,
+          "t_end": 22.266667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "131": {
+          "track_id": 131,
+          "person_score": 1.0,
+          "disp_norm": 1.9636576934462067,
+          "n_frames": 20,
+          "person_positive_frames": 20,
+          "head_positive_frames": 20,
+          "invalid_crops": 0,
+          "track_detection_frames": 20,
+          "known_vehicle_observations": 5,
+          "unknown_observations": 15,
+          "t_start": 17.933333,
+          "t_end": 19.2,
+          "decision_before_filter": "không đội mũ",
+          "no_helmet_ratio": 0.6,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "132": {
+          "track_id": 132,
+          "person_score": 0.2719395118482114,
+          "disp_norm": 0.255464967896666,
+          "n_frames": 3,
+          "person_positive_frames": 1,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 3,
+          "t_start": 18.0,
+          "t_end": 19.466667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "141": {
+          "track_id": 141,
+          "person_score": 0.9668031423577406,
+          "disp_norm": 0.9856712513121331,
+          "n_frames": 10,
+          "person_positive_frames": 10,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 10,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 10,
+          "t_start": 18.6,
+          "t_end": 19.2,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "142": {
+          "track_id": 142,
+          "person_score": 1.0,
+          "disp_norm": 0.2927778406398265,
+          "n_frames": 2,
+          "person_positive_frames": 2,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 2,
+          "t_start": 18.666667,
+          "t_end": 19.466667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "149": {
+          "track_id": 149,
+          "person_score": 0.0,
+          "disp_norm": 0.18315356244500267,
+          "n_frames": 4,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 4,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 4,
+          "t_start": 19.066667,
+          "t_end": 19.333333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "150": {
+          "track_id": 150,
+          "person_score": 0.9930460776739087,
+          "disp_norm": 2.293081751151358,
+          "n_frames": 5,
+          "person_positive_frames": 5,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 5,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 5,
+          "t_start": 19.066667,
+          "t_end": 21.666667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "155": {
+          "track_id": 155,
+          "person_score": 0.0,
+          "disp_norm": 0.11701154290210951,
+          "n_frames": 3,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 3,
+          "t_start": 19.666667,
+          "t_end": 19.8,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "157": {
+          "track_id": 157,
+          "person_score": 1.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 1,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 1,
+          "t_start": 19.666667,
+          "t_end": 19.666667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "159": {
+          "track_id": 159,
+          "person_score": 0.0,
+          "disp_norm": 0.10786901873567985,
+          "n_frames": 2,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 2,
+          "t_start": 19.733333,
+          "t_end": 19.8,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "160": {
+          "track_id": 160,
+          "person_score": 0.9375,
+          "disp_norm": 1.9464310713017738,
+          "n_frames": 16,
+          "person_positive_frames": 15,
+          "head_positive_frames": 4,
+          "invalid_crops": 0,
+          "track_detection_frames": 16,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 16,
+          "t_start": 19.866667,
+          "t_end": 20.866667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "164": {
+          "track_id": 164,
+          "person_score": 0.9809495187845049,
+          "disp_norm": 1.3338291891473182,
+          "n_frames": 13,
+          "person_positive_frames": 13,
+          "head_positive_frames": 2,
+          "invalid_crops": 0,
+          "track_detection_frames": 13,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 13,
+          "t_start": 20.2,
+          "t_end": 21.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "169": {
+          "track_id": 169,
+          "person_score": 0.0,
+          "disp_norm": 0.3074959831996967,
+          "n_frames": 6,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 6,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 6,
+          "t_start": 20.466667,
+          "t_end": 20.8,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "170": {
+          "track_id": 170,
+          "person_score": 1.0,
+          "disp_norm": 0.7464297674535694,
+          "n_frames": 8,
+          "person_positive_frames": 8,
+          "head_positive_frames": 4,
+          "invalid_crops": 0,
+          "track_detection_frames": 8,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 8,
+          "t_start": 21.0,
+          "t_end": 21.466667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "173": {
+          "track_id": 173,
+          "person_score": 1.0,
+          "disp_norm": 0.8714007164566747,
+          "n_frames": 4,
+          "person_positive_frames": 4,
+          "head_positive_frames": 2,
+          "invalid_crops": 0,
+          "track_detection_frames": 4,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 4,
+          "t_start": 21.2,
+          "t_end": 22.333333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "176": {
+          "track_id": 176,
+          "person_score": 1.0,
+          "disp_norm": 0.624315697764354,
+          "n_frames": 9,
+          "person_positive_frames": 9,
+          "head_positive_frames": 5,
+          "invalid_crops": 0,
+          "track_detection_frames": 9,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 9,
+          "t_start": 21.666667,
+          "t_end": 22.2,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "178": {
+          "track_id": 178,
+          "person_score": 0.0,
+          "disp_norm": 0.18842231071999455,
+          "n_frames": 3,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 3,
+          "t_start": 21.666667,
+          "t_end": 21.8,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "184": {
+          "track_id": 184,
+          "person_score": 0.0,
+          "disp_norm": 0.1985501977106943,
+          "n_frames": 5,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 5,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 5,
+          "t_start": 22.0,
+          "t_end": 22.266667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "185": {
+          "track_id": 185,
+          "person_score": 0.9776133481136421,
+          "disp_norm": 0.8270876817218127,
+          "n_frames": 5,
+          "person_positive_frames": 5,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 5,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 5,
+          "t_start": 22.0,
+          "t_end": 22.333333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "187": {
+          "track_id": 187,
+          "person_score": 0.0,
+          "disp_norm": 0.22931282252884932,
+          "n_frames": 4,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 4,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 4,
+          "t_start": 22.133333,
+          "t_end": 22.333333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "204": {
+          "track_id": 204,
+          "person_score": 1.0,
+          "disp_norm": 0.22012037303091359,
+          "n_frames": 2,
+          "person_positive_frames": 2,
+          "head_positive_frames": 2,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 2,
+          "unknown_observations": 0,
+          "t_start": 23.733333,
+          "t_end": 23.8,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.9220165312290192,
+          "n_riders": 2,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "207": {
+          "track_id": 207,
+          "person_score": 0.9884348869508267,
+          "disp_norm": 0.6600915777735803,
+          "n_frames": 3,
+          "person_positive_frames": 3,
+          "head_positive_frames": 1,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 3,
+          "t_start": 23.933333,
+          "t_end": 24.933333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "208": {
+          "track_id": 208,
+          "person_score": 0.9550006161109034,
+          "disp_norm": 0.4377766073649628,
+          "n_frames": 12,
+          "person_positive_frames": 12,
+          "head_positive_frames": 10,
+          "invalid_crops": 0,
+          "track_detection_frames": 12,
+          "known_vehicle_observations": 5,
+          "unknown_observations": 7,
+          "t_start": 24.133333,
+          "t_end": 24.866667,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.0,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "212": {
+          "track_id": 212,
+          "person_score": 0.9711569320270167,
+          "disp_norm": 0.38429079710667857,
+          "n_frames": 6,
+          "person_positive_frames": 6,
+          "head_positive_frames": 3,
+          "invalid_crops": 0,
+          "track_detection_frames": 6,
+          "known_vehicle_observations": 2,
+          "unknown_observations": 4,
+          "t_start": 24.266667,
+          "t_end": 24.8,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.3058042526245117,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "214": {
+          "track_id": 214,
+          "person_score": 1.0,
+          "disp_norm": 0.4770064792792909,
+          "n_frames": 9,
+          "person_positive_frames": 9,
+          "head_positive_frames": 1,
+          "invalid_crops": 0,
+          "track_detection_frames": 9,
+          "known_vehicle_observations": 1,
+          "unknown_observations": 8,
+          "t_start": 24.266667,
+          "t_end": 24.8,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.32633301615715027,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "215": {
+          "track_id": 215,
+          "person_score": 0.995495302344167,
+          "disp_norm": 2.1225602262364265,
+          "n_frames": 57,
+          "person_positive_frames": 57,
+          "head_positive_frames": 36,
+          "invalid_crops": 0,
+          "track_detection_frames": 57,
+          "known_vehicle_observations": 23,
+          "unknown_observations": 34,
+          "t_start": 24.333333,
+          "t_end": 29.666667,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.21739130434782608,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "217": {
+          "track_id": 217,
+          "person_score": 0.7923044564184556,
+          "disp_norm": 0.6430710075043206,
+          "n_frames": 6,
+          "person_positive_frames": 6,
+          "head_positive_frames": 6,
+          "invalid_crops": 0,
+          "track_detection_frames": 6,
+          "known_vehicle_observations": 3,
+          "unknown_observations": 3,
+          "t_start": 24.333333,
+          "t_end": 24.8,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.5420624315738678,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "218": {
+          "track_id": 218,
+          "person_score": 0.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 1,
+          "t_start": 24.6,
+          "t_end": 24.6,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "223": {
+          "track_id": 223,
+          "person_score": 0.9414469919243554,
+          "disp_norm": 1.7849129221742366,
+          "n_frames": 59,
+          "person_positive_frames": 59,
+          "head_positive_frames": 57,
+          "invalid_crops": 0,
+          "track_detection_frames": 59,
+          "known_vehicle_observations": 33,
+          "unknown_observations": 26,
+          "t_start": 25.266667,
+          "t_end": 29.266667,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.09090909090909091,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "228": {
+          "track_id": 228,
+          "person_score": 1.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 1,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 1,
+          "t_start": 25.733333,
+          "t_end": 25.733333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "230": {
+          "track_id": 230,
+          "person_score": 0.9941757696311172,
+          "disp_norm": 2.312003272289747,
+          "n_frames": 69,
+          "person_positive_frames": 69,
+          "head_positive_frames": 28,
+          "invalid_crops": 0,
+          "track_detection_frames": 69,
+          "known_vehicle_observations": 14,
+          "unknown_observations": 55,
+          "t_start": 25.933333,
+          "t_end": 31.133333,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.2857142857142857,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "231": {
+          "track_id": 231,
+          "person_score": 0.3684210526315789,
+          "disp_norm": 0.7944009292305366,
+          "n_frames": 19,
+          "person_positive_frames": 7,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 19,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 19,
+          "t_start": 26.0,
+          "t_end": 27.333333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "232": {
+          "track_id": 232,
+          "person_score": 0.959639763186803,
+          "disp_norm": 3.2631540258109415,
+          "n_frames": 17,
+          "person_positive_frames": 17,
+          "head_positive_frames": 17,
+          "invalid_crops": 0,
+          "track_detection_frames": 17,
+          "known_vehicle_observations": 11,
+          "unknown_observations": 6,
+          "t_start": 26.066667,
+          "t_end": 27.2,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.0,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "236": {
+          "track_id": 236,
+          "person_score": 0.8480959827255216,
+          "disp_norm": 1.4336364911205515,
+          "n_frames": 9,
+          "person_positive_frames": 8,
+          "head_positive_frames": 4,
+          "invalid_crops": 0,
+          "track_detection_frames": 9,
+          "known_vehicle_observations": 1,
+          "unknown_observations": 8,
+          "t_start": 26.733333,
+          "t_end": 30.333333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.2376568466424942,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "240": {
+          "track_id": 240,
+          "person_score": 0.9950905351113366,
+          "disp_norm": 2.5420621404483583,
+          "n_frames": 5,
+          "person_positive_frames": 5,
+          "head_positive_frames": 3,
+          "invalid_crops": 0,
+          "track_detection_frames": 5,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 5,
+          "t_start": 27.8,
+          "t_end": 29.933333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "244": {
+          "track_id": 244,
+          "person_score": 0.9250372038212638,
+          "disp_norm": 1.4757617571392871,
+          "n_frames": 14,
+          "person_positive_frames": 13,
+          "head_positive_frames": 6,
+          "invalid_crops": 0,
+          "track_detection_frames": 14,
+          "known_vehicle_observations": 2,
+          "unknown_observations": 12,
+          "t_start": 28.6,
+          "t_end": 30.4,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.28163982182741165,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "245": {
+          "track_id": 245,
+          "person_score": 0.954813772325715,
+          "disp_norm": 0.8007834970680835,
+          "n_frames": 7,
+          "person_positive_frames": 7,
+          "head_positive_frames": 3,
+          "invalid_crops": 0,
+          "track_detection_frames": 7,
+          "known_vehicle_observations": 2,
+          "unknown_observations": 5,
+          "t_start": 28.6,
+          "t_end": 29.266667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.28182338178157806,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "246": {
+          "track_id": 246,
+          "person_score": 0.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 1,
+          "t_start": 28.666667,
+          "t_end": 28.666667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "248": {
+          "track_id": 248,
+          "person_score": 0.8553250501599206,
+          "disp_norm": 0.654198126988902,
+          "n_frames": 7,
+          "person_positive_frames": 6,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 7,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 7,
+          "t_start": 29.133333,
+          "t_end": 29.6,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "250": {
+          "track_id": 250,
+          "person_score": 1.0,
+          "disp_norm": 0.8624036640190761,
+          "n_frames": 18,
+          "person_positive_frames": 18,
+          "head_positive_frames": 15,
+          "invalid_crops": 0,
+          "track_detection_frames": 18,
+          "known_vehicle_observations": 8,
+          "unknown_observations": 10,
+          "t_start": 30.0,
+          "t_end": 31.133333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.5,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "259": {
+          "track_id": 259,
+          "person_score": 0.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 1,
+          "t_start": 30.466667,
+          "t_end": 30.466667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "260": {
+          "track_id": 260,
+          "person_score": 0.0,
+          "disp_norm": 0.09033634922934793,
+          "n_frames": 3,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 3,
+          "t_start": 30.533333,
+          "t_end": 30.666667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "261": {
+          "track_id": 261,
+          "person_score": 1.0,
+          "disp_norm": 0.35092848830017437,
+          "n_frames": 7,
+          "person_positive_frames": 7,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 7,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 7,
+          "t_start": 30.6,
+          "t_end": 31.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "262": {
+          "track_id": 262,
+          "person_score": 0.0,
+          "disp_norm": 0.33097988891186114,
+          "n_frames": 5,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 5,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 5,
+          "t_start": 30.666667,
+          "t_end": 31.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "263": {
+          "track_id": 263,
+          "person_score": 0.0,
+          "disp_norm": 0.055415164947239935,
+          "n_frames": 2,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 2,
+          "t_start": 30.733333,
+          "t_end": 30.8,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "269": {
+          "track_id": 269,
+          "person_score": 0.038461538461538464,
+          "disp_norm": 1.949653125641094,
+          "n_frames": 26,
+          "person_positive_frames": 1,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 26,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 26,
+          "t_start": 32.533333,
+          "t_end": 34.2,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "270": {
+          "track_id": 270,
+          "person_score": 1.0,
+          "disp_norm": 1.5635170544730075,
+          "n_frames": 37,
+          "person_positive_frames": 36,
+          "head_positive_frames": 30,
+          "invalid_crops": 0,
+          "track_detection_frames": 37,
+          "known_vehicle_observations": 28,
+          "unknown_observations": 9,
+          "t_start": 32.533333,
+          "t_end": 35.0,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.03571428571428571,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "277": {
+          "track_id": 277,
+          "person_score": 0.9642857142857143,
+          "disp_norm": 1.9667697430918856,
+          "n_frames": 28,
+          "person_positive_frames": 27,
+          "head_positive_frames": 20,
+          "invalid_crops": 0,
+          "track_detection_frames": 28,
+          "known_vehicle_observations": 16,
+          "unknown_observations": 12,
+          "t_start": 32.8,
+          "t_end": 34.6,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.0,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "279": {
+          "track_id": 279,
+          "person_score": 0.0,
+          "disp_norm": 0.5232132452311113,
+          "n_frames": 10,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 10,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 10,
+          "t_start": 32.866667,
+          "t_end": 33.6,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "281": {
+          "track_id": 281,
+          "person_score": 0.8,
+          "disp_norm": 0.7982850004146886,
+          "n_frames": 5,
+          "person_positive_frames": 4,
+          "head_positive_frames": 1,
+          "invalid_crops": 0,
+          "track_detection_frames": 5,
+          "known_vehicle_observations": 1,
+          "unknown_observations": 4,
+          "t_start": 33.0,
+          "t_end": 33.266667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.29273471236228943,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "288": {
+          "track_id": 288,
+          "person_score": 0.9789388096328968,
+          "disp_norm": 0.5459434045348605,
+          "n_frames": 4,
+          "person_positive_frames": 4,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 4,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 4,
+          "t_start": 33.733333,
+          "t_end": 34.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "289": {
+          "track_id": 289,
+          "person_score": 0.0,
+          "disp_norm": 0.8333775640615824,
+          "n_frames": 7,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 7,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 7,
+          "t_start": 33.866667,
+          "t_end": 34.4,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "292": {
+          "track_id": 292,
+          "person_score": 0.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 1,
+          "t_start": 34.133333,
+          "t_end": 34.133333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        }
+      },
+      "observation_csv_rows_verified": 277,
+      "timing": {
+        "sample_processing_seconds": 1629.8422355651855,
+        "first_full_run_wall_seconds": 1726.8882883000188,
+        "source_probe_seconds": 51.117954800021835,
+        "decode_in_inference_seconds": 8.39510320033878,
+        "first_render_encode_seconds": 45.747225200000685,
+        "note": "first_full_run_wall includes initial M5 export; each n_min row has separately measured replay/render"
+      },
+      "known_observations_per_track": {
+        "1": 2,
+        "8": 8,
+        "9": 0,
+        "11": 10,
+        "13": 4,
+        "17": 7,
+        "19": 3,
+        "29": 4,
+        "30": 0,
+        "31": 2,
+        "32": 0,
+        "34": 0,
+        "43": 2,
+        "44": 0,
+        "51": 56,
+        "53": 0,
+        "64": 0,
+        "65": 0,
+        "66": 0,
+        "67": 0,
+        "78": 0,
+        "79": 3,
+        "84": 0,
+        "90": 4,
+        "91": 0,
+        "98": 8,
+        "100": 0,
+        "103": 1,
+        "104": 0,
+        "108": 1,
+        "110": 0,
+        "111": 0,
+        "120": 5,
+        "128": 0,
+        "129": 0,
+        "130": 0,
+        "131": 5,
+        "132": 0,
+        "141": 0,
+        "142": 0,
+        "149": 0,
+        "150": 0,
+        "155": 0,
+        "157": 0,
+        "159": 0,
+        "160": 0,
+        "164": 0,
+        "169": 0,
+        "170": 0,
+        "173": 0,
+        "176": 0,
+        "178": 0,
+        "184": 0,
+        "185": 0,
+        "187": 0,
+        "204": 2,
+        "207": 0,
+        "208": 5,
+        "212": 2,
+        "214": 1,
+        "215": 23,
+        "217": 3,
+        "218": 0,
+        "223": 33,
+        "228": 0,
+        "230": 14,
+        "231": 0,
+        "232": 11,
+        "236": 1,
+        "240": 0,
+        "244": 2,
+        "245": 2,
+        "246": 0,
+        "248": 0,
+        "250": 8,
+        "259": 0,
+        "260": 0,
+        "261": 0,
+        "262": 0,
+        "263": 0,
+        "269": 0,
+        "270": 28,
+        "277": 16,
+        "279": 0,
+        "281": 1,
+        "288": 0,
+        "289": 0,
+        "292": 0
+      },
+      "emission_reappearance_gaps": [
+        {
+          "track_id": 1,
+          "missing_sample_updates": 1,
+          "timestamp_s": 0.4
+        },
+        {
+          "track_id": 8,
+          "missing_sample_updates": 1,
+          "timestamp_s": 3.2
+        },
+        {
+          "track_id": 11,
+          "missing_sample_updates": 2,
+          "timestamp_s": 3.733333
+        },
+        {
+          "track_id": 17,
+          "missing_sample_updates": 1,
+          "timestamp_s": 4.733333
+        },
+        {
+          "track_id": 19,
+          "missing_sample_updates": 1,
+          "timestamp_s": 5.2
+        },
+        {
+          "track_id": 17,
+          "missing_sample_updates": 8,
+          "timestamp_s": 5.466667
+        },
+        {
+          "track_id": 19,
+          "missing_sample_updates": 14,
+          "timestamp_s": 6.533333
+        },
+        {
+          "track_id": 30,
+          "missing_sample_updates": 9,
+          "timestamp_s": 6.666667
+        },
+        {
+          "track_id": 29,
+          "missing_sample_updates": 17,
+          "timestamp_s": 7.2
+        },
+        {
+          "track_id": 34,
+          "missing_sample_updates": 8,
+          "timestamp_s": 7.266667
+        },
+        {
+          "track_id": 29,
+          "missing_sample_updates": 1,
+          "timestamp_s": 7.466667
+        },
+        {
+          "track_id": 43,
+          "missing_sample_updates": 7,
+          "timestamp_s": 8.533333
+        },
+        {
+          "track_id": 43,
+          "missing_sample_updates": 1,
+          "timestamp_s": 8.733333
+        },
+        {
+          "track_id": 84,
+          "missing_sample_updates": 1,
+          "timestamp_s": 14.666667
+        },
+        {
+          "track_id": 84,
+          "missing_sample_updates": 2,
+          "timestamp_s": 14.866667
+        },
+        {
+          "track_id": 91,
+          "missing_sample_updates": 1,
+          "timestamp_s": 15.133333
+        },
+        {
+          "track_id": 84,
+          "missing_sample_updates": 11,
+          "timestamp_s": 15.666667
+        },
+        {
+          "track_id": 100,
+          "missing_sample_updates": 3,
+          "timestamp_s": 16.266667
+        },
+        {
+          "track_id": 103,
+          "missing_sample_updates": 3,
+          "timestamp_s": 16.266667
+        },
+        {
+          "track_id": 104,
+          "missing_sample_updates": 3,
+          "timestamp_s": 16.266667
+        },
+        {
+          "track_id": 100,
+          "missing_sample_updates": 2,
+          "timestamp_s": 16.6
+        },
+        {
+          "track_id": 108,
+          "missing_sample_updates": 5,
+          "timestamp_s": 16.733333
+        },
+        {
+          "track_id": 103,
+          "missing_sample_updates": 2,
+          "timestamp_s": 16.8
+        },
+        {
+          "track_id": 100,
+          "missing_sample_updates": 3,
+          "timestamp_s": 16.866667
+        },
+        {
+          "track_id": 110,
+          "missing_sample_updates": 8,
+          "timestamp_s": 17.0
+        },
+        {
+          "track_id": 100,
+          "missing_sample_updates": 1,
+          "timestamp_s": 17.0
+        },
+        {
+          "track_id": 130,
+          "missing_sample_updates": 11,
+          "timestamp_s": 18.6
+        },
+        {
+          "track_id": 149,
+          "missing_sample_updates": 1,
+          "timestamp_s": 19.333333
+        },
+        {
+          "track_id": 132,
+          "missing_sample_updates": 20,
+          "timestamp_s": 19.4
+        },
+        {
+          "track_id": 130,
+          "missing_sample_updates": 10,
+          "timestamp_s": 19.4
+        },
+        {
+          "track_id": 129,
+          "missing_sample_updates": 24,
+          "timestamp_s": 19.466667
+        },
+        {
+          "track_id": 142,
+          "missing_sample_updates": 11,
+          "timestamp_s": 19.466667
+        },
+        {
+          "track_id": 129,
+          "missing_sample_updates": 2,
+          "timestamp_s": 19.666667
+        },
+        {
+          "track_id": 129,
+          "missing_sample_updates": 3,
+          "timestamp_s": 20.0
+        },
+        {
+          "track_id": 150,
+          "missing_sample_updates": 25,
+          "timestamp_s": 20.933333
+        },
+        {
+          "track_id": 130,
+          "missing_sample_updates": 24,
+          "timestamp_s": 21.133333
+        },
+        {
+          "track_id": 173,
+          "missing_sample_updates": 3,
+          "timestamp_s": 21.466667
+        },
+        {
+          "track_id": 150,
+          "missing_sample_updates": 10,
+          "timestamp_s": 21.666667
+        },
+        {
+          "track_id": 173,
+          "missing_sample_updates": 11,
+          "timestamp_s": 22.266667
+        },
+        {
+          "track_id": 185,
+          "missing_sample_updates": 1,
+          "timestamp_s": 22.266667
+        },
+        {
+          "track_id": 212,
+          "missing_sample_updates": 2,
+          "timestamp_s": 24.466667
+        },
+        {
+          "track_id": 215,
+          "missing_sample_updates": 1,
+          "timestamp_s": 24.466667
+        },
+        {
+          "track_id": 217,
+          "missing_sample_updates": 1,
+          "timestamp_s": 24.466667
+        },
+        {
+          "track_id": 212,
+          "missing_sample_updates": 1,
+          "timestamp_s": 24.733333
+        },
+        {
+          "track_id": 215,
+          "missing_sample_updates": 1,
+          "timestamp_s": 24.733333
+        },
+        {
+          "track_id": 217,
+          "missing_sample_updates": 1,
+          "timestamp_s": 24.733333
+        },
+        {
+          "track_id": 207,
+          "missing_sample_updates": 13,
+          "timestamp_s": 24.933333
+        },
+        {
+          "track_id": 223,
+          "missing_sample_updates": 1,
+          "timestamp_s": 25.733333
+        },
+        {
+          "track_id": 215,
+          "missing_sample_updates": 18,
+          "timestamp_s": 26.066667
+        },
+        {
+          "track_id": 230,
+          "missing_sample_updates": 1,
+          "timestamp_s": 26.466667
+        },
+        {
+          "track_id": 232,
+          "missing_sample_updates": 1,
+          "timestamp_s": 26.6
+        },
+        {
+          "track_id": 236,
+          "missing_sample_updates": 2,
+          "timestamp_s": 26.933333
+        },
+        {
+          "track_id": 231,
+          "missing_sample_updates": 2,
+          "timestamp_s": 27.133333
+        },
+        {
+          "track_id": 230,
+          "missing_sample_updates": 2,
+          "timestamp_s": 27.133333
+        },
+        {
+          "track_id": 236,
+          "missing_sample_updates": 3,
+          "timestamp_s": 27.2
+        },
+        {
+          "track_id": 215,
+          "missing_sample_updates": 1,
+          "timestamp_s": 27.733333
+        },
+        {
+          "track_id": 240,
+          "missing_sample_updates": 1,
+          "timestamp_s": 28.0
+        },
+        {
+          "track_id": 240,
+          "missing_sample_updates": 1,
+          "timestamp_s": 28.133333
+        },
+        {
+          "track_id": 236,
+          "missing_sample_updates": 11,
+          "timestamp_s": 28.266667
+        },
+        {
+          "track_id": 230,
+          "missing_sample_updates": 2,
+          "timestamp_s": 28.333333
+        },
+        {
+          "track_id": 215,
+          "missing_sample_updates": 2,
+          "timestamp_s": 28.333333
+        },
+        {
+          "track_id": 230,
+          "missing_sample_updates": 1,
+          "timestamp_s": 28.533333
+        },
+        {
+          "track_id": 244,
+          "missing_sample_updates": 2,
+          "timestamp_s": 28.866667
+        },
+        {
+          "track_id": 245,
+          "missing_sample_updates": 4,
+          "timestamp_s": 29.0
+        },
+        {
+          "track_id": 244,
+          "missing_sample_updates": 1,
+          "timestamp_s": 29.0
+        },
+        {
+          "track_id": 223,
+          "missing_sample_updates": 1,
+          "timestamp_s": 29.2
+        },
+        {
+          "track_id": 215,
+          "missing_sample_updates": 1,
+          "timestamp_s": 29.466667
+        },
+        {
+          "track_id": 244,
+          "missing_sample_updates": 1,
+          "timestamp_s": 29.466667
+        },
+        {
+          "track_id": 248,
+          "missing_sample_updates": 1,
+          "timestamp_s": 29.466667
+        },
+        {
+          "track_id": 240,
+          "missing_sample_updates": 26,
+          "timestamp_s": 29.933333
+        },
+        {
+          "track_id": 230,
+          "missing_sample_updates": 4,
+          "timestamp_s": 30.0
+        },
+        {
+          "track_id": 244,
+          "missing_sample_updates": 10,
+          "timestamp_s": 30.2
+        },
+        {
+          "track_id": 236,
+          "missing_sample_updates": 30,
+          "timestamp_s": 30.333333
+        },
+        {
+          "track_id": 262,
+          "missing_sample_updates": 1,
+          "timestamp_s": 30.933333
+        },
+        {
+          "track_id": 279,
+          "missing_sample_updates": 1,
+          "timestamp_s": 33.333333
+        },
+        {
+          "track_id": 279,
+          "missing_sample_updates": 1,
+          "timestamp_s": 33.466667
+        },
+        {
+          "track_id": 288,
+          "missing_sample_updates": 1,
+          "timestamp_s": 34.0
+        },
+        {
+          "track_id": 289,
+          "missing_sample_updates": 2,
+          "timestamp_s": 34.266667
+        },
+        {
+          "track_id": 270,
+          "missing_sample_updates": 1,
+          "timestamp_s": 34.866667
+        }
+      ],
+      "gap_note": "Continuity proxy only: cannot infer ID switches, identity correctness or GT fragmentation."
+    },
+    "5": {
+      "f2": {
+        "total_before": 41,
+        "removed": 9,
+        "kept": 32
+      },
+      "tracks": {
+        "128": {
+          "track_id": 128,
+          "person_score": 0.9996023658069336,
+          "disp_norm": 0.9944278051636625,
+          "n_frames": 3,
+          "person_positive_frames": 3,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 3,
+          "t_start": 20.666667,
+          "t_end": 21.666667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "1": {
+          "track_id": 1,
+          "person_score": 1.0,
+          "disp_norm": 0.4557169844539186,
+          "n_frames": 3,
+          "person_positive_frames": 3,
+          "head_positive_frames": 2,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 2,
+          "unknown_observations": 1,
+          "t_start": 0.0,
+          "t_end": 0.5,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.23295913636684418,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "129": {
+          "track_id": 129,
+          "person_score": 1.0,
+          "disp_norm": 0.7077136510441914,
+          "n_frames": 3,
+          "person_positive_frames": 3,
+          "head_positive_frames": 2,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 1,
+          "unknown_observations": 2,
+          "t_start": 20.666667,
+          "t_end": 21.666667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.6580855250358582,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "130": {
+          "track_id": 130,
+          "person_score": 0.0,
+          "disp_norm": 0.1867281976206934,
+          "n_frames": 3,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 3,
+          "t_start": 20.666667,
+          "t_end": 22.333333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "6": {
+          "track_id": 6,
+          "person_score": 1.0,
+          "disp_norm": 1.656573894012398,
+          "n_frames": 7,
+          "person_positive_frames": 7,
+          "head_positive_frames": 7,
+          "invalid_crops": 0,
+          "track_detection_frames": 7,
+          "known_vehicle_observations": 7,
+          "unknown_observations": 0,
+          "t_start": 3.0,
+          "t_end": 5.0,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.14285714285714285,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "9": {
+          "track_id": 9,
+          "person_score": 0.9977133811718933,
+          "disp_norm": 0.7696596923788449,
+          "n_frames": 4,
+          "person_positive_frames": 4,
+          "head_positive_frames": 4,
+          "invalid_crops": 0,
+          "track_detection_frames": 4,
+          "known_vehicle_observations": 1,
+          "unknown_observations": 3,
+          "t_start": 3.666667,
+          "t_end": 7.166667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.2086692601442337,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "10": {
+          "track_id": 10,
+          "person_score": 0.5,
+          "disp_norm": 0.1504378662480876,
+          "n_frames": 2,
+          "person_positive_frames": 1,
+          "head_positive_frames": 1,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 1,
+          "unknown_observations": 1,
+          "t_start": 4.0,
+          "t_end": 4.166667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.8995415568351746,
+          "n_riders": 1,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "145": {
+          "track_id": 145,
+          "person_score": 1.0,
+          "disp_norm": 0.11946210356663331,
+          "n_frames": 2,
+          "person_positive_frames": 2,
+          "head_positive_frames": 1,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 2,
+          "t_start": 22.0,
+          "t_end": 22.166667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "146": {
+          "track_id": 146,
+          "person_score": 0.9405927301303341,
+          "disp_norm": 1.5154271340662342,
+          "n_frames": 18,
+          "person_positive_frames": 16,
+          "head_positive_frames": 12,
+          "invalid_crops": 0,
+          "track_detection_frames": 18,
+          "known_vehicle_observations": 7,
+          "unknown_observations": 11,
+          "t_start": 22.0,
+          "t_end": 35.0,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.0,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "149": {
+          "track_id": 149,
+          "person_score": 0.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 1,
+          "t_start": 22.166667,
+          "t_end": 22.166667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "157": {
+          "track_id": 157,
+          "person_score": 1.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 1,
+          "head_positive_frames": 1,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 1,
+          "unknown_observations": 0,
+          "t_start": 23.833333,
+          "t_end": 23.833333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.9627169370651245,
+          "n_riders": 2,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "160": {
+          "track_id": 160,
+          "person_score": 0.9916043567585194,
+          "disp_norm": 3.1663832257995397,
+          "n_frames": 4,
+          "person_positive_frames": 4,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 4,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 4,
+          "t_start": 24.333333,
+          "t_end": 28.333333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "33": {
+          "track_id": 33,
+          "person_score": 1.0,
+          "disp_norm": 1.3549548934343456,
+          "n_frames": 12,
+          "person_positive_frames": 12,
+          "head_positive_frames": 11,
+          "invalid_crops": 0,
+          "track_detection_frames": 12,
+          "known_vehicle_observations": 9,
+          "unknown_observations": 3,
+          "t_start": 8.666667,
+          "t_end": 10.5,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.0,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "163": {
+          "track_id": 163,
+          "person_score": 0.9,
+          "disp_norm": 3.216564038646553,
+          "n_frames": 10,
+          "person_positive_frames": 9,
+          "head_positive_frames": 2,
+          "invalid_crops": 0,
+          "track_detection_frames": 10,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 10,
+          "t_start": 24.5,
+          "t_end": 33.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "164": {
+          "track_id": 164,
+          "person_score": 0.8832917103224487,
+          "disp_norm": 0.2440915470397085,
+          "n_frames": 3,
+          "person_positive_frames": 3,
+          "head_positive_frames": 2,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 2,
+          "unknown_observations": 1,
+          "t_start": 24.5,
+          "t_end": 24.833333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.34465204179286957,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "170": {
+          "track_id": 170,
+          "person_score": 0.9476459243401352,
+          "disp_norm": 1.468249313770188,
+          "n_frames": 21,
+          "person_positive_frames": 21,
+          "head_positive_frames": 20,
+          "invalid_crops": 0,
+          "track_detection_frames": 21,
+          "known_vehicle_observations": 12,
+          "unknown_observations": 9,
+          "t_start": 25.333333,
+          "t_end": 29.0,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.08333333333333333,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "45": {
+          "track_id": 45,
+          "person_score": 1.0,
+          "disp_norm": 1.4094485022217487,
+          "n_frames": 14,
+          "person_positive_frames": 14,
+          "head_positive_frames": 11,
+          "invalid_crops": 0,
+          "track_detection_frames": 14,
+          "known_vehicle_observations": 11,
+          "unknown_observations": 3,
+          "t_start": 10.833333,
+          "t_end": 13.0,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.0,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "174": {
+          "track_id": 174,
+          "person_score": 1.0,
+          "disp_norm": 0.8345080684740838,
+          "n_frames": 4,
+          "person_positive_frames": 4,
+          "head_positive_frames": 4,
+          "invalid_crops": 0,
+          "track_detection_frames": 4,
+          "known_vehicle_observations": 1,
+          "unknown_observations": 3,
+          "t_start": 26.166667,
+          "t_end": 27.333333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.379896342754364,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "177": {
+          "track_id": 177,
+          "person_score": 1.0,
+          "disp_norm": 1.2584493451346352,
+          "n_frames": 5,
+          "person_positive_frames": 4,
+          "head_positive_frames": 3,
+          "invalid_crops": 0,
+          "track_detection_frames": 5,
+          "known_vehicle_observations": 2,
+          "unknown_observations": 3,
+          "t_start": 26.333333,
+          "t_end": 31.166667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.52995765209198,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "52": {
+          "track_id": 52,
+          "person_score": 1.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 1,
+          "head_positive_frames": 1,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 1,
+          "t_start": 13.833333,
+          "t_end": 13.833333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "183": {
+          "track_id": 183,
+          "person_score": 0.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 1,
+          "t_start": 26.666667,
+          "t_end": 26.666667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "58": {
+          "track_id": 58,
+          "person_score": 1.0,
+          "disp_norm": 0.19803867749385398,
+          "n_frames": 2,
+          "person_positive_frames": 2,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 2,
+          "t_start": 14.833333,
+          "t_end": 16.5,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "61": {
+          "track_id": 61,
+          "person_score": 1.0,
+          "disp_norm": 0.17631358768226826,
+          "n_frames": 3,
+          "person_positive_frames": 3,
+          "head_positive_frames": 3,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 3,
+          "unknown_observations": 0,
+          "t_start": 15.166667,
+          "t_end": 15.5,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.30405673384666443,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "193": {
+          "track_id": 193,
+          "person_score": 1.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 1,
+          "head_positive_frames": 1,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 1,
+          "unknown_observations": 0,
+          "t_start": 27.833333,
+          "t_end": 27.833333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.6296639442443848,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "195": {
+          "track_id": 195,
+          "person_score": 0.9903109074478532,
+          "disp_norm": 0.38438173068899445,
+          "n_frames": 4,
+          "person_positive_frames": 4,
+          "head_positive_frames": 2,
+          "invalid_crops": 0,
+          "track_detection_frames": 4,
+          "known_vehicle_observations": 1,
+          "unknown_observations": 3,
+          "t_start": 28.0,
+          "t_end": 30.333333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.18096031248569489,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "197": {
+          "track_id": 197,
+          "person_score": 0.9410433771558966,
+          "disp_norm": 1.004701450634512,
+          "n_frames": 9,
+          "person_positive_frames": 9,
+          "head_positive_frames": 4,
+          "invalid_crops": 0,
+          "track_detection_frames": 9,
+          "known_vehicle_observations": 3,
+          "unknown_observations": 6,
+          "t_start": 28.166667,
+          "t_end": 30.166667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.704220712184906,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "75": {
+          "track_id": 75,
+          "person_score": 1.0,
+          "disp_norm": 0.2970401131214399,
+          "n_frames": 3,
+          "person_positive_frames": 3,
+          "head_positive_frames": 3,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 2,
+          "unknown_observations": 1,
+          "t_start": 16.333333,
+          "t_end": 16.666667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.6455203890800476,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "209": {
+          "track_id": 209,
+          "person_score": 1.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 1,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 1,
+          "t_start": 29.166667,
+          "t_end": 29.166667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "210": {
+          "track_id": 210,
+          "person_score": 1.0,
+          "disp_norm": 0.28962717995269355,
+          "n_frames": 2,
+          "person_positive_frames": 2,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 2,
+          "t_start": 29.333333,
+          "t_end": 29.5,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "226": {
+          "track_id": 226,
+          "person_score": 1.0,
+          "disp_norm": 0.5955189725174854,
+          "n_frames": 5,
+          "person_positive_frames": 5,
+          "head_positive_frames": 2,
+          "invalid_crops": 0,
+          "track_detection_frames": 5,
+          "known_vehicle_observations": 1,
+          "unknown_observations": 4,
+          "t_start": 30.333333,
+          "t_end": 31.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.36878731846809387,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "230": {
+          "track_id": 230,
+          "person_score": 0.0,
+          "disp_norm": 0.311862756221489,
+          "n_frames": 3,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 3,
+          "t_start": 30.666667,
+          "t_end": 34.166667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "232": {
+          "track_id": 232,
+          "person_score": 0.0,
+          "disp_norm": 0.29370586452379216,
+          "n_frames": 2,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 2,
+          "t_start": 30.833333,
+          "t_end": 31.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "233": {
+          "track_id": 233,
+          "person_score": 1.0,
+          "disp_norm": 0.31601322759842354,
+          "n_frames": 2,
+          "person_positive_frames": 2,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 2,
+          "t_start": 30.833333,
+          "t_end": 31.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "234": {
+          "track_id": 234,
+          "person_score": 0.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 1,
+          "t_start": 30.833333,
+          "t_end": 30.833333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "111": {
+          "track_id": 111,
+          "person_score": 1.0,
+          "disp_norm": 0.4826345721505715,
+          "n_frames": 3,
+          "person_positive_frames": 3,
+          "head_positive_frames": 2,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 1,
+          "unknown_observations": 2,
+          "t_start": 19.0,
+          "t_end": 19.666667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.39777037501335144,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "112": {
+          "track_id": 112,
+          "person_score": 0.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 1,
+          "t_start": 19.0,
+          "t_end": 19.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "113": {
+          "track_id": 113,
+          "person_score": 1.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 1,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 1,
+          "t_start": 19.166667,
+          "t_end": 19.166667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "114": {
+          "track_id": 114,
+          "person_score": 0.9821349038233312,
+          "disp_norm": 0.33973118616557274,
+          "n_frames": 3,
+          "person_positive_frames": 3,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 3,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 3,
+          "t_start": 19.166667,
+          "t_end": 22.166667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "239": {
+          "track_id": 239,
+          "person_score": 0.0,
+          "disp_norm": 1.037773563907148,
+          "n_frames": 8,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 8,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 8,
+          "t_start": 32.666667,
+          "t_end": 33.833333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "244": {
+          "track_id": 244,
+          "person_score": 0.2,
+          "disp_norm": 0.5177865906007325,
+          "n_frames": 5,
+          "person_positive_frames": 1,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 5,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 5,
+          "t_start": 32.833333,
+          "t_end": 33.5,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "246": {
+          "track_id": 246,
+          "person_score": 1.0,
+          "disp_norm": 0.8683592682009199,
+          "n_frames": 6,
+          "person_positive_frames": 6,
+          "head_positive_frames": 5,
+          "invalid_crops": 0,
+          "track_detection_frames": 6,
+          "known_vehicle_observations": 3,
+          "unknown_observations": 3,
+          "t_start": 33.0,
+          "t_end": 34.666667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.2883853813012441,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        }
+      },
+      "observation_csv_rows_verified": 72,
+      "timing": {
+        "sample_processing_seconds": 917.28249168396,
+        "first_full_run_wall_seconds": 1043.8048880000133,
+        "source_probe_seconds": 30.36391790001653,
+        "decode_in_inference_seconds": 10.772145299764816,
+        "first_render_encode_seconds": 96.01897860004101,
+        "note": "first_full_run_wall includes initial M5 export; each n_min row has separately measured replay/render"
+      },
+      "known_observations_per_track": {
+        "128": 0,
+        "1": 2,
+        "129": 1,
+        "130": 0,
+        "6": 7,
+        "9": 1,
+        "10": 1,
+        "145": 0,
+        "146": 7,
+        "149": 0,
+        "157": 1,
+        "160": 0,
+        "33": 9,
+        "163": 0,
+        "164": 2,
+        "170": 12,
+        "45": 11,
+        "174": 1,
+        "177": 2,
+        "52": 0,
+        "183": 0,
+        "58": 0,
+        "61": 3,
+        "193": 1,
+        "195": 1,
+        "197": 3,
+        "75": 2,
+        "209": 0,
+        "210": 0,
+        "226": 1,
+        "230": 0,
+        "232": 0,
+        "233": 0,
+        "234": 0,
+        "111": 1,
+        "112": 0,
+        "113": 0,
+        "114": 0,
+        "239": 0,
+        "244": 0,
+        "246": 3
+      },
+      "emission_reappearance_gaps": [
+        {
+          "track_id": 1,
+          "missing_sample_updates": 1,
+          "timestamp_s": 0.5
+        },
+        {
+          "track_id": 6,
+          "missing_sample_updates": 4,
+          "timestamp_s": 4.0
+        },
+        {
+          "track_id": 6,
+          "missing_sample_updates": 2,
+          "timestamp_s": 5.0
+        },
+        {
+          "track_id": 9,
+          "missing_sample_updates": 11,
+          "timestamp_s": 5.666667
+        },
+        {
+          "track_id": 9,
+          "missing_sample_updates": 1,
+          "timestamp_s": 6.0
+        },
+        {
+          "track_id": 9,
+          "missing_sample_updates": 6,
+          "timestamp_s": 7.166667
+        },
+        {
+          "track_id": 58,
+          "missing_sample_updates": 9,
+          "timestamp_s": 16.5
+        },
+        {
+          "track_id": 111,
+          "missing_sample_updates": 2,
+          "timestamp_s": 19.666667
+        },
+        {
+          "track_id": 128,
+          "missing_sample_updates": 4,
+          "timestamp_s": 21.666667
+        },
+        {
+          "track_id": 129,
+          "missing_sample_updates": 4,
+          "timestamp_s": 21.666667
+        },
+        {
+          "track_id": 114,
+          "missing_sample_updates": 16,
+          "timestamp_s": 22.0
+        },
+        {
+          "track_id": 130,
+          "missing_sample_updates": 8,
+          "timestamp_s": 22.166667
+        },
+        {
+          "track_id": 160,
+          "missing_sample_updates": 1,
+          "timestamp_s": 24.833333
+        },
+        {
+          "track_id": 170,
+          "missing_sample_updates": 2,
+          "timestamp_s": 25.833333
+        },
+        {
+          "track_id": 163,
+          "missing_sample_updates": 8,
+          "timestamp_s": 26.166667
+        },
+        {
+          "track_id": 146,
+          "missing_sample_updates": 26,
+          "timestamp_s": 26.666667
+        },
+        {
+          "track_id": 174,
+          "missing_sample_updates": 2,
+          "timestamp_s": 26.666667
+        },
+        {
+          "track_id": 146,
+          "missing_sample_updates": 2,
+          "timestamp_s": 27.166667
+        },
+        {
+          "track_id": 174,
+          "missing_sample_updates": 2,
+          "timestamp_s": 27.166667
+        },
+        {
+          "track_id": 177,
+          "missing_sample_updates": 9,
+          "timestamp_s": 28.0
+        },
+        {
+          "track_id": 160,
+          "missing_sample_updates": 20,
+          "timestamp_s": 28.333333
+        },
+        {
+          "track_id": 197,
+          "missing_sample_updates": 1,
+          "timestamp_s": 28.5
+        },
+        {
+          "track_id": 197,
+          "missing_sample_updates": 1,
+          "timestamp_s": 29.0
+        },
+        {
+          "track_id": 163,
+          "missing_sample_updates": 16,
+          "timestamp_s": 29.166667
+        },
+        {
+          "track_id": 195,
+          "missing_sample_updates": 7,
+          "timestamp_s": 29.5
+        },
+        {
+          "track_id": 197,
+          "missing_sample_updates": 1,
+          "timestamp_s": 29.833333
+        },
+        {
+          "track_id": 163,
+          "missing_sample_updates": 3,
+          "timestamp_s": 30.166667
+        },
+        {
+          "track_id": 197,
+          "missing_sample_updates": 1,
+          "timestamp_s": 30.166667
+        },
+        {
+          "track_id": 195,
+          "missing_sample_updates": 4,
+          "timestamp_s": 30.333333
+        },
+        {
+          "track_id": 177,
+          "missing_sample_updates": 13,
+          "timestamp_s": 30.5
+        },
+        {
+          "track_id": 163,
+          "missing_sample_updates": 1,
+          "timestamp_s": 30.5
+        },
+        {
+          "track_id": 146,
+          "missing_sample_updates": 18,
+          "timestamp_s": 30.666667
+        },
+        {
+          "track_id": 177,
+          "missing_sample_updates": 3,
+          "timestamp_s": 31.166667
+        },
+        {
+          "track_id": 163,
+          "missing_sample_updates": 14,
+          "timestamp_s": 33.0
+        },
+        {
+          "track_id": 146,
+          "missing_sample_updates": 11,
+          "timestamp_s": 33.0
+        },
+        {
+          "track_id": 146,
+          "missing_sample_updates": 1,
+          "timestamp_s": 33.5
+        },
+        {
+          "track_id": 230,
+          "missing_sample_updates": 19,
+          "timestamp_s": 34.0
+        },
+        {
+          "track_id": 246,
+          "missing_sample_updates": 5,
+          "timestamp_s": 34.333333
+        },
+        {
+          "track_id": 146,
+          "missing_sample_updates": 3,
+          "timestamp_s": 34.833333
+        }
+      ],
+      "gap_note": "Continuity proxy only: cannot infer ID switches, identity correctness or GT fragmentation."
+    },
+    "10": {
+      "f2": {
+        "total_before": 10,
+        "removed": 1,
+        "kept": 9
+      },
+      "tracks": {
+        "1": {
+          "track_id": 1,
+          "person_score": 1.0,
+          "disp_norm": 0.598016362147834,
+          "n_frames": 2,
+          "person_positive_frames": 2,
+          "head_positive_frames": 2,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 2,
+          "unknown_observations": 0,
+          "t_start": 0.0,
+          "t_end": 3.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.15564369410276413,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "106": {
+          "track_id": 106,
+          "person_score": 0.9886437114917698,
+          "disp_norm": 1.3124942164678484,
+          "n_frames": 6,
+          "person_positive_frames": 6,
+          "head_positive_frames": 2,
+          "invalid_crops": 0,
+          "track_detection_frames": 6,
+          "known_vehicle_observations": 2,
+          "unknown_observations": 4,
+          "t_start": 24.666667,
+          "t_end": 33.333333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.47632256150245667,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "11": {
+          "track_id": 11,
+          "person_score": 1.0,
+          "disp_norm": 0.0838002234483755,
+          "n_frames": 2,
+          "person_positive_frames": 2,
+          "head_positive_frames": 2,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 2,
+          "unknown_observations": 0,
+          "t_start": 4.333333,
+          "t_end": 5.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.44222258031368256,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "170": {
+          "track_id": 170,
+          "person_score": 0.0,
+          "disp_norm": 0.22815319553769087,
+          "n_frames": 2,
+          "person_positive_frames": 0,
+          "head_positive_frames": 0,
+          "invalid_crops": 0,
+          "track_detection_frames": 2,
+          "known_vehicle_observations": 0,
+          "unknown_observations": 2,
+          "t_start": 33.333333,
+          "t_end": 33.666667,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": null,
+          "n_riders": 0,
+          "kept": false,
+          "reason": "f2_low_displacement_low_rider_evidence",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "45": {
+          "track_id": 45,
+          "person_score": 1.0,
+          "disp_norm": 0.8375818476367036,
+          "n_frames": 12,
+          "person_positive_frames": 11,
+          "head_positive_frames": 11,
+          "invalid_crops": 0,
+          "track_detection_frames": 12,
+          "known_vehicle_observations": 6,
+          "unknown_observations": 6,
+          "t_start": 16.666667,
+          "t_end": 35.0,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.16666666666666666,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "143": {
+          "track_id": 143,
+          "person_score": 1.0,
+          "disp_norm": 1.4017437986892927,
+          "n_frames": 7,
+          "person_positive_frames": 7,
+          "head_positive_frames": 4,
+          "invalid_crops": 0,
+          "track_detection_frames": 7,
+          "known_vehicle_observations": 2,
+          "unknown_observations": 5,
+          "t_start": 29.0,
+          "t_end": 34.333333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.2812925726175308,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "22": {
+          "track_id": 22,
+          "person_score": 1.0,
+          "disp_norm": 0.5533139357103792,
+          "n_frames": 4,
+          "person_positive_frames": 4,
+          "head_positive_frames": 4,
+          "invalid_crops": 0,
+          "track_detection_frames": 4,
+          "known_vehicle_observations": 3,
+          "unknown_observations": 1,
+          "t_start": 9.333333,
+          "t_end": 10.333333,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.14671014373501143,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "118": {
+          "track_id": 118,
+          "person_score": 0.9339198125721464,
+          "disp_norm": 0.385367015380412,
+          "n_frames": 8,
+          "person_positive_frames": 8,
+          "head_positive_frames": 8,
+          "invalid_crops": 0,
+          "track_detection_frames": 8,
+          "known_vehicle_observations": 5,
+          "unknown_observations": 3,
+          "t_start": 26.666667,
+          "t_end": 29.0,
+          "decision_before_filter": "có đội mũ",
+          "no_helmet_ratio": 0.0,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "26": {
+          "track_id": 26,
+          "person_score": 1.0,
+          "disp_norm": 0.0,
+          "n_frames": 1,
+          "person_positive_frames": 1,
+          "head_positive_frames": 1,
+          "invalid_crops": 0,
+          "track_detection_frames": 1,
+          "known_vehicle_observations": 1,
+          "unknown_observations": 0,
+          "t_start": 11.0,
+          "t_end": 11.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.10594702512025833,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        },
+        "28": {
+          "track_id": 28,
+          "person_score": 1.0,
+          "disp_norm": 0.4627702586403908,
+          "n_frames": 4,
+          "person_positive_frames": 4,
+          "head_positive_frames": 3,
+          "invalid_crops": 0,
+          "track_detection_frames": 4,
+          "known_vehicle_observations": 3,
+          "unknown_observations": 1,
+          "t_start": 12.0,
+          "t_end": 13.0,
+          "decision_before_filter": "chưa xác định",
+          "no_helmet_ratio": 0.2279768685499827,
+          "n_riders": 1,
+          "kept": true,
+          "reason": "kept",
+          "thresholds": {
+            "tau_disp": 0.75,
+            "tau_person_static": 0.7
+          }
+        }
+      },
+      "observation_csv_rows_verified": 26,
+      "timing": {
+        "sample_processing_seconds": 386.068407535553,
+        "first_full_run_wall_seconds": 518.117388899962,
+        "source_probe_seconds": 38.308666899974924,
+        "decode_in_inference_seconds": 9.23519410053268,
+        "first_render_encode_seconds": 93.36796129995491,
+        "note": "first_full_run_wall includes initial M5 export; each n_min row has separately measured replay/render"
+      },
+      "known_observations_per_track": {
+        "1": 2,
+        "106": 2,
+        "11": 2,
+        "170": 0,
+        "45": 6,
+        "143": 2,
+        "22": 3,
+        "118": 5,
+        "26": 1,
+        "28": 3
+      },
+      "emission_reappearance_gaps": [
+        {
+          "track_id": 1,
+          "missing_sample_updates": 8,
+          "timestamp_s": 3.0
+        },
+        {
+          "track_id": 11,
+          "missing_sample_updates": 1,
+          "timestamp_s": 5.0
+        },
+        {
+          "track_id": 45,
+          "missing_sample_updates": 12,
+          "timestamp_s": 21.0
+        },
+        {
+          "track_id": 45,
+          "missing_sample_updates": 1,
+          "timestamp_s": 21.666667
+        },
+        {
+          "track_id": 45,
+          "missing_sample_updates": 1,
+          "timestamp_s": 22.333333
+        },
+        {
+          "track_id": 106,
+          "missing_sample_updates": 12,
+          "timestamp_s": 29.0
+        },
+        {
+          "track_id": 45,
+          "missing_sample_updates": 24,
+          "timestamp_s": 30.666667
+        },
+        {
+          "track_id": 143,
+          "missing_sample_updates": 3,
+          "timestamp_s": 30.666667
+        },
+        {
+          "track_id": 106,
+          "missing_sample_updates": 3,
+          "timestamp_s": 30.666667
+        },
+        {
+          "track_id": 45,
+          "missing_sample_updates": 5,
+          "timestamp_s": 33.0
+        },
+        {
+          "track_id": 106,
+          "missing_sample_updates": 6,
+          "timestamp_s": 33.333333
+        },
+        {
+          "track_id": 143,
+          "missing_sample_updates": 7,
+          "timestamp_s": 33.666667
+        },
+        {
+          "track_id": 45,
+          "missing_sample_updates": 1,
+          "timestamp_s": 33.666667
+        }
+      ],
+      "gap_note": "Continuity proxy only: cannot infer ID switches, identity correctness or GT fragmentation."
+    }
+  },
+  "encoder_artifacts_captured_during_run": {
+    "revision": "114c1379950215c8b35dfcd4e90a5c251dde0d32",
+    "DINO_LOCAL_DIR": null,
+    "files": {
+      "config.json": {
+        "sha256": "9481247be9f95a134a5599402b4bfc838eecdf9a7fffbf4debd1c70ec213898b",
+        "bytes": 743,
+        "mtime_ns": 1793441905610451800
+      },
+      "model.safetensors": {
+        "sha256": "4610ad75edef83e75afdebf162d148dc628045ea6cbb83d67d4708c709c4f91d",
+        "bytes": 86406384,
+        "mtime_ns": 1793441910629379200
+      },
+      "preprocessor_config.json": {
+        "sha256": "960c41d1f3a7778b936365769a2d90550b318a6c0a53a0296957adacfe5e0dd7",
+        "bytes": 585,
+        "mtime_ns": 1793441905746099500
+      }
+    },
+    "note": "Captured during live benchmark; one runtime reused across all strides, no resume. Check final runtime encoder revision against this revision.",
+    "runtime_revision_reported": null,
+    "identity_note": "Runtime reports revision=null. Cached main ref has one snapshot and its files were hashed during run and rechecked unchanged afterward. Same loaded runtime reused for all strides; loaded tensor fingerprint was not captured by the imported legacy benchmark."
+  },
+  "parity": {
+    "passed": true,
+    "sampled_frames": 106,
+    "kept_tracks": 9,
+    "per_frame_predictions_exact": true,
+    "track_fields_exact_except_timestamp_rounding_under_1us": true,
+    "nn_inference_repeated": false,
+    "basis": "actual stride10 raw detections and actual crop-classification probabilities",
+    "old_snapshot": "E:\\test_thacsi\\TGMTNC-helmet\\tgmt-de14-helmet-violation\\outputs\\video_fix_20261106\\pipeline_before.py"
+  },
+  "vram": {
+    "process_peak_mb": null,
+    "torch_peak_mb": null,
+    "note": "CUDA VRAM not applicable on CPU/Intel GPU; Intel shared-memory usage is not measured"
+  },
+  "limits": [
+    "No verified temporal GT; all GT quality and ID metrics remain null.",
+    "Single live run per stride on shared Windows i7-1355U, no hardware isolation; timings include system noise.",
+    "Historical366.9s configuration was not captured; no controlled speed/accuracy comparison against it.",
+    "Benchmark imported pre-review media/provenance code once; subsequent media fixes affect nonzero-start audio, rotation rejection, source/output alias rejection and future resume validation. Source here starts0, has no rotation and uses separate output paths; no resume or model reload between strides.",
+    "Each n_min pair shares same uncached NN measurements; separately measured vote replay/render only.",
+    "No CUDA execution/VRAM result; Intel shared memory not measured."
+  ],
+  "frame_latency_ms": {
+    "2": {
+      "p50": 2616.938699997263,
+      "p95": 4272.448750009062,
+      "mean": 3082.4507745222973,
+      "scope": "inference frame loop, includes association/tracking/trace, excludes sampling decode and rendering"
+    },
+    "5": {
+      "p50": 4203.905300004408,
+      "p95": 4676.75060001784,
+      "mean": 4295.8486080580715,
+      "scope": "inference frame loop, includes association/tracking/trace, excludes sampling decode and rendering"
+    },
+    "10": {
+      "p50": 3307.886549999239,
+      "p95": 4883.930575000704,
+      "mean": 3550.404267923748,
+      "scope": "inference frame loop, includes association/tracking/trace, excludes sampling decode and rendering"
+    }
+  },
+  "postprocessing_optimization": {
+    "source_probe": {
+      "source": "E:\\Applications\\1102.mp4",
+      "default_seconds": 45.79690459999256,
+      "four_threads_seconds": 6.550719499995466,
+      "speedup": 6.991125875565921,
+      "exact_parsed_metadata_equal": true,
+      "decoded_frames": 1052,
+      "fps_rational": "30/1",
+      "scope": "Source metadata/PTS scanning only; no model inference, same source and decoder, warm file cache"
+    },
+    "encoding": {
+      "scope": "8s240frames1920x1080, same already-annotated H264 input, libx264 CRF20 and4threads; no NN inference; visual codec quality only",
+      "source": "E:\\test_thacsi\\TGMTNC-helmet\\tgmt-de14-helmet-violation\\outputs\\benchmarks\\video_sampling_20261106\\S5_M5\\full_length_annotated.mp4",
+      "rows": [
+        {
+          "preset": "fast",
+          "encode_seconds": 18.90491409995593,
+          "bytes": 11039591,
+          "ssim": 0.994284,
+          "psnr": 49.169255
+        },
+        {
+          "preset": "veryfast",
+          "encode_seconds": 9.698669700010214,
+          "bytes": 10222071,
+          "ssim": 0.992414,
+          "psnr": 47.394366
+        },
+        {
+          "preset": "ultrafast",
+          "encode_seconds": 1.6975490999757312,
+          "bytes": 17894856,
+          "ssim": 0.981908,
+          "psnr": 44.959553
+        }
+      ],
+      "model_predictions_changed": false,
+      "ffmpeg_version": "ffmpeg version 8.0.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers"
+    },
+    "encoder_default": "fast retained; faster presets have lower visual fidelity"
+  },
+  "verification": {
+    "python_software_tests": 90,
+    "javascript_logic_tests": 13,
+    "real_browser_qa": "blocked by runtime policy/native bridge unavailable; not verified",
+    "final_media": {
+      "frame_count": 1052,
+      "fps": 30,
+      "width": 1920,
+      "height": 1080,
+      "video_duration": 35.06666666666667,
+      "decoded_audio_identical": true
+    }
+  }
+}

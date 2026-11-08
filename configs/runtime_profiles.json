@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "profiles": {
+    "baseline_cpu": {"device": "cpu", "ort_threads": 0, "ort_spinning": true, "batch_heads": false, "cache_clip_text": false},
+    "optimized_cpu": {"device": "cpu", "ort_threads": 4, "ort_spinning": false, "batch_heads": true, "cache_clip_text": true},
+    "openvino_cpu": {"device": "cpu", "head_backend": "openvino", "openvino_device": "CPU", "ort_threads": 8},
+    "openvino_gpu": {"device": "cpu", "head_backend": "openvino", "openvino_device": "GPU"},
+    "baseline_cuda": {"device": "cuda", "ort_threads": 2, "batch_heads": false, "cache_clip_text": false, "local_files_only": false},
+    "cloud_cuda": {"device": "cuda", "ort_threads": 2, "batch_heads": true, "cache_clip_text": true, "local_files_only": false},
+    "experiment_dino_only": {"device": "cpu", "verify_with_clip": false}
+  }
+}

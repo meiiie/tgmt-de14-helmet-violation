@@ -1,0 +1,52 @@
+{
+  "created_on": "2026-10-31",
+  "kind": "new local probe; not restored Kaggle artifact",
+  "model_id": "facebook/dinov3-vits16-pretrain-lvd1689m",
+  "probe_sha256": "d130efe4fa758d72ba7e5047aa07b58160f7f568b4ce3e42acd49e033cb8e4df",
+  "training_crops": 1419,
+  "positive_no_helmet_crops": 370,
+  "clips_with_crops": 39,
+  "official_training_clips_selected": 40,
+  "all_clips_official_training": true,
+  "validation": "GroupKFold(5), grouped by clip; crop classification only",
+  "metrics": {
+    "model": "facebook/dinov3-vits16-pretrain-lvd1689m",
+    "n": 1419,
+    "pos": 370,
+    "clips": 39,
+    "dino_linear": {
+      "precision": 0.5447316103379721,
+      "recall": 0.7405405405405405,
+      "f1": 0.6277205040091638,
+      "auc": 0.8341303171617758
+    },
+    "dino_knn7": {
+      "precision": 0.5506329113924051,
+      "recall": 0.23513513513513515,
+      "f1": 0.32954545454545453,
+      "auc": 0.7470332105222477
+    },
+    "yolo_helmet_on_crop": {
+      "precision": 0.2857142857142857,
+      "recall": 0.5344827586206896,
+      "f1": 0.37237237237237236,
+      "auc": 0.5765162200282088,
+      "coverage": 0.6631430584918957
+    }
+  },
+  "scikit_learn_version": "1.9.1",
+  "transformers_version": "5.22.1",
+  "data_manifest": "data/helmet/probe_preparation.json",
+  "claim_boundary": "No full-system T7/E4 accuracy or realtime FPS measured for this new probe.",
+  "runtime_smoke": {
+    "default_backend": "YOLO11s + DINOv3-S probe (CPU)",
+    "offline_summary": "**3 xe/track** Â· khÃ´ng mÅ©: **1** Â· chÆ°a xÃ¡c Ä‘á»‹nh: 0 Â· 1 frame Â· 1.9s (0.52 FPS) Â· backend: YOLO11s + DINOv3-S probe (CPU)",
+    "offline_csv_exists": true,
+    "realtime_smoke": "12 repeated still frames, not a video accuracy or FPS evaluation",
+    "realtime_frames": 12,
+    "classified_crops": 12,
+    "tracks_with_votes": 3,
+    "drained": true,
+    "worker_error": null
+  }
+}

@@ -1,0 +1,415 @@
+{
+  "profile": "openvino_cpu",
+  "runtime": {
+    "config": {
+      "device": "cpu",
+      "imgsz": 1280,
+      "cpu_threads": 4,
+      "ort_threads": 4,
+      "ort_spinning": false,
+      "head_backend": "openvino",
+      "openvino_device": "CPU",
+      "batch_heads": true,
+      "cache_clip_text": true,
+      "verify_with_clip": true,
+      "local_files_only": true,
+      "accurate": true,
+      "detector_kind": "yolo",
+      "classifier_kind": "dino",
+      "yolo_weights": "weights/yolo26s.pt",
+      "head_path": "weights/deimv2_wholebody49_boxes_only.onnx",
+      "probe_path": "weights/dino_probe.joblib",
+      "clip_path": "weights/clip-vit-base-patch32"
+    },
+    "torch_device": "cpu",
+    "active_models": [
+      "yolo",
+      "dino",
+      "deim_head",
+      "clip"
+    ],
+    "encoder": {
+      "model_id": "facebook/dinov3-vits16-pretrain-lvd1689m",
+      "revision": null,
+      "loaded_from": "facebook/dinov3-vits16-pretrain-lvd1689m"
+    },
+    "head_providers": [
+      "OpenVINO:CPU"
+    ],
+    "cuda_device": null
+  },
+  "manifest_sha256": "7922affe9f78e3a8a7e98c8c47fc7f6885d433c36324a18e6b5403a213c60d55",
+  "checkpoint_sha256": {
+    "yolo": "646f8bc3fe0a656803d95c294f7852321748cb29d13466a1af8862e2db384a1b",
+    "head": "f70ffbd4a937f6ed8d2873f230b56b356b87c827465338f735f4f8fba8ab0c62",
+    "probe": "d130efe4fa758d72ba7e5047aa07b58160f7f568b4ce3e42acd49e033cb8e4df",
+    "clip": "d5853196afb60ca6373692d9af911aacd8fa821af6d4af54720d4eb9c8f5da0a"
+  },
+  "source_sha256": {
+    "before": {
+      "classifiers.py": "c63c8ac7449eb0f21df19245eb25ada385b03cf04ba70781bf6260b963950340",
+      "core.py": "616fe929dc53d25a0ff7a3c7fad0c6819cf835678de56830d0a3fc33fcc4cc70",
+      "detectors.py": "fe58969357aeca29d445aa30a70c2d76c1e524ce1f40367a1b35a67d29b778e9",
+      "headdet.py": "04af5b7dbfe3d93336f27859fede44e460b6de9c2713bb916733365de4ebaae6",
+      "helmet_gt.py": "bc9ce2dd5ee30987ec1111c1cadf616b72dc74233823d7cbfa348058edf7b53f",
+      "metrics.py": "3a0194c018b3ff1ab1264bd6098b9c77cd786a73039d4a4629b491e4cffd2721",
+      "pipeline.py": "5bbb0e0a71d395198c3ab565810420d3802175e6097b47fa2ec07a3665e930e8",
+      "realtime.py": "3962b6b37c759d36808a20b0eb8da4bc0b45dc1f72f616ee1341cf96c3ccbbb8",
+      "runtime.py": "278b4b02734817eced5b9a15cf420804e62547c65196eb591a1bf1bda39f8619",
+      "tracking.py": "13f2d23c5f67c8f752740964395bd70608c79eb0be045048d3b6cfebdc3cef2c",
+      "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "after": {
+      "classifiers.py": "c63c8ac7449eb0f21df19245eb25ada385b03cf04ba70781bf6260b963950340",
+      "core.py": "6194926edb8c49ae54736d4e702f726346104864c9bcaf4ac6a9b613e422791f",
+      "detectors.py": "fe58969357aeca29d445aa30a70c2d76c1e524ce1f40367a1b35a67d29b778e9",
+      "headdet.py": "04af5b7dbfe3d93336f27859fede44e460b6de9c2713bb916733365de4ebaae6",
+      "helmet_gt.py": "bc9ce2dd5ee30987ec1111c1cadf616b72dc74233823d7cbfa348058edf7b53f",
+      "metrics.py": "3a0194c018b3ff1ab1264bd6098b9c77cd786a73039d4a4629b491e4cffd2721",
+      "pipeline.py": "fc22d22b3a68403aaafb881c240d4d40c866ab370f932309f024a09ce2f63b75",
+      "realtime.py": "3962b6b37c759d36808a20b0eb8da4bc0b45dc1f72f616ee1341cf96c3ccbbb8",
+      "runtime.py": "278b4b02734817eced5b9a15cf420804e62547c65196eb591a1bf1bda39f8619",
+      "tracking.py": "13f2d23c5f67c8f752740964395bd70608c79eb0be045048d3b6cfebdc3cef2c",
+      "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "official": {
+    "manifest_sha256": "3134f196ed85fb35f97f87fe1e8b839f947993ed271aa4794a6086027f83ea59",
+    "repeats": 1,
+    "scope": "Same 16 correlated official-test frames as prior report; vehicle/frame metrics, short tracking windows",
+    "profiles": {
+      "before": {
+        "latency": {
+          "frames": 16,
+          "p50_ms": 2949.341250001453,
+          "p95_ms": 3572.215949985548,
+          "fps_compute": 0.33527895220467974
+        },
+        "metrics": {
+          "iou_threshold": 0.3,
+          "counts": {
+            "frames": 16,
+            "gt_vehicles": 32,
+            "predicted_vehicles": 55,
+            "matched_vehicles": 26,
+            "gt_violations": 8,
+            "predicted_violations": 8,
+            "violation_tp": 5,
+            "violation_fp": 3,
+            "violation_fn": 3,
+            "unknown_decisions": 37,
+            "rider_absolute_error": 13,
+            "rider_exact": 16
+          },
+          "vehicle_detection_precision": 0.4727272727272727,
+          "vehicle_detection_recall": 0.8125,
+          "violation_precision": 0.625,
+          "violation_recall": 0.625,
+          "unknown_rate": 0.6727272727272727,
+          "rider_count_mae": 0.5,
+          "rider_count_exact_rate": 0.6153846153846154
+        }
+      },
+      "after": {
+        "latency": {
+          "frames": 16,
+          "p50_ms": 3338.894650019938,
+          "p95_ms": 6806.273150010384,
+          "fps_compute": 0.23001986729007062
+        },
+        "metrics": {
+          "iou_threshold": 0.3,
+          "counts": {
+            "frames": 16,
+            "gt_vehicles": 32,
+            "predicted_vehicles": 55,
+            "matched_vehicles": 26,
+            "gt_violations": 8,
+            "predicted_violations": 6,
+            "violation_tp": 5,
+            "violation_fp": 1,
+            "violation_fn": 3,
+            "unknown_decisions": 38,
+            "rider_absolute_error": 13,
+            "rider_exact": 16
+          },
+          "vehicle_detection_precision": 0.4727272727272727,
+          "vehicle_detection_recall": 0.8125,
+          "violation_precision": 0.8333333333333334,
+          "violation_recall": 0.625,
+          "unknown_rate": 0.6909090909090909,
+          "rider_count_mae": 0.5,
+          "rider_count_exact_rate": 0.6153846153846154
+        }
+      }
+    }
+  },
+  "vram": {
+    "torch_peak_mib": null,
+    "note": "Torch-only peak excludes ORT GPU allocations; CPU/Intel shared memory is not measured"
+  },
+  "limits": [
+    "Compute timing excludes decode/load/export; model inference is NOT cached.",
+    "Same loaded models and inputs for both pipelines; static images bypass temporal gates only after fix.",
+    "Six hand-labeled development images are not held-out accuracy; head P/R is not helmet P/R.",
+    "Official held-out frame metrics are separate; one short-window repeat has high uncertainty."
+  ],
+  "crowded": {
+    "before": {
+      "latency": {
+        "frames": 12,
+        "p50_ms": 2721.767999988515,
+        "p95_ms": 3277.804185025161,
+        "fps_compute": 0.37414289708211673
+      },
+      "head_metrics": {
+        "scope": "Associated heads after all filters, manually labeled development images; not helmet P/R or mAP",
+        "iou_threshold": 0.3,
+        "gt": 27,
+        "tp": 19,
+        "fp": 1,
+        "fn": 8,
+        "precision": 0.95,
+        "recall": 0.7037037037037037,
+        "ignored_predictions": 0
+      },
+      "images": {
+        "four_riders": {
+          "riders": [
+            1
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 2260.982050007442,
+            "p95_ms": 2287.9007350158645,
+            "fps_compute": 0.4422856873174683
+          },
+          "head_labels": [
+            "chưa xác định"
+          ]
+        },
+        "family_seven": {
+          "riders": [
+            1,
+            2,
+            4
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 2945.2498000173364,
+            "p95_ms": 3221.4413500303635,
+            "fps_compute": 0.3395297743485506
+          },
+          "head_labels": [
+            "chưa xác định",
+            "chưa xác định",
+            "có đội mũ",
+            "có đội mũ",
+            "có đội mũ",
+            "chưa xác định",
+            "có đội mũ"
+          ]
+        },
+        "fur_hat": {
+          "riders": [
+            2
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 2829.4981500075664,
+            "p95_ms": 3261.215955016087,
+            "fps_compute": 0.3534195631113333
+          },
+          "head_labels": [
+            "không đội mũ",
+            "không đội mũ"
+          ]
+        },
+        "three_riders": {
+          "riders": [],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 2410.1049000164494,
+            "p95_ms": 2704.1276099917013,
+            "fps_compute": 0.4149196991355749
+          },
+          "head_labels": []
+        },
+        "night_family": {
+          "riders": [
+            4
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 2721.767999988515,
+            "p95_ms": 2729.510070005199,
+            "fps_compute": 0.3674082434668273
+          },
+          "head_labels": [
+            "có đội mũ",
+            "có đội mũ",
+            "không đội mũ",
+            "chưa xác định"
+          ]
+        },
+        "rain_traffic": {
+          "riders": [
+            2,
+            4
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 2869.0505999838933,
+            "p95_ms": 2900.4307199909817,
+            "fps_compute": 0.3485473557021315
+          },
+          "head_labels": [
+            "có đội mũ",
+            "có đội mũ",
+            "có đội mũ",
+            "có đội mũ",
+            "có đội mũ",
+            "có đội mũ"
+          ]
+        }
+      }
+    },
+    "after": {
+      "latency": {
+        "frames": 12,
+        "p50_ms": 2641.54054998653,
+        "p95_ms": 2780.5237700085854,
+        "fps_compute": 0.3818229263166292
+      },
+      "head_metrics": {
+        "scope": "Associated heads after all filters, manually labeled development images; not helmet P/R or mAP",
+        "iou_threshold": 0.3,
+        "gt": 27,
+        "tp": 24,
+        "fp": 0,
+        "fn": 3,
+        "precision": 1.0,
+        "recall": 0.8888888888888888,
+        "ignored_predictions": 1
+      },
+      "images": {
+        "four_riders": {
+          "riders": [
+            4
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 2586.1022999743,
+            "p95_ms": 2604.079979978269,
+            "fps_compute": 0.386682305649679
+          },
+          "head_labels": [
+            "chưa xác định",
+            "chưa xác định",
+            "chưa xác định",
+            "có đội mũ"
+          ]
+        },
+        "family_seven": {
+          "riders": [
+            1,
+            2,
+            4
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 2743.702250008937,
+            "p95_ms": 2755.748165003024,
+            "fps_compute": 0.3644710354400674
+          },
+          "head_labels": [
+            "chưa xác định",
+            "chưa xác định",
+            "có đội mũ",
+            "có đội mũ",
+            "có đội mũ",
+            "chưa xác định",
+            "có đội mũ"
+          ]
+        },
+        "fur_hat": {
+          "riders": [
+            2
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 2359.792050003307,
+            "p95_ms": 2437.2221550060203,
+            "fps_compute": 0.42376615346195384
+          },
+          "head_labels": [
+            "không đội mũ",
+            "không đội mũ"
+          ]
+        },
+        "three_riders": {
+          "riders": [
+            1,
+            3
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 2652.363899978809,
+            "p95_ms": 2731.20641997084,
+            "fps_compute": 0.3770221725638739
+          },
+          "head_labels": [
+            "không đội mũ",
+            "chưa xác định",
+            "chưa xác định",
+            "không đội mũ"
+          ]
+        },
+        "night_family": {
+          "riders": [
+            3
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 2681.528699991759,
+            "p95_ms": 2796.405150013743,
+            "fps_compute": 0.372921609976829
+          },
+          "head_labels": [
+            "có đội mũ",
+            "có đội mũ",
+            "không đội mũ"
+          ]
+        },
+        "rain_traffic": {
+          "riders": [
+            2,
+            3
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 2690.6012499821372,
+            "p95_ms": 2702.8391349711455,
+            "fps_compute": 0.37166414012728155
+          },
+          "head_labels": [
+            "có đội mũ",
+            "có đội mũ",
+            "có đội mũ",
+            "có đội mũ",
+            "có đội mũ"
+          ]
+        }
+      }
+    }
+  },
+  "source_report": "outputs/benchmarks/crowded_20261106_final/report.json",
+  "verification": {
+    "software_tests": 60,
+    "test_log": "outputs/debug_crowded_20261106/unit_tests_final.log",
+    "diagnostic_tests_after_final_script_edit": "outputs/debug_crowded_20261106/diagnostic_final_tests.log",
+    "stage_replay_report": "outputs/debug_crowded_20261106/trace/report.json",
+    "actual_http_inference": "outputs/runtime/crowded_app_acceptance_20261106.json",
+    "http_images_passed": 3
+  }
+}

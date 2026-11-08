@@ -1,7 +1,7 @@
 """Chụp màn hình app Gradio bằng Playwright (Chrome headless). python scripts/screenshots.py http://127.0.0.1:7914"""
 import sys, os
 from playwright.sync_api import sync_playwright
-URL = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:7860"
+URL = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:7861"
 os.makedirs("docs/screenshots", exist_ok=True)
 def run(p, name, kind, path, backend, timeout=600000):
     b = p.chromium.launch(executable_path="/usr/bin/google-chrome", headless=True, args=["--no-sandbox"])

@@ -1,0 +1,302 @@
+{
+  "reported_processing_seconds": 366.9,
+  "measured_video_decoded_frames": {
+    "source": 1052,
+    "output": 80
+  },
+  "deterministic_reproduction": {
+    "max_seconds": 8,
+    "source_fps": 30,
+    "stride": 3,
+    "decoded_prefix_frames": 240,
+    "inferred_source_indices": [
+      0,
+      3,
+      6,
+      9,
+      12,
+      15,
+      18,
+      21,
+      24,
+      27,
+      30,
+      33,
+      36,
+      39,
+      42,
+      45,
+      48,
+      51,
+      54,
+      57,
+      60,
+      63,
+      66,
+      69,
+      72,
+      75,
+      78,
+      81,
+      84,
+      87,
+      90,
+      93,
+      96,
+      99,
+      102,
+      105,
+      108,
+      111,
+      114,
+      117,
+      120,
+      123,
+      126,
+      129,
+      132,
+      135,
+      138,
+      141,
+      144,
+      147,
+      150,
+      153,
+      156,
+      159,
+      162,
+      165,
+      168,
+      171,
+      174,
+      177,
+      180,
+      183,
+      186,
+      189,
+      192,
+      195,
+      198,
+      201,
+      204,
+      207,
+      210,
+      213,
+      216,
+      219,
+      222,
+      225,
+      228,
+      231,
+      234,
+      237
+    ],
+    "sampled_frames": 80,
+    "first_source_frame": 0,
+    "last_source_frame": 237,
+    "output_fps": 10,
+    "output_duration_seconds": 8.0
+  },
+  "csv_kept_tracks": 9,
+  "csv_decision_counts": {
+    "không đội mũ": 1,
+    "có đội mũ": 4,
+    "chưa xác định": 4
+  },
+  "eight_second_vote_replay": {
+    "scope": "Existing kept tracks only, stride3/8s prefix; rounded CSV probabilities; no inference rerun or GT quality evaluation",
+    "min_observations": {
+      "3": {
+        "counts": {
+          "có đội mũ": 4,
+          "chưa xác định": 4,
+          "không đội mũ": 1
+        },
+        "tracks": {
+          "7": "có đội mũ",
+          "32": "chưa xác định",
+          "25": "không đội mũ",
+          "11": "có đội mũ",
+          "5": "có đội mũ",
+          "17": "chưa xác định",
+          "31": "có đội mũ",
+          "26": "chưa xác định",
+          "1": "chưa xác định"
+        },
+        "unknown_rate": 0.4444444444444444
+      },
+      "5": {
+        "counts": {
+          "có đội mũ": 3,
+          "chưa xác định": 6
+        },
+        "tracks": {
+          "7": "có đội mũ",
+          "32": "chưa xác định",
+          "25": "chưa xác định",
+          "11": "có đội mũ",
+          "5": "có đội mũ",
+          "17": "chưa xác định",
+          "31": "chưa xác định",
+          "26": "chưa xác định",
+          "1": "chưa xác định"
+        },
+        "unknown_rate": 0.6666666666666666
+      },
+      "10": {
+        "counts": {
+          "có đội mũ": 1,
+          "chưa xác định": 8
+        },
+        "tracks": {
+          "7": "có đội mũ",
+          "32": "chưa xác định",
+          "25": "chưa xác định",
+          "11": "chưa xác định",
+          "5": "chưa xác định",
+          "17": "chưa xác định",
+          "31": "chưa xác định",
+          "26": "chưa xác định",
+          "1": "chưa xác định"
+        },
+        "unknown_rate": 0.8888888888888888
+      }
+    }
+  },
+  "observed_track_ids_missing_from_final": [
+    "9"
+  ],
+  "missing_track_observations": [
+    {
+      "track_id": "9",
+      "frame": "38",
+      "t_sec": "3.80",
+      "p_no_helmet": "0.829",
+      "n_riders": "1"
+    },
+    {
+      "track_id": "9",
+      "frame": "39",
+      "t_sec": "3.90",
+      "p_no_helmet": "0.951",
+      "n_riders": "1"
+    },
+    {
+      "track_id": "9",
+      "frame": "40",
+      "t_sec": "4.00",
+      "p_no_helmet": "0.900",
+      "n_riders": "1"
+    }
+  ],
+  "pre_f2_lower_bound": 10,
+  "removed_f2_lower_bound": 1,
+  "production_source_sha256": {
+    "app.py": "9d4e2c752e53e79cdca97279d0fa2acf75f9988fe2285d760c6e1c70d3d1ef9b",
+    "src/run_video.py": "0af67235fe9cf1e831e2e0ba5829983a86820582117d26b3a89d1d5d71b73dcf",
+    "src/de14/pipeline.py": "27ed61cd6e37950581bcad086c1a7ea4acd9ccccfca7514b5fcdf1799c4989f8",
+    "src/de14/core.py": "6194926edb8c49ae54736d4e702f726346104864c9bcaf4ac6a9b613e422791f",
+    "src/de14/tracking.py": "13f2d23c5f67c8f752740964395bd70608c79eb0be045048d3b6cfebdc3cef2c",
+    "configs/track_filter.json": "700dda5dce0298b4f73a8c74a0b8a8df8f1a845670c16f600806f196186ff037"
+  },
+  "matrix_workloads": [
+    {
+      "stride": 2,
+      "sampled_frames": 526,
+      "sample_interval_seconds": 0.06666666666666667,
+      "sample_rate_hz": 15.0,
+      "min5_first_to_last_seconds": 0.26666666666666666,
+      "min10_first_to_last_seconds": 0.6,
+      "linear_estimated_compute_seconds_not_measured": 2412.3675
+    },
+    {
+      "stride": 5,
+      "sampled_frames": 211,
+      "sample_interval_seconds": 0.16666666666666666,
+      "sample_rate_hz": 6.0,
+      "min5_first_to_last_seconds": 0.6666666666666666,
+      "min10_first_to_last_seconds": 1.5,
+      "linear_estimated_compute_seconds_not_measured": 967.6987499999999
+    },
+    {
+      "stride": 10,
+      "sampled_frames": 106,
+      "sample_interval_seconds": 0.3333333333333333,
+      "sample_rate_hz": 3.0,
+      "min5_first_to_last_seconds": 1.3333333333333333,
+      "min10_first_to_last_seconds": 3.0,
+      "linear_estimated_compute_seconds_not_measured": 486.1424999999999
+    }
+  ],
+  "limits": [
+    "Processing time supplied by user, not rerun here.",
+    "Decoded frame counts verified separately using ffprobe -count_frames.",
+    "No ground truth found for this source; no P/R, ID switches or fragmentation inferred from CSV alone.",
+    "Max observed track ID is not a count of confirmed tracks before F2."
+  ],
+  "source": {
+    "filename": "1102.mp4",
+    "sha256": "4239a39500fbccf4c9908099ff4cce1e570c7fcd91078da6bafaaee165d9e335",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "hevc",
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "30/1",
+          "avg_frame_rate": "30/1",
+          "time_base": "1/30",
+          "duration": "35.066667",
+          "nb_frames": "1052"
+        },
+        {
+          "index": 1,
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "sample_rate": "44100",
+          "channels": 2,
+          "r_frame_rate": "0/0",
+          "avg_frame_rate": "0/0",
+          "time_base": "1/44100",
+          "duration": "35.085011",
+          "nb_frames": "1512"
+        }
+      ],
+      "format": {
+        "duration": "35.085011"
+      }
+    }
+  },
+  "output": {
+    "filename": "video_annotated_h264.mp4",
+    "sha256": "87d3cf5c9b1adcf0dea818ea41e2d8c3c9d45b074831baab5937225d407c2d2f",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "10/1",
+          "avg_frame_rate": "10/1",
+          "time_base": "1/10240",
+          "duration": "8.000000",
+          "nb_frames": "80"
+        }
+      ],
+      "format": {
+        "duration": "8.000000"
+      }
+    }
+  },
+  "status": "diagnosis_and_plan_only_no_production_changes",
+  "f2_complete_counts_available": false,
+  "gt_available_for_user_video": false
+}

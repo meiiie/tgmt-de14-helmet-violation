@@ -8,11 +8,34 @@ class YoloDetector:
     def __init__(self, weights="weights/yolo11s.pt", imgsz=1280, conf=0.25, device="cpu"):
         from ultralytics import YOLO
         self.m = YOLO(weights); self.imgsz, self.conf, self.device = imgsz, conf, device
+        self.name = os.path.splitext(os.path.basename(os.fspath(weights)))[0] + "-coco"
     def __call__(self, img):
         r = self.m.predict(img, imgsz=self.imgsz, conf=self.conf, classes=[0, 3], verbose=False, device=self.device)[0]
         b = r.boxes.xyxy.cpu().numpy(); c = r.boxes.cls.cpu().numpy().astype(int); s = r.boxes.conf.cpu().numpy()
         return {"person": b[c == 0].tolist(), "motorcycle": b[c == 3].tolist(),
                 "person_score": s[c == 0].tolist(), "motorcycle_score": s[c == 3].tolist(), "head": []}
+
+
+class HeadEnhancedDetector:
+    """Offline accuracy mode: detect heads independently of full-body detections."""
+    def __init__(self, detector, head_detector):
+        self.det, self.hd = detector, head_detector
+        self.name = getattr(detector, "name", "detector") + "+deim-head"
+
+    def __call__(self, img):
+        from .core import iou
+        d = dict(self.det(img))
+        scores = d.get("motorcycle_score", [1.] * len(d["motorcycle"]))
+        keep = []
+        for i in sorted(range(len(scores)), key=lambda i: -scores[i]):
+            if not any(iou(d["motorcycle"][i], d["motorcycle"][j]) > .5 for j in keep): keep.append(i)
+        d["motorcycle"] = [d["motorcycle"][i] for i in keep]
+        d["motorcycle_score"] = [scores[i] for i in keep]
+        heads = self.hd(img)
+        d["head"] = [b for _, b in heads]
+        d["head_score"] = [s for s, _ in heads]
+        d["head_detection"] = True
+        return d
 
 class Sam3Detector:
     """SAM 3.1 (facebook/sam3.1, gated) — ảnh đơn: prompt văn bản 'motorcycle', 'person', 'head', 'helmet'.
@@ -38,6 +61,7 @@ class Sam3Detector:
                 o = self.proc.set_text_prompt(state=st, prompt=p)
                 out[p] = o["boxes"].float().cpu().numpy().tolist()
                 out[p + "_score"] = o["scores"].float().cpu().numpy().tolist()
+        out["head_detection"] = True
         return out
 
 def sam31_video_tracks(video_path, prompts=("motorcycle", "person"), max_num_objects=64):
@@ -68,6 +92,7 @@ class CachedSam3Detector:
             r = rec.get(p, {"boxes": [], "scores": []}) if p in self.prompts else {"boxes": [], "scores": []}
             keep = [i for i, s in enumerate(r["scores"]) if s >= self.conf]
             out[p] = [[b[0]*sx, b[1]*sy, b[2]*sx, b[3]*sy] for b in (r["boxes"][i] for i in keep)]; out[p + "_score"] = [r["scores"][i] for i in keep]
+        out["head_detection"] = "head" in self.prompts
         return out
 
 def build_detector(kind="auto", **kw):

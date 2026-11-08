@@ -1,0 +1,1368 @@
+{
+  "profile": "openvino_cpu",
+  "manifest_sha256": "7922affe9f78e3a8a7e98c8c47fc7f6885d433c36324a18e6b5403a213c60d55",
+  "repeats": 2,
+  "initial_four_model_loading_seconds": 17.849621500005014,
+  "switch_to_tight_dino_seconds": 8.859997615218163e-05,
+  "shared_instances": {
+    "detector_shared": true,
+    "base_classifier_shared": true,
+    "legacy_yolo_shared": true
+  },
+  "modes": {
+    "legacy_estimated": {
+      "runtime": {
+        "config": {
+          "device": "cpu",
+          "imgsz": 1280,
+          "cpu_threads": 4,
+          "ort_threads": 4,
+          "ort_spinning": false,
+          "head_backend": "openvino",
+          "openvino_device": "CPU",
+          "batch_heads": true,
+          "cache_clip_text": true,
+          "verify_with_clip": true,
+          "local_files_only": true,
+          "accurate": false,
+          "detect_heads": false,
+          "detector_kind": "yolo",
+          "classifier_kind": "dino",
+          "yolo_weights": "weights/yolo26s.pt",
+          "head_path": "weights/deimv2_wholebody49_boxes_only.onnx",
+          "probe_path": "weights/dino_probe.joblib",
+          "clip_path": "weights/clip-vit-base-patch32"
+        },
+        "torch_device": "cpu",
+        "active_models": [
+          "yolo",
+          "dino"
+        ],
+        "encoder": {
+          "model_id": "facebook/dinov3-vits16-pretrain-lvd1689m",
+          "revision": null,
+          "loaded_from": "facebook/dinov3-vits16-pretrain-lvd1689m"
+        },
+        "head_providers": [],
+        "cuda_device": null
+      },
+      "latency": {
+        "frames": 12,
+        "p50_ms": 851.0498499963433,
+        "p95_ms": 1599.605934973806,
+        "fps_compute": 1.012047915994873
+      },
+      "head_metrics": {
+        "scope": "Associated heads after all filters, manually labeled development images; not helmet P/R or mAP",
+        "iou_threshold": 0.3,
+        "gt": 27,
+        "tp": 15,
+        "fp": 12,
+        "fn": 12,
+        "precision": 0.5555555555555556,
+        "recall": 0.5555555555555556,
+        "ignored_predictions": 1
+      },
+      "stage_mean_ms": {
+        "det": 598.8930066426595,
+        "cls": 388.8857833177705
+      },
+      "images": {
+        "four_riders": {
+          "riders": [
+            2,
+            3
+          ],
+          "heads": [
+            {
+              "box": [
+                309.3676282218933,
+                45.75007628173828,
+                459.1169909187317,
+                195.49943897857668
+              ],
+              "p_no_helmet": 0.1926395744085312,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                370.98308445739747,
+                112.50957739257812,
+                494.71772120666503,
+                236.2442141418457
+              ],
+              "p_no_helmet": 0.28026506304740906,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                159.23899307250977,
+                40.073116900634766,
+                298.70067367553713,
+                179.5347975036621
+              ],
+              "p_no_helmet": 0.015468365512788296,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                179.76720905570983,
+                49.51193335571289,
+                329.3389768573761,
+                199.08370115737915
+              ],
+              "p_no_helmet": 0.03472054377198219,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                244.7986384552002,
+                61.932429296875,
+                389.24817550964354,
+                206.38196635131837
+              ],
+              "p_no_helmet": 0.09903255105018616,
+              "label": "có đội mũ"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 782.3790499824099,
+            "p95_ms": 812.7133249887265,
+            "fps_compute": 1.2781528340035215
+          }
+        },
+        "family_seven": {
+          "riders": [
+            1,
+            3,
+            3
+          ],
+          "heads": [
+            {
+              "box": [
+                85.59774893035889,
+                139.15295708007812,
+                114.35208017120361,
+                167.90728832092285
+              ],
+              "p_no_helmet": 0.27824661135673523,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                94.9219977935791,
+                138.96585759277343,
+                124.21034168395997,
+                168.2542014831543
+              ],
+              "p_no_helmet": 0.08103480190038681,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                104.00063905029297,
+                138.9402944091797,
+                132.5439776489258,
+                167.4836330078125
+              ],
+              "p_no_helmet": 0.11069096624851227,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                411.89961466064454,
+                66.92214775390624,
+                511.2414375854492,
+                166.26397067871093
+              ],
+              "p_no_helmet": 0.006229345686733723,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                151.27504081726073,
+                54.13130958251953,
+                258.42211799621583,
+                161.2783867614746
+              ],
+              "p_no_helmet": 0.017710167914628983,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                167.4382625579834,
+                91.77416506347656,
+                246.73567237854004,
+                171.0715748840332
+              ],
+              "p_no_helmet": 0.21469061076641083,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                214.8245298915863,
+                41.78394895629883,
+                334.2715394443512,
+                161.23095850906373
+              ],
+              "p_no_helmet": 0.016170265153050423,
+              "label": "có đội mũ"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 1175.982649991056,
+            "p95_ms": 1480.555924968212,
+            "fps_compute": 0.8503526816552995
+          }
+        },
+        "fur_hat": {
+          "riders": [
+            2
+          ],
+          "heads": [
+            {
+              "box": [
+                114.08448009490968,
+                -7.66359384098053,
+                250.77075214385985,
+                129.02267820796965
+              ],
+              "p_no_helmet": 0.1491730511188507,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                188.25603688206672,
+                -4.735609329986573,
+                355.49657237086296,
+                162.50492615880967
+              ],
+              "p_no_helmet": 0.4806964099407196,
+              "label": "chưa xác định"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 777.6024999911897,
+            "p95_ms": 1015.8401499968022,
+            "fps_compute": 1.286004095937616
+          }
+        },
+        "three_riders": {
+          "riders": [
+            1,
+            3
+          ],
+          "heads": [
+            {
+              "box": [
+                -6.043066897988318,
+                104.76629664306641,
+                88.17286018431187,
+                198.9822237253666
+              ],
+              "p_no_helmet": 0.6468667387962341,
+              "label": "không đội mũ"
+            },
+            {
+              "box": [
+                102.31831532821654,
+                68.6218523071289,
+                278.7123319496155,
+                245.01586892852785
+              ],
+              "p_no_helmet": 0.19891273975372314,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                252.25821771240234,
+                79.78711865234375,
+                422.57047186279294,
+                250.09937280273436
+              ],
+              "p_no_helmet": 0.02631286531686783,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                370.91362402420043,
+                64.59700272216797,
+                547.4500844718933,
+                241.13346316986087
+              ],
+              "p_no_helmet": 0.014508221298456192,
+              "label": "có đội mũ"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 930.6709500087891,
+            "p95_ms": 1172.2281150141498,
+            "fps_compute": 1.0744936220374732
+          }
+        },
+        "night_family": {
+          "riders": [
+            0,
+            3
+          ],
+          "heads": [
+            {
+              "box": [
+                268.34768405456543,
+                175.62259780273436,
+                404.4204433868408,
+                311.6953571350098
+              ],
+              "p_no_helmet": 0.047673072665929794,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                369.9231880233765,
+                176.10794846191405,
+                507.2611686660766,
+                313.44592910461427
+              ],
+              "p_no_helmet": 0.03372683748602867,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                417.12416538238523,
+                226.20775329589844,
+                532.7353011703491,
+                341.81888908386236
+              ],
+              "p_no_helmet": 0.5072813034057617,
+              "label": "chưa xác định"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 977.7971499715932,
+            "p95_ms": 1237.1971749758814,
+            "fps_compute": 1.0227070103743419
+          }
+        },
+        "rain_traffic": {
+          "riders": [
+            2,
+            5
+          ],
+          "heads": [
+            {
+              "box": [
+                418.32892671051025,
+                136.11453325195313,
+                464.46196684417725,
+                182.24757338562011
+              ],
+              "p_no_helmet": 0.30814826488494873,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                440.0611083984375,
+                151.53247314453125,
+                538.6578857421875,
+                250.12925048828123
+              ],
+              "p_no_helmet": 0.04178309068083763,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                483.785391998291,
+                96.14428854980468,
+                601.6385276794433,
+                213.99742423095702
+              ],
+              "p_no_helmet": 0.03448525443673134,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                564.0875297470093,
+                97.2246765258789,
+                661.6287788467407,
+                194.76592562561035
+              ],
+              "p_no_helmet": 0.03804748132824898,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                629.2688417251587,
+                155.93418210449218,
+                696.32850934906,
+                222.99384972839357
+              ],
+              "p_no_helmet": 0.22029215097427368,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                195.28410915222167,
+                106.87739384765625,
+                314.7098025909424,
+                226.30308728637698
+              ],
+              "p_no_helmet": 0.02073819935321808,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                271.7181107727051,
+                106.11672358398438,
+                382.7060530456543,
+                217.1046658569336
+              ],
+              "p_no_helmet": 0.009907021187245846,
+              "label": "có đội mũ"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 1284.140749979997,
+            "p95_ms": 1661.788804983371,
+            "fps_compute": 0.7787308361763123
+          }
+        }
+      }
+    },
+    "tight_dino": {
+      "runtime": {
+        "config": {
+          "device": "cpu",
+          "imgsz": 1280,
+          "cpu_threads": 4,
+          "ort_threads": 4,
+          "ort_spinning": false,
+          "head_backend": "openvino",
+          "openvino_device": "CPU",
+          "batch_heads": true,
+          "cache_clip_text": true,
+          "verify_with_clip": true,
+          "local_files_only": true,
+          "accurate": false,
+          "detect_heads": true,
+          "detector_kind": "yolo",
+          "classifier_kind": "dino",
+          "yolo_weights": "weights/yolo26s.pt",
+          "head_path": "weights/deimv2_wholebody49_boxes_only.onnx",
+          "probe_path": "weights/dino_probe.joblib",
+          "clip_path": "weights/clip-vit-base-patch32"
+        },
+        "torch_device": "cpu",
+        "active_models": [
+          "yolo",
+          "dino",
+          "deim_head"
+        ],
+        "encoder": {
+          "model_id": "facebook/dinov3-vits16-pretrain-lvd1689m",
+          "revision": null,
+          "loaded_from": "facebook/dinov3-vits16-pretrain-lvd1689m"
+        },
+        "head_providers": [
+          "OpenVINO:CPU"
+        ],
+        "cuda_device": null
+      },
+      "latency": {
+        "frames": 12,
+        "p50_ms": 4771.326999965822,
+        "p95_ms": 5027.7408850204665,
+        "fps_compute": 0.2294114393128008
+      },
+      "head_metrics": {
+        "scope": "Associated heads after all filters, manually labeled development images; not helmet P/R or mAP",
+        "iou_threshold": 0.3,
+        "gt": 27,
+        "tp": 24,
+        "fp": 0,
+        "fn": 3,
+        "precision": 1.0,
+        "recall": 0.8888888888888888,
+        "ignored_predictions": 1
+      },
+      "stage_mean_ms": {
+        "det": 3965.174416700999,
+        "cls": 393.2981333346106
+      },
+      "images": {
+        "four_riders": {
+          "riders": [
+            4
+          ],
+          "heads": [
+            {
+              "box": [
+                397.5996398925781,
+                116.97038269042969,
+                473.4544677734375,
+                191.5712127685547
+              ],
+              "p_no_helmet": 0.5228009819984436,
+              "label": "chưa xác định"
+            },
+            {
+              "box": [
+                305.9287109375,
+                41.58377456665039,
+                379.1519775390625,
+                122.09986877441406
+              ],
+              "p_no_helmet": 0.07100167125463486,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                248.17860412597656,
+                64.42784881591797,
+                318.92034912109375,
+                139.5706329345703
+              ],
+              "p_no_helmet": 0.3400566875934601,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                178.16954040527344,
+                40.26143264770508,
+                249.01882934570312,
+                113.869873046875
+              ],
+              "p_no_helmet": 0.009270912036299706,
+              "label": "có đội mũ"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 4867.701200011652,
+            "p95_ms": 4898.505860037403,
+            "fps_compute": 0.2054357814727014
+          }
+        },
+        "family_seven": {
+          "riders": [
+            1,
+            2,
+            4
+          ],
+          "heads": [
+            {
+              "box": [
+                112.6810302734375,
+                138.3258056640625,
+                132.08612060546875,
+                155.4022216796875
+              ],
+              "p_no_helmet": null,
+              "label": "chưa xác định"
+            },
+            {
+              "box": [
+                98.01695251464844,
+                138.06326293945312,
+                116.17145538330078,
+                155.1066131591797
+              ],
+              "p_no_helmet": null,
+              "label": "chưa xác định"
+            },
+            {
+              "box": [
+                428.149169921875,
+                70.83891296386719,
+                486.9273986816406,
+                129.51036071777344
+              ],
+              "p_no_helmet": 0.004612542223185301,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                249.37376403808594,
+                43.093387603759766,
+                313.8526916503906,
+                118.43331146240234
+              ],
+              "p_no_helmet": 0.0186240766197443,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                190.19320678710938,
+                55.94161605834961,
+                253.02500915527344,
+                109.69561767578125
+              ],
+              "p_no_helmet": 0.005428977310657501,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                280.0125732421875,
+                123.71842956542969,
+                323.3905334472656,
+                171.45387268066406
+              ],
+              "p_no_helmet": 0.49462997913360596,
+              "label": "chưa xác định"
+            },
+            {
+              "box": [
+                192.2090606689453,
+                92.73481750488281,
+                247.6761932373047,
+                146.3881378173828
+              ],
+              "p_no_helmet": 0.04129362478852272,
+              "label": "có đội mũ"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 5038.958150020335,
+            "p95_ms": 5139.91353501915,
+            "fps_compute": 0.19845372202505085
+          }
+        },
+        "fur_hat": {
+          "riders": [
+            2
+          ],
+          "heads": [
+            {
+              "box": [
+                243.18539428710938,
+                -0.20286816358566284,
+                320.76416015625,
+                91.8636474609375
+              ],
+              "p_no_helmet": 0.6544548273086548,
+              "label": "không đội mũ"
+            },
+            {
+              "box": [
+                166.5537109375,
+                2.8061866760253906,
+                238.5618133544922,
+                83.98563385009766
+              ],
+              "p_no_helmet": 0.19197997450828552,
+              "label": "có đội mũ"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 4766.875999979675,
+            "p95_ms": 4792.93621997349,
+            "fps_compute": 0.20978099703123468
+          }
+        },
+        "three_riders": {
+          "riders": [
+            1,
+            3
+          ],
+          "heads": [
+            {
+              "box": [
+                2.7954485416412354,
+                103.50274658203125,
+                63.24333572387695,
+                171.2985076904297
+              ],
+              "p_no_helmet": 0.7933825254440308,
+              "label": "không đội mũ"
+            },
+            {
+              "box": [
+                128.3710174560547,
+                29.376625061035156,
+                237.62606811523438,
+                157.27084350585938
+              ],
+              "p_no_helmet": 0.20028159022331238,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                327.0648193359375,
+                71.77740478515625,
+                440.7822570800781,
+                195.02833557128906
+              ],
+              "p_no_helmet": 0.02143098972737789,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                246.8909912109375,
+                82.02896881103516,
+                344.98876953125,
+                195.26539611816406
+              ],
+              "p_no_helmet": 0.06444740295410156,
+              "label": "có đội mũ"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 3960.3321499889717,
+            "p95_ms": 4668.173194961855,
+            "fps_compute": 0.2525040734279787
+          }
+        },
+        "night_family": {
+          "riders": [
+            3
+          ],
+          "heads": [
+            {
+              "box": [
+                330.578369140625,
+                170.13217163085938,
+                411.85491943359375,
+                270.06549072265625
+              ],
+              "p_no_helmet": 0.05217249318957329,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                416.449951171875,
+                171.4935760498047,
+                495.105224609375,
+                276.97857666015625
+              ],
+              "p_no_helmet": 0.0339498445391655,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                508.73223876953125,
+                230.8319549560547,
+                568.776611328125,
+                315.5601806640625
+              ],
+              "p_no_helmet": 0.9127552509307861,
+              "label": "không đội mũ"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 3679.662399983499,
+            "p95_ms": 4615.170819993364,
+            "fps_compute": 0.2717640618347173
+          }
+        },
+        "rain_traffic": {
+          "riders": [
+            2,
+            3
+          ],
+          "heads": [
+            {
+              "box": [
+                504.4389343261719,
+                96.13764190673828,
+                578.8697509765625,
+                172.18130493164062
+              ],
+              "p_no_helmet": 0.03764694929122925,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                579.0739135742188,
+                102.79769897460938,
+                642.1065063476562,
+                167.58714294433594
+              ],
+              "p_no_helmet": 0.06440162658691406,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                447.404052734375,
+                175.45875549316406,
+                509.60198974609375,
+                244.94549560546875
+              ],
+              "p_no_helmet": 0.04484449326992035,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                307.17608642578125,
+                112.8683853149414,
+                370.7427062988281,
+                180.3879852294922
+              ],
+              "p_no_helmet": 0.005919584538787603,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                238.2665557861328,
+                109.9272689819336,
+                311.02398681640625,
+                180.06190490722656
+              ],
+              "p_no_helmet": 0.038545724004507065,
+              "label": "có đội mũ"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 3840.3533500095364,
+            "p95_ms": 4807.083354998031,
+            "fps_compute": 0.26039270579034524
+          }
+        }
+      }
+    },
+    "tight_clip": {
+      "runtime": {
+        "config": {
+          "device": "cpu",
+          "imgsz": 1280,
+          "cpu_threads": 4,
+          "ort_threads": 4,
+          "ort_spinning": false,
+          "head_backend": "openvino",
+          "openvino_device": "CPU",
+          "batch_heads": true,
+          "cache_clip_text": true,
+          "verify_with_clip": true,
+          "local_files_only": true,
+          "accurate": true,
+          "detect_heads": true,
+          "detector_kind": "yolo",
+          "classifier_kind": "dino",
+          "yolo_weights": "weights/yolo26s.pt",
+          "head_path": "weights/deimv2_wholebody49_boxes_only.onnx",
+          "probe_path": "weights/dino_probe.joblib",
+          "clip_path": "weights/clip-vit-base-patch32"
+        },
+        "torch_device": "cpu",
+        "active_models": [
+          "yolo",
+          "dino",
+          "deim_head",
+          "clip"
+        ],
+        "encoder": {
+          "model_id": "facebook/dinov3-vits16-pretrain-lvd1689m",
+          "revision": null,
+          "loaded_from": "facebook/dinov3-vits16-pretrain-lvd1689m"
+        },
+        "head_providers": [
+          "OpenVINO:CPU"
+        ],
+        "cuda_device": null
+      },
+      "latency": {
+        "frames": 12,
+        "p50_ms": 5095.561350026401,
+        "p95_ms": 5420.799915006501,
+        "fps_compute": 0.19631279420492465
+      },
+      "head_metrics": {
+        "scope": "Associated heads after all filters, manually labeled development images; not helmet P/R or mAP",
+        "iou_threshold": 0.3,
+        "gt": 27,
+        "tp": 24,
+        "fp": 0,
+        "fn": 3,
+        "precision": 1.0,
+        "recall": 0.8888888888888888,
+        "ignored_predictions": 1
+      },
+      "stage_mean_ms": {
+        "det": 4324.795206387837,
+        "cls": 768.7420999961129
+      },
+      "images": {
+        "four_riders": {
+          "riders": [
+            4
+          ],
+          "heads": [
+            {
+              "box": [
+                397.5996398925781,
+                116.97038269042969,
+                473.4544677734375,
+                191.5712127685547
+              ],
+              "p_no_helmet": null,
+              "label": "chưa xác định"
+            },
+            {
+              "box": [
+                305.9287109375,
+                41.58377456665039,
+                379.1519775390625,
+                122.09986877441406
+              ],
+              "p_no_helmet": null,
+              "label": "chưa xác định"
+            },
+            {
+              "box": [
+                248.17860412597656,
+                64.42784881591797,
+                318.92034912109375,
+                139.5706329345703
+              ],
+              "p_no_helmet": null,
+              "label": "chưa xác định"
+            },
+            {
+              "box": [
+                178.16954040527344,
+                40.26143264770508,
+                249.01882934570312,
+                113.869873046875
+              ],
+              "p_no_helmet": 0.009270912036299706,
+              "label": "có đội mũ"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 5112.743250007043,
+            "p95_ms": 5208.164535011747,
+            "fps_compute": 0.19558971595114277
+          }
+        },
+        "family_seven": {
+          "riders": [
+            1,
+            2,
+            4
+          ],
+          "heads": [
+            {
+              "box": [
+                112.6810302734375,
+                138.3258056640625,
+                132.08612060546875,
+                155.4022216796875
+              ],
+              "p_no_helmet": null,
+              "label": "chưa xác định"
+            },
+            {
+              "box": [
+                98.01695251464844,
+                138.06326293945312,
+                116.17145538330078,
+                155.1066131591797
+              ],
+              "p_no_helmet": null,
+              "label": "chưa xác định"
+            },
+            {
+              "box": [
+                428.149169921875,
+                70.83891296386719,
+                486.9273986816406,
+                129.51036071777344
+              ],
+              "p_no_helmet": 0.004612542223185301,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                249.37376403808594,
+                43.093387603759766,
+                313.8526916503906,
+                118.43331146240234
+              ],
+              "p_no_helmet": 0.0186240766197443,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                190.19320678710938,
+                55.94161605834961,
+                253.02500915527344,
+                109.69561767578125
+              ],
+              "p_no_helmet": 0.005428977310657501,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                280.0125732421875,
+                123.71842956542969,
+                323.3905334472656,
+                171.45387268066406
+              ],
+              "p_no_helmet": null,
+              "label": "chưa xác định"
+            },
+            {
+              "box": [
+                192.2090606689453,
+                92.73481750488281,
+                247.6761932373047,
+                146.3881378173828
+              ],
+              "p_no_helmet": 0.04129362478852272,
+              "label": "có đội mũ"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 5183.057150017703,
+            "p95_ms": 5271.679385009338,
+            "fps_compute": 0.1929363252335708
+          }
+        },
+        "fur_hat": {
+          "riders": [
+            2
+          ],
+          "heads": [
+            {
+              "box": [
+                243.18539428710938,
+                -0.20286816358566284,
+                320.76416015625,
+                91.8636474609375
+              ],
+              "p_no_helmet": 0.6544548273086548,
+              "label": "không đội mũ"
+            },
+            {
+              "box": [
+                166.5537109375,
+                2.8061866760253906,
+                238.5618133544922,
+                83.98563385009766
+              ],
+              "p_no_helmet": 0.961510520960223,
+              "label": "không đội mũ"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 4671.870649995981,
+            "p95_ms": 4735.4767549812095,
+            "fps_compute": 0.21404702204262874
+          }
+        },
+        "three_riders": {
+          "riders": [
+            1,
+            3
+          ],
+          "heads": [
+            {
+              "box": [
+                2.7954485416412354,
+                103.50274658203125,
+                63.24333572387695,
+                171.2985076904297
+              ],
+              "p_no_helmet": 0.9814657912996569,
+              "label": "không đội mũ"
+            },
+            {
+              "box": [
+                128.3710174560547,
+                29.376625061035156,
+                237.62606811523438,
+                157.27084350585938
+              ],
+              "p_no_helmet": null,
+              "label": "chưa xác định"
+            },
+            {
+              "box": [
+                327.0648193359375,
+                71.77740478515625,
+                440.7822570800781,
+                195.02833557128906
+              ],
+              "p_no_helmet": null,
+              "label": "chưa xác định"
+            },
+            {
+              "box": [
+                246.8909912109375,
+                82.02896881103516,
+                344.98876953125,
+                195.26539611816406
+              ],
+              "p_no_helmet": 0.9018016620727473,
+              "label": "không đội mũ"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 5004.768250015331,
+            "p95_ms": 5032.210555029451,
+            "fps_compute": 0.1998094517157586
+          }
+        },
+        "night_family": {
+          "riders": [
+            3
+          ],
+          "heads": [
+            {
+              "box": [
+                330.578369140625,
+                170.13217163085938,
+                411.85491943359375,
+                270.06549072265625
+              ],
+              "p_no_helmet": 0.05217249318957329,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                416.449951171875,
+                171.4935760498047,
+                495.105224609375,
+                276.97857666015625
+              ],
+              "p_no_helmet": 0.0339498445391655,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                508.73223876953125,
+                230.8319549560547,
+                568.776611328125,
+                315.5601806640625
+              ],
+              "p_no_helmet": 0.9480971218863476,
+              "label": "không đội mũ"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 5222.930000018096,
+            "p95_ms": 5327.685770011158,
+            "fps_compute": 0.19146341229856334
+          }
+        },
+        "rain_traffic": {
+          "riders": [
+            2,
+            3
+          ],
+          "heads": [
+            {
+              "box": [
+                504.4389343261719,
+                96.13764190673828,
+                578.8697509765625,
+                172.18130493164062
+              ],
+              "p_no_helmet": 0.03764694929122925,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                579.0739135742188,
+                102.79769897460938,
+                642.1065063476562,
+                167.58714294433594
+              ],
+              "p_no_helmet": 0.06440162658691406,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                447.404052734375,
+                175.45875549316406,
+                509.60198974609375,
+                244.94549560546875
+              ],
+              "p_no_helmet": 0.04484449326992035,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                307.17608642578125,
+                112.8683853149414,
+                370.7427062988281,
+                180.3879852294922
+              ],
+              "p_no_helmet": 0.005919584538787603,
+              "label": "có đội mũ"
+            },
+            {
+              "box": [
+                238.2665557861328,
+                109.9272689819336,
+                311.02398681640625,
+                180.06190490722656
+              ],
+              "p_no_helmet": 0.038545724004507065,
+              "label": "có đội mũ"
+            }
+          ],
+          "latency": {
+            "frames": 2,
+            "p50_ms": 5368.099700019229,
+            "p95_ms": 5505.151970003499,
+            "fps_compute": 0.18628566082638479
+          }
+        }
+      }
+    }
+  },
+  "official": {
+    "manifest_sha256": "3134f196ed85fb35f97f87fe1e8b839f947993ed271aa4794a6086027f83ea59",
+    "repeats": 1,
+    "scope": "16 correlated official-test frames; vehicle/frame metrics, one timing repeat",
+    "modes": {
+      "legacy_estimated": {
+        "latency": {
+          "frames": 16,
+          "p50_ms": 718.2310500065796,
+          "p95_ms": 1297.5013749965,
+          "fps_compute": 1.2447259696570478
+        },
+        "metrics": {
+          "iou_threshold": 0.3,
+          "counts": {
+            "frames": 16,
+            "gt_vehicles": 32,
+            "predicted_vehicles": 55,
+            "matched_vehicles": 26,
+            "gt_violations": 8,
+            "predicted_violations": 8,
+            "violation_tp": 6,
+            "violation_fp": 2,
+            "violation_fn": 2,
+            "unknown_decisions": 32,
+            "rider_absolute_error": 11,
+            "rider_exact": 19
+          },
+          "vehicle_detection_precision": 0.4727272727272727,
+          "vehicle_detection_recall": 0.8125,
+          "violation_precision": 0.75,
+          "violation_recall": 0.75,
+          "unknown_rate": 0.5818181818181818,
+          "rider_count_mae": 0.4230769230769231,
+          "rider_count_exact_rate": 0.7307692307692307
+        }
+      },
+      "tight_dino": {
+        "latency": {
+          "frames": 16,
+          "p50_ms": 4402.5450499902945,
+          "p95_ms": 4825.600825002766,
+          "fps_compute": 0.26090275346540465
+        },
+        "metrics": {
+          "iou_threshold": 0.3,
+          "counts": {
+            "frames": 16,
+            "gt_vehicles": 32,
+            "predicted_vehicles": 55,
+            "matched_vehicles": 26,
+            "gt_violations": 8,
+            "predicted_violations": 6,
+            "violation_tp": 5,
+            "violation_fp": 1,
+            "violation_fn": 3,
+            "unknown_decisions": 29,
+            "rider_absolute_error": 13,
+            "rider_exact": 16
+          },
+          "vehicle_detection_precision": 0.4727272727272727,
+          "vehicle_detection_recall": 0.8125,
+          "violation_precision": 0.8333333333333334,
+          "violation_recall": 0.625,
+          "unknown_rate": 0.5272727272727272,
+          "rider_count_mae": 0.5,
+          "rider_count_exact_rate": 0.6153846153846154
+        }
+      },
+      "tight_clip": {
+        "latency": {
+          "frames": 16,
+          "p50_ms": 4618.9756500243675,
+          "p95_ms": 5286.331050010631,
+          "fps_compute": 0.21169352956753482
+        },
+        "metrics": {
+          "iou_threshold": 0.3,
+          "counts": {
+            "frames": 16,
+            "gt_vehicles": 32,
+            "predicted_vehicles": 55,
+            "matched_vehicles": 26,
+            "gt_violations": 8,
+            "predicted_violations": 6,
+            "violation_tp": 5,
+            "violation_fp": 1,
+            "violation_fn": 3,
+            "unknown_decisions": 38,
+            "rider_absolute_error": 13,
+            "rider_exact": 16
+          },
+          "vehicle_detection_precision": 0.4727272727272727,
+          "vehicle_detection_recall": 0.8125,
+          "violation_precision": 0.8333333333333334,
+          "violation_recall": 0.625,
+          "unknown_rate": 0.6909090909090909,
+          "rider_count_mae": 0.5,
+          "rider_count_exact_rate": 0.6153846153846154
+        }
+      }
+    }
+  },
+  "vram": {
+    "process_peak_mib": null,
+    "note": "CUDA VRAM not applicable on CPU/Intel GPU; Intel shared-memory usage is not measured",
+    "scope": "Shared four-model resident benchmark; not standalone mode memory comparison"
+  },
+  "checkpoint_sha256": {
+    "yolo": "646f8bc3fe0a656803d95c294f7852321748cb29d13466a1af8862e2db384a1b",
+    "head": "f70ffbd4a937f6ed8d2873f230b56b356b87c827465338f735f4f8fba8ab0c62",
+    "probe": "d130efe4fa758d72ba7e5047aa07b58160f7f568b4ce3e42acd49e033cb8e4df",
+    "clip": "d5853196afb60ca6373692d9af911aacd8fa821af6d4af54720d4eb9c8f5da0a"
+  },
+  "source_sha256": {
+    "src/de14/runtime.py": "f3d05d1dbb8dffee16979414e389f804d5b3038ba83a35504352f66b490f7eb9",
+    "src/de14/pipeline.py": "27ed61cd6e37950581bcad086c1a7ea4acd9ccccfca7514b5fcdf1799c4989f8",
+    "src/de14/classifiers.py": "c63c8ac7449eb0f21df19245eb25ada385b03cf04ba70781bf6260b963950340",
+    "app.py": "9d4e2c752e53e79cdca97279d0fa2acf75f9988fe2285d760c6e1c70d3d1ef9b",
+    "scripts/benchmark_head_modes.py": "6186b7a4ad772e773454ccb185ab2b60413098d49382952f84190c45909e078d"
+  },
+  "limits": [
+    "Development image labels are coarse manual rider-head boxes, not helmet GT or independent test.",
+    "Compute latency excludes decode/load/export; all inference is rerun.",
+    "Video timing is one short-window repeat and may drift; keep raw results.",
+    "No thresholds/weights were fitted to these images; CLIP is optional and can abstain on real helmets."
+  ],
+  "geometry_parity": {
+    "images": 6,
+    "passed": true,
+    "coordinate_atol_pixels": 0.001
+  },
+  "source_report": "outputs/benchmarks/head_modes_20261106/report.json",
+  "verification": {
+    "software_tests": 65,
+    "test_log": "outputs/head_bounds_20261106/unit_tests_final.log",
+    "app_http_checks_passed": 5,
+    "app_http_evidence": "outputs/head_bounds_20261106/app_acceptance.json"
+  }
+}
